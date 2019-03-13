@@ -1,6 +1,12 @@
 language: haskell
-install: []
+
+ghc:
+  - 8.6.4
+
+install:
+  - cabal v2-update
+  - cabal v2-build --only-dependencies
+
 script:
-  - which ghc && ghc --version
-  - which cabal && cabal --version
-  - which stack && stack --version
+  - cabal v2-build
+  - cabal v2-exec podcast
