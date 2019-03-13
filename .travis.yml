@@ -1,0 +1,36 @@
+dist: xenial
+
+language: generic
+
+cache:
+  directories:
+    - /opt/cabal
+    - /opt/ghc
+    - $HOME/.cabal
+    - dist-newstyle
+
+env:
+  global:
+    - GHC_VERSION=8.6.4
+    - CABAL_VERSION=2.4
+
+install:
+  - sudo add-apt-repository --yes ppa:hvr/ghc
+  - sudo apt-get update
+  - export PATH="/opt/ghc/$GHC_VERSION/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH"
+  - which ghc || sudo apt-get install "ghc-$GHC_VERSION"
+  - which cabal || sudo apt-get install "cabal-install-$CABAL_VERSION"
+  - cabal v2-update
+  - cabal v2-build --only-dependencies
+
+script:
+  - cabal v2-build
+  - cabal v2-exec podcast
+
+deploy:
+  github-token: $GITHUB_TOKEN
+  local-dir: site
+  on:
+    branch: master
+  provider: pages
+  skip-cleanup: true

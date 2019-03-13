@@ -1,0 +1,19 @@
+cabal-version: 2.4
+
+name: podcast
+version: 0.0.0.0
+
+executable podcast
+  build-depends:
+    base ^>= 4.12.0,
+    directory ^>= 1.3.3,
+    filepath ^>= 1.4.2,
+  default-language: Haskell2010
+  ghc-options:
+    -rtsopts
+    -threaded
+    -Weverything
+    -Wno-implicit-prelude
+    -Wno-safe
+    -Wno-unsafe
+  main-is: podcast.hs
