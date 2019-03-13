@@ -26,3 +26,11 @@ install:
 script:
   - cabal v2-build
   - cabal v2-exec podcast
+
+deploy:
+  github-token: $GITHUB_TOKEN
+  local-dir: site
+  on:
+    branch: master
+  provider: pages
+  skip-cleanup: true
