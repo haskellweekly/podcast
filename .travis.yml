@@ -5,7 +5,9 @@ language: generic
 install:
   - sudo add-apt-repository --yes ppa:hvr/ghc
   - sudo apt-get update
-  - sudo apt-get install cabal-install-2.4 ghc-8.6.4
+  - export GHC=8.6.4 CABAL=2.4
+  - sudo apt-get install "ghc-$GHC" "cabal-install-$CABAL"
+  - export PATH="/opt/ghc/$GHC/bin:/opt/cabal/$CABAL/bin:$PATH"
   - cabal v2-update
   - cabal v2-build --only-dependencies
 
