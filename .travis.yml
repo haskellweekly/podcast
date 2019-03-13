@@ -9,13 +9,17 @@ cache:
     - $HOME/.cabal
     - dist-newstyle
 
+env:
+  global:
+    - GHC_VERSION=8.6.4
+    - CABAL_VERSION=2.4
+
 install:
   - sudo add-apt-repository --yes ppa:hvr/ghc
   - sudo apt-get update
-  - export GHC=8.6.4 CABAL=2.4
-  - export PATH="/opt/ghc/$GHC/bin:/opt/cabal/$CABAL/bin:$PATH"
-  - which ghc || sudo apt-get install "ghc-$GHC"
-  - which cabal || sudo apt-get install "cabal-install-$CABAL"
+  - export PATH="/opt/ghc/$GHC_VERSION/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH"
+  - which ghc || sudo apt-get install "ghc-$GHC_VERSION"
+  - which cabal || sudo apt-get install "cabal-install-$CABAL_VERSION"
   - cabal v2-update
   - cabal v2-build --only-dependencies
 
