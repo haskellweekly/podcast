@@ -2,15 +2,10 @@ dist: xenial
 
 language: generic
 
-addons:
-  apt:
-    sources:
-      - ppa:hvr/ghc
-    packages:
-      - cabal-install-2.4
-      - ghc-8.6.4
-
 install:
+  - add-apt-repository ppa:hvr/ghc
+  - apt-get update
+  - apt-get install cabal-install-2.4 ghc-8.6.4
   - cabal v2-update
   - cabal v2-build --only-dependencies
 
