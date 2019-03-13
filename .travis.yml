@@ -12,14 +12,10 @@ cache:
 install:
   - sudo add-apt-repository --yes ppa:hvr/ghc
   - sudo apt-get update
+  - export GHC=8.6.4 CABAL=2.4
   - export PATH="/opt/ghc/$GHC/bin:/opt/cabal/$CABAL/bin:$PATH"
-
-  - export GHC=8.6.4
   - which ghc || sudo apt-get install "ghc-$GHC"
-
-  - export CABAL=2.4
   - which cabal || sudo apt-get install "cabal-install-$CABAL"
-
   - cabal v2-update
   - cabal v2-build --only-dependencies
 
