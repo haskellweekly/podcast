@@ -3,7 +3,7 @@ dist: xenial
 language: generic
 
 install:
-  - sudo add-apt-repository --assume-yes ppa:hvr/ghc
+  - sudo add-apt-repository --yes ppa:hvr/ghc
   - sudo apt-get update
   - sudo apt-get install cabal-install-2.4 ghc-8.6.4
   - cabal v2-update
