@@ -1,12 +1,19 @@
-language: haskell
+dist: xenial
 
-ghc:
-  - 8.6.4
+language: generic
+
+addons:
+  apt:
+    sources:
+      - ppa:hvr/ghc
+    packages:
+      - cabal-install-2.4
+      - ghc-8.6.4
 
 install:
-  - cabal update
-  - cabal install --only-dependencies
+  - cabal v2-update
+  - cabal v2-build --only-dependencies
 
 script:
-  - cabal build
-  - cabal exec podcast
+  - cabal v2-build
+  - cabal v2-exec podcast
