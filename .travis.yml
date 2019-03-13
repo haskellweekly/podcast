@@ -1,0 +1,6 @@
+language: haskell
+install: []
+script:
+  - which ghc && ghc --version
+  - which cabal && cabal --version
+  - which stack && stack --version
