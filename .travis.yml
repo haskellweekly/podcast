@@ -29,7 +29,7 @@ script:
 
 deploy:
   github-token: $GITHUB_TOKEN
-  local-dir: site
+  local-dir: output
   on:
     branch: master
   provider: pages
