@@ -65,7 +65,7 @@ formatEpisode root episode = concat
     , "<title>", escapeString (formatNumber (episodeNumber episode)), "</title>"
     , "<link>", escapeString (episodeLink root episode), "</link>"
     , "<guid isPermalink='false'>", escapeString (formatUuid (episodeGuid episode)), "</guid>"
-    , "<description>", escapeString (episodeDescription episode), "</description>"
+    , "<description>", escapeString (formatDescription (episodeDescription episode)), "</description>"
     , "<itunes:author>Taylor Fausak</itunes:author>"
     , "<enclosure "
       , "type='audio/mpeg' "
@@ -81,14 +81,14 @@ episodeDefinitions :: [Either String Episode]
 episodeDefinitions =
   [ Episode
     <$> pure (Number 2)
-    <*> pure "Sara Lichtenstein talks about upgrading Elm."
+    <*> pure (Description "Sara Lichtenstein talks about upgrading Elm.")
     <*> parseUri "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
     <*> pure (Bytes 21580339)
     <*> pure (Seconds 1019)
     <*> parseUuid "00900298-5aa6-4301-a207-619d38cdc81a"
   , Episode
     <$> pure (Number 1)
-    <*> pure "Cody Goodman talks about exceptions."
+    <*> pure (Description "Cody Goodman talks about exceptions.")
     <*> parseUri "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
     <*> pure (Bytes 13999481)
     <*> pure (Seconds 583)
@@ -97,7 +97,7 @@ episodeDefinitions =
 
 data Episode = Episode
   { episodeNumber :: Number
-  , episodeDescription :: String
+  , episodeDescription :: Description
   , episodeUrl :: Uri.URI
   , episodeSize :: Bytes
   , episodeDuration :: Seconds
@@ -158,3 +158,10 @@ parseUuid string = case Uuid.fromString string of
 
 formatUuid :: Uuid.UUID -> String
 formatUuid = Uuid.toString
+
+newtype Description = Description
+  { unwrapDescription :: String
+  } deriving (Eq, Show)
+
+formatDescription :: Description -> String
+formatDescription = unwrapDescription
