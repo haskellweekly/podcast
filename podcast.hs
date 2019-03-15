@@ -1,5 +1,6 @@
 module Main ( main ) where
 import qualified Data.UUID as Uuid
+import qualified Numeric.Natural as Natural
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
 import qualified Text.Printf as Printf
@@ -28,7 +29,7 @@ main = do
           , "<itunes:author>Taylor Fausak</itunes:author>"
           , "<enclosure "
             , "type='audio/mpeg' "
-            , "length='", show (episodeSize episode), "' "
+            , "length='", formatBytes (episodeSize episode), "' "
             , "url='", episodeUrl episode, "' />"
           , "<itunes:duration>"
             , formatDuration (episodeDuration episode)
@@ -39,14 +40,14 @@ main = do
         2
         "Sara Lichtenstein talks about upgrading Elm."
         "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
-        21580339
+        (Bytes 21580339)
         (14 * 60 + 59)
         (Uuid.fromWords 0x00900298 0x5aa64301 0xa207619d 0x38cdc81a)
       , Episode
         1
         "Cody Goodman talks about exceptions."
         "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
-        13999481
+        (Bytes 13999481)
         (9 * 60 + 43)
         (Uuid.fromWords 0x6fe12dba 0xe0c34af5 0xb9fc844b 0xc2396ae7)
       ]
@@ -93,7 +94,7 @@ data Episode = Episode
   { episodeNumber :: Integer
   , episodeDescription :: String
   , episodeUrl :: String
-  , episodeSize :: Integer
+  , episodeSize :: Bytes
   , episodeDuration :: Integer
   , episodeGuid :: Uuid.UUID
   } deriving (Eq, Show)
@@ -106,3 +107,10 @@ formatDuration :: Integer -> String
 formatDuration total =
   let (minutes, seconds) = quotRem total 60
   in Printf.printf "%d:%02d" minutes seconds
+
+newtype Bytes = Bytes
+  { unwrapBytes :: Natural.Natural
+  } deriving (Eq, Show)
+
+formatBytes :: Bytes -> String
+formatBytes = show . unwrapBytes
