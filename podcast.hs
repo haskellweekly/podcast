@@ -1,5 +1,6 @@
 module Main ( main ) where
 import qualified Data.UUID as Uuid
+import qualified Network.URI as Uri
 import qualified Numeric.Natural as Natural
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
@@ -7,8 +8,8 @@ import qualified Text.Printf as Printf
 
 main :: IO ()
 main = do
+  root <- either fail pure (parseUri "https://haskellweekly.news/podcast")
   let
-    root = "https://haskellweekly.news/podcast"
     input = "input"
     output = "output"
   Directory.createDirectoryIfMissing True output
@@ -23,7 +24,7 @@ main = do
     , "<rss version='2.0' xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>"
       , "<channel>"
         , "<title>Haskell Weekly</title>"
-        , "<link>", escapeString root, "</link>"
+        , "<link>", escapeString (formatUri root), "</link>"
         , "<description>"
           , "Short, casual discussion about the Haskell programming language."
         , "</description>"
@@ -32,8 +33,8 @@ main = do
         , "<itunes:category text='Technology' />"
         , "<image>"
           , "<title>Haskell Weekly</title>"
-          , "<link>", escapeString root, "</link>"
-          , "<url>", escapeString root, "/haskell-weekly-podcast.png</url>"
+          , "<link>", escapeString (formatUri root), "</link>"
+          , "<url>", escapeString (formatUri root), "/haskell-weekly-podcast.png</url>"
         , "</image>"
         , concatMap (formatEpisode root) episodes
       , "</channel>"
@@ -57,7 +58,7 @@ main = do
     , "</html>"
     ])
 
-formatEpisode :: String -> Episode -> String
+formatEpisode :: Uri.URI -> Episode -> String
 formatEpisode root episode = concat
   [ "<item>"
     , "<title>", escapeString (formatNumber (episodeNumber episode)), "</title>"
@@ -102,9 +103,9 @@ data Episode = Episode
   , episodeGuid :: Uuid.UUID
   } deriving (Eq, Show)
 
-episodeLink :: String -> Episode -> String
+episodeLink :: Uri.URI -> Episode -> String
 episodeLink root episode = concat
-  [root, "#episode-", formatNumber (episodeNumber episode)]
+  [formatUri root, "#episode-", formatNumber (episodeNumber episode)]
 
 newtype Bytes = Bytes
   { unwrapBytes :: Natural.Natural
@@ -140,3 +141,11 @@ escapeChar c = case c of
   '\x3c' -> "&lt;"
   '\x3e' -> "&gt;"
   _ -> [c]
+
+parseUri :: String -> Either String Uri.URI
+parseUri string = case Uri.parseURIReference string of
+  Nothing -> Left ("invalid URI: " ++ show string)
+  Just uri -> Right uri
+
+formatUri :: Uri.URI -> String
+formatUri uri = Uri.uriToString id uri ""
