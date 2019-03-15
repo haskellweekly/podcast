@@ -32,7 +32,7 @@ main = do
             , "length='", formatBytes (episodeSize episode), "' "
             , "url='", episodeUrl episode, "' />"
           , "<itunes:duration>"
-            , formatDuration (episodeDuration episode)
+            , formatSeconds (episodeDuration episode)
           , "</itunes:duration>"
         , "</item>"
         ])
@@ -41,14 +41,14 @@ main = do
         "Sara Lichtenstein talks about upgrading Elm."
         "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
         (Bytes 21580339)
-        (14 * 60 + 59)
+        (Seconds 1019)
         (Uuid.fromWords 0x00900298 0x5aa64301 0xa207619d 0x38cdc81a)
       , Episode
         1
         "Cody Goodman talks about exceptions."
         "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
         (Bytes 13999481)
-        (9 * 60 + 43)
+        (Seconds 583)
         (Uuid.fromWords 0x6fe12dba 0xe0c34af5 0xb9fc844b 0xc2396ae7)
       ]
   writeFile (FilePath.combine output "haskell-weekly-podcast.rss") (concat
@@ -95,7 +95,7 @@ data Episode = Episode
   , episodeDescription :: String
   , episodeUrl :: String
   , episodeSize :: Bytes
-  , episodeDuration :: Integer
+  , episodeDuration :: Seconds
   , episodeGuid :: Uuid.UUID
   } deriving (Eq, Show)
 
@@ -103,14 +103,18 @@ episodeLink :: String -> Episode -> String
 episodeLink root episode = concat
   [root, "#episode-", show (episodeNumber episode)]
 
-formatDuration :: Integer -> String
-formatDuration total =
-  let (minutes, seconds) = quotRem total 60
-  in Printf.printf "%d:%02d" minutes seconds
-
 newtype Bytes = Bytes
   { unwrapBytes :: Natural.Natural
   } deriving (Eq, Show)
 
 formatBytes :: Bytes -> String
 formatBytes = show . unwrapBytes
+
+newtype Seconds = Seconds
+  { unwrapSeconds :: Natural.Natural
+  } deriving (Eq, Show)
+
+formatSeconds :: Seconds -> String
+formatSeconds seconds =
+  let (m, s) = quotRem (unwrapSeconds seconds) 60
+  in Printf.printf "%d:%02d" m s
