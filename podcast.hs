@@ -1,4 +1,5 @@
 module Main ( main ) where
+import qualified Data.UUID as Uuid
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
 import qualified Text.Printf as Printf
@@ -22,7 +23,7 @@ main = do
         [ "<item>"
           , "<title>", show (episodeNumber episode), "</title>"
           , "<link>", episodeLink root episode, "</link>"
-          , "<guid isPermalink='false'>", episodeGuid episode, "</guid>"
+          , "<guid isPermalink='false'>", Uuid.toString (episodeGuid episode), "</guid>"
           , "<description>", episodeDescription episode, "</description>"
           , "<itunes:author>Taylor Fausak</itunes:author>"
           , "<enclosure "
@@ -40,14 +41,14 @@ main = do
         "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
         21580339
         (14 * 60 + 59)
-        "00900298-5aa6-4301-a207-619d38cdc81a"
+        (Uuid.fromWords 0x00900298 0x5aa64301 0xa207619d 0x38cdc81a)
       , Episode
         1
         "Cody Goodman talks about exceptions."
         "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
         13999481
         (9 * 60 + 43)
-        "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
+        (Uuid.fromWords 0x6fe12dba 0xe0c34af5 0xb9fc844b 0xc2396ae7)
       ]
   writeFile (FilePath.combine output "haskell-weekly-podcast.rss") (concat
     [ "<?xml version='1.0' encoding='utf-8'?>"
@@ -94,7 +95,7 @@ data Episode = Episode
   , episodeUrl :: String
   , episodeSize :: Integer
   , episodeDuration :: Integer
-  , episodeGuid :: String
+  , episodeGuid :: Uuid.UUID
   } deriving (Eq, Show)
 
 episodeLink :: String -> Episode -> String
