@@ -1,6 +1,7 @@
 module Main ( main ) where
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
+import qualified Text.Printf as Printf
 
 main :: IO ()
 main = do
@@ -20,14 +21,17 @@ main = do
       (\ episode -> concat
         [ "<item>"
           , "<title>", show (episodeNumber episode), "</title>"
-          , "<link>", episodeGuid root episode, "</link>"
-          , "<guid>", episodeGuid root episode, "</guid>"
+          , "<link>", episodeLink root episode, "</link>"
+          , "<guid>", episodeGuid episode, "</guid>"
           , "<description>", episodeDescription episode, "</description>"
           , "<author>Taylor Fausak</author>"
           , "<enclosure "
             , "type='audio/mpeg' "
             , "length='", show (episodeSize episode), "' "
             , "url='", episodeUrl episode, "' />"
+          , "<itunes:duration>"
+            , formatDuration (episodeDuration episode)
+          , "</itunes:duration>"
         , "</item>"
         ])
       [ Episode
@@ -35,11 +39,15 @@ main = do
         "Sara Lichtenstein talks about upgrading Elm."
         "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
         21580339
+        (14 * 60 + 59)
+        "00900298-5aa6-4301-a207-619d38cdc81a"
       , Episode
         1
         "Cody Goodman talks about exceptions."
         "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
         13999481
+        (9 * 60 + 43)
+        "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
       ]
   writeFile (FilePath.combine output "haskell-weekly-podcast.rss") (concat
     [ "<?xml version='1.0' encoding='utf-8'?>"
@@ -85,8 +93,15 @@ data Episode = Episode
   , episodeDescription :: String
   , episodeUrl :: String
   , episodeSize :: Integer
+  , episodeDuration :: Integer
+  , episodeGuid :: String
   } deriving (Eq, Show)
 
-episodeGuid :: String -> Episode -> String
-episodeGuid root episode = concat
+episodeLink :: String -> Episode -> String
+episodeLink root episode = concat
   [root, "#episode-", show (episodeNumber episode)]
+
+formatDuration :: Integer -> String
+formatDuration total =
+  let (minutes, seconds) = quotRem total 60
+  in Printf.printf "%d:%02d" minutes seconds
