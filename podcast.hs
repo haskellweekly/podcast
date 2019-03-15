@@ -18,39 +18,6 @@ main = do
     (FilePath.combine output "haskell-weekly-podcast.png")
 
   -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
-  let
-    items = concatMap
-      (\ episode -> concat
-        [ "<item>"
-          , "<title>", show (episodeNumber episode), "</title>"
-          , "<link>", episodeLink root episode, "</link>"
-          , "<guid isPermalink='false'>", Uuid.toString (episodeGuid episode), "</guid>"
-          , "<description>", episodeDescription episode, "</description>"
-          , "<itunes:author>Taylor Fausak</itunes:author>"
-          , "<enclosure "
-            , "type='audio/mpeg' "
-            , "length='", formatBytes (episodeSize episode), "' "
-            , "url='", episodeUrl episode, "' />"
-          , "<itunes:duration>"
-            , formatSeconds (episodeDuration episode)
-          , "</itunes:duration>"
-        , "</item>"
-        ])
-      [ Episode
-        2
-        "Sara Lichtenstein talks about upgrading Elm."
-        "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
-        (Bytes 21580339)
-        (Seconds 1019)
-        (Uuid.fromWords 0x00900298 0x5aa64301 0xa207619d 0x38cdc81a)
-      , Episode
-        1
-        "Cody Goodman talks about exceptions."
-        "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
-        (Bytes 13999481)
-        (Seconds 583)
-        (Uuid.fromWords 0x6fe12dba 0xe0c34af5 0xb9fc844b 0xc2396ae7)
-      ]
   writeFile (FilePath.combine output "haskell-weekly-podcast.rss") (concat
     [ "<?xml version='1.0' encoding='utf-8'?>"
     , "<rss version='2.0' xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>"
@@ -68,7 +35,7 @@ main = do
           , "<link>", root, "</link>"
           , "<url>", root, "/haskell-weekly-podcast.png</url>"
         , "</image>"
-        , items
+        , concatMap (formatEpisode root) episodes
       , "</channel>"
     , "</rss>"
     ])
@@ -89,6 +56,42 @@ main = do
       , "</body>"
     , "</html>"
     ])
+
+formatEpisode :: String -> Episode -> String
+formatEpisode root episode = concat
+  [ "<item>"
+    , "<title>", show (episodeNumber episode), "</title>"
+    , "<link>", episodeLink root episode, "</link>"
+    , "<guid isPermalink='false'>", Uuid.toString (episodeGuid episode), "</guid>"
+    , "<description>", episodeDescription episode, "</description>"
+    , "<itunes:author>Taylor Fausak</itunes:author>"
+    , "<enclosure "
+      , "type='audio/mpeg' "
+      , "length='", formatBytes (episodeSize episode), "' "
+      , "url='", episodeUrl episode, "' />"
+    , "<itunes:duration>"
+      , formatSeconds (episodeDuration episode)
+    , "</itunes:duration>"
+  , "</item>"
+  ]
+
+episodes :: [Episode]
+episodes =
+  [ Episode
+    2
+    "Sara Lichtenstein talks about upgrading Elm."
+    "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
+    (Bytes 21580339)
+    (Seconds 1019)
+    (Uuid.fromWords 0x00900298 0x5aa64301 0xa207619d 0x38cdc81a)
+  , Episode
+    1
+    "Cody Goodman talks about exceptions."
+    "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
+    (Bytes 13999481)
+    (Seconds 583)
+    (Uuid.fromWords 0x6fe12dba 0xe0c34af5 0xb9fc844b 0xc2396ae7)
+  ]
 
 data Episode = Episode
   { episodeNumber :: Integer
