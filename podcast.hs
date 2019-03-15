@@ -64,7 +64,7 @@ formatEpisode root episode = concat
   [ "<item>"
     , "<title>", escapeString (formatNumber (episodeNumber episode)), "</title>"
     , "<link>", escapeString (episodeLink root episode), "</link>"
-    , "<guid isPermalink='false'>", escapeString (Uuid.toString (episodeGuid episode)), "</guid>"
+    , "<guid isPermalink='false'>", escapeString (formatUuid (episodeGuid episode)), "</guid>"
     , "<description>", escapeString (episodeDescription episode), "</description>"
     , "<itunes:author>Taylor Fausak</itunes:author>"
     , "<enclosure "
@@ -79,20 +79,20 @@ formatEpisode root episode = concat
 
 episodeDefinitions :: [Either String Episode]
 episodeDefinitions =
-  [ Right $ Episode
-    (Number 2)
-    "Sara Lichtenstein talks about upgrading Elm."
-    "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
-    (Bytes 21580339)
-    (Seconds 1019)
-    (Uuid.fromWords 0x00900298 0x5aa64301 0xa207619d 0x38cdc81a)
-  , Right $ Episode
-    (Number 1)
-    "Cody Goodman talks about exceptions."
-    "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
-    (Bytes 13999481)
-    (Seconds 583)
-    (Uuid.fromWords 0x6fe12dba 0xe0c34af5 0xb9fc844b 0xc2396ae7)
+  [ Episode
+    <$> pure (Number 2)
+    <*> pure "Sara Lichtenstein talks about upgrading Elm."
+    <*> pure "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
+    <*> pure (Bytes 21580339)
+    <*> pure (Seconds 1019)
+    <*> parseUuid "00900298-5aa6-4301-a207-619d38cdc81a"
+  , Episode
+    <$> pure (Number 1)
+    <*> pure "Cody Goodman talks about exceptions."
+    <*> pure "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
+    <*> pure (Bytes 13999481)
+    <*> pure (Seconds 583)
+    <*> parseUuid "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
   ]
 
 data Episode = Episode
@@ -150,3 +150,11 @@ parseUri string = case Uri.parseURIReference string of
 
 formatUri :: Uri.URI -> String
 formatUri uri = Uri.uriToString id uri ""
+
+parseUuid :: String -> Either String Uuid.UUID
+parseUuid string = case Uuid.fromString string of
+  Nothing -> Left ("invalid UUID: " ++ show string)
+  Just uuid -> Right uuid
+
+formatUuid :: Uuid.UUID -> String
+formatUuid = Uuid.toString
