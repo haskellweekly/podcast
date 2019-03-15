@@ -5,7 +5,7 @@ import qualified System.FilePath as FilePath
 main :: IO ()
 main = do
   let
-    url = "https://haskellweekly.news/podcast"
+    root = "https://haskellweekly.news/podcast"
     input = "input"
     output = "output"
   Directory.createDirectoryIfMissing True output
@@ -20,33 +20,43 @@ main = do
       (\ episode -> concat
         [ "<item>"
           , "<title>", show (episodeNumber episode), "</title>"
-          , "<link>", episodeLink episode, "</link>"
-          , "<guid>", url, "#episode-", show (episodeNumber episode), "</guid>"
+          , "<link>", episodeGuid root episode, "</link>"
+          , "<guid>", episodeGuid root episode, "</guid>"
           , "<description>", episodeDescription episode, "</description>"
+          , "<author>Taylor Fausak</author>"
+          , "<enclosure "
+            , "type='audio/mpeg' "
+            , "length='", show (episodeSize episode), "' "
+            , "url='", episodeUrl episode, "' />"
         , "</item>"
         ])
       [ Episode
         2
+        "Sara Lichtenstein talks about upgrading Elm."
         "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
-        "Sara Lichtenstein and Taylor Fausak talk about upgrading Elm."
+        21580339
       , Episode
         1
+        "Cody Goodman talks about exceptions."
         "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
-        "Cody Goodman and Taylor Fausak talk about exceptions."
+        13999481
       ]
   writeFile (FilePath.combine output "haskell-weekly-podcast.rss") (concat
     [ "<?xml version='1.0' encoding='utf-8'?>"
-    , "<rss version='2.0'>"
+    , "<rss version='2.0' xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>"
       , "<channel>"
         , "<title>Haskell Weekly</title>"
-        , "<link>", url, "</link>"
+        , "<link>", root, "</link>"
         , "<description>"
           , "Short, casual discussion about the Haskell programming language."
         , "</description>"
+        , "<author>Taylor Fausak</author>"
+        , "<language>en-US</language>"
+        , "<itunes:category text='Technology' />"
         , "<image>"
           , "<title>Haskell Weekly</title>"
-          , "<link>", url, "</link>"
-          , "<url>", url, "/haskell-weekly-podcast.png</url>"
+          , "<link>", root, "</link>"
+          , "<url>", root, "/haskell-weekly-podcast.png</url>"
         , "</image>"
         , items
       , "</channel>"
@@ -72,6 +82,11 @@ main = do
 
 data Episode = Episode
   { episodeNumber :: Integer
-  , episodeLink :: String
   , episodeDescription :: String
+  , episodeUrl :: String
+  , episodeSize :: Integer
   } deriving (Eq, Show)
+
+episodeGuid :: String -> Episode -> String
+episodeGuid root episode = concat
+  [root, "#episode-", show (episodeNumber episode)]
