@@ -1,4 +1,6 @@
 module Main ( main ) where
+import qualified Data.Fixed as Fixed
+import qualified Data.Time as Time
 import qualified Data.UUID as Uuid
 import qualified Network.URI as Uri
 import qualified Numeric.Natural as Natural
@@ -74,6 +76,7 @@ formatEpisode root episode = concat
     , "<itunes:duration>"
       , escapeString (formatSeconds (episodeDuration episode))
     , "</itunes:duration>"
+    , "<pubDate>", escapeString (formatTime (episodeTime episode)), "</pubDate>"
   , "</item>"
   ]
 
@@ -86,6 +89,7 @@ episodeDefinitions =
     <*> pure (Bytes 21580339)
     <*> pure (Seconds 1019)
     <*> parseUuid "00900298-5aa6-4301-a207-619d38cdc81a"
+    <*> toUTCTime 2019 3 13 12 0 0
   , Episode
     <$> pure (Number 1)
     <*> pure (Description "Cody Goodman talks about exceptions.")
@@ -93,6 +97,7 @@ episodeDefinitions =
     <*> pure (Bytes 13999481)
     <*> pure (Seconds 583)
     <*> parseUuid "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
+    <*> toUTCTime 2019 3 6 12 0 0
   ]
 
 data Episode = Episode
@@ -102,6 +107,7 @@ data Episode = Episode
   , episodeSize :: Bytes
   , episodeDuration :: Seconds
   , episodeGuid :: Uuid.UUID
+  , episodeTime :: Time.UTCTime
   } deriving (Eq, Show)
 
 episodeLink :: Uri.URI -> Episode -> String
@@ -165,3 +171,22 @@ newtype Description = Description
 
 formatDescription :: Description -> String
 formatDescription = unwrapDescription
+
+toUTCTime :: Integer -> Int -> Int -> Int -> Int -> Fixed.Pico -> Either String Time.UTCTime
+toUTCTime year month day hour minute second = do
+  date <- toDay year month day
+  time <- toTimeOfDay hour minute second
+  Right (Time.localTimeToUTC Time.utc (Time.LocalTime date time))
+
+toDay :: Integer -> Int -> Int -> Either String Time.Day
+toDay y m d = case Time.fromGregorianValid y m d of
+  Nothing -> Left ("invalid Day: " ++ show (y, m, d))
+  Just day -> Right day
+
+toTimeOfDay :: Int -> Int -> Fixed.Pico -> Either String Time.TimeOfDay
+toTimeOfDay h m s = case Time.makeTimeOfDayValid h m s of
+  Nothing -> Left ("invalid TimeOfDay: " ++ show (h, m, s))
+  Just timeOfDay -> Right timeOfDay
+
+formatTime :: Time.UTCTime -> String
+formatTime = Time.formatTime Time.defaultTimeLocale Time.rfc822DateFormat
