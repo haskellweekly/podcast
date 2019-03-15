@@ -23,7 +23,7 @@ main = do
     , "<rss version='2.0' xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>"
       , "<channel>"
         , "<title>Haskell Weekly</title>"
-        , "<link>", root, "</link>"
+        , "<link>", escapeString root, "</link>"
         , "<description>"
           , "Short, casual discussion about the Haskell programming language."
         , "</description>"
@@ -32,8 +32,8 @@ main = do
         , "<itunes:category text='Technology' />"
         , "<image>"
           , "<title>Haskell Weekly</title>"
-          , "<link>", root, "</link>"
-          , "<url>", root, "/haskell-weekly-podcast.png</url>"
+          , "<link>", escapeString root, "</link>"
+          , "<url>", escapeString root, "/haskell-weekly-podcast.png</url>"
         , "</image>"
         , concatMap (formatEpisode root) episodes
       , "</channel>"
@@ -60,17 +60,17 @@ main = do
 formatEpisode :: String -> Episode -> String
 formatEpisode root episode = concat
   [ "<item>"
-    , "<title>", formatNumber (episodeNumber episode), "</title>"
-    , "<link>", episodeLink root episode, "</link>"
-    , "<guid isPermalink='false'>", Uuid.toString (episodeGuid episode), "</guid>"
-    , "<description>", episodeDescription episode, "</description>"
+    , "<title>", escapeString (formatNumber (episodeNumber episode)), "</title>"
+    , "<link>", escapeString (episodeLink root episode), "</link>"
+    , "<guid isPermalink='false'>", escapeString (Uuid.toString (episodeGuid episode)), "</guid>"
+    , "<description>", escapeString (episodeDescription episode), "</description>"
     , "<itunes:author>Taylor Fausak</itunes:author>"
     , "<enclosure "
       , "type='audio/mpeg' "
-      , "length='", formatBytes (episodeSize episode), "' "
-      , "url='", episodeUrl episode, "' />"
+      , "length='", escapeString (formatBytes (episodeSize episode)), "' "
+      , "url='", escapeString (episodeUrl episode), "' />"
     , "<itunes:duration>"
-      , formatSeconds (episodeDuration episode)
+      , escapeString (formatSeconds (episodeDuration episode))
     , "</itunes:duration>"
   , "</item>"
   ]
@@ -128,3 +128,15 @@ newtype Number = Number
 
 formatNumber :: Number -> String
 formatNumber = show . unwrapNumber
+
+escapeString :: String -> String
+escapeString = concatMap escapeChar
+
+escapeChar :: Char -> String
+escapeChar c = case c of
+  '\x22' -> "&quot;"
+  '\x26' -> "&amp;"
+  '\x27' -> "&apos;"
+  '\x3c' -> "&lt;"
+  '\x3e' -> "&gt;"
+  _ -> [c]
