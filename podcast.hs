@@ -60,7 +60,7 @@ main = do
 formatEpisode :: String -> Episode -> String
 formatEpisode root episode = concat
   [ "<item>"
-    , "<title>", show (episodeNumber episode), "</title>"
+    , "<title>", formatNumber (episodeNumber episode), "</title>"
     , "<link>", episodeLink root episode, "</link>"
     , "<guid isPermalink='false'>", Uuid.toString (episodeGuid episode), "</guid>"
     , "<description>", episodeDescription episode, "</description>"
@@ -78,14 +78,14 @@ formatEpisode root episode = concat
 episodes :: [Episode]
 episodes =
   [ Episode
-    2
+    (Number 2)
     "Sara Lichtenstein talks about upgrading Elm."
     "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
     (Bytes 21580339)
     (Seconds 1019)
     (Uuid.fromWords 0x00900298 0x5aa64301 0xa207619d 0x38cdc81a)
   , Episode
-    1
+    (Number 1)
     "Cody Goodman talks about exceptions."
     "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
     (Bytes 13999481)
@@ -94,7 +94,7 @@ episodes =
   ]
 
 data Episode = Episode
-  { episodeNumber :: Integer
+  { episodeNumber :: Number
   , episodeDescription :: String
   , episodeUrl :: String
   , episodeSize :: Bytes
@@ -104,7 +104,7 @@ data Episode = Episode
 
 episodeLink :: String -> Episode -> String
 episodeLink root episode = concat
-  [root, "#episode-", show (episodeNumber episode)]
+  [root, "#episode-", formatNumber (episodeNumber episode)]
 
 newtype Bytes = Bytes
   { unwrapBytes :: Natural.Natural
@@ -121,3 +121,10 @@ formatSeconds :: Seconds -> String
 formatSeconds seconds =
   let (m, s) = quotRem (unwrapSeconds seconds) 60
   in Printf.printf "%d:%02d" m s
+
+newtype Number = Number
+  { unwrapNumber :: Natural.Natural
+  } deriving (Eq, Show)
+
+formatNumber :: Number -> String
+formatNumber = show . unwrapNumber
