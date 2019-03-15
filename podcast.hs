@@ -21,6 +21,30 @@ main = do
     (FilePath.combine input "logo.png")
     (FilePath.combine output "logo.png")
 
+  let directory = FilePath.combine output "episodes"
+  Directory.createDirectoryIfMissing True directory
+  mapM_
+    (\ episode -> writeFile
+      (FilePath.combine
+        directory
+        (FilePath.addExtension (formatNumber (episodeNumber episode)) "html"))
+      (concat
+        [ "<!doctype html>"
+        , "<html>"
+          , "<head>"
+            , "<meta charset='utf-8'>"
+            , "<title>", escapeString (episodeTitle episode), " :: Haskell Weekly Podcast</title>"
+          , "</head>"
+          , "<body>"
+            , "<h1>Haskell Weekly Podcast</h1>"
+            , "<h2>", escapeString (episodeTitle episode), "</h2>"
+            , "<p>", escapeString (formatDescription (episodeDescription episode)), "</p>"
+            , "<audio controls src='", escapeString (formatUri (episodeUrl episode)) ,"'></audio"
+          , "</body>"
+        , "</html>"
+        ]))
+    episodes
+
   -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
   writeFile (FilePath.combine output "feed.rss") (concat
     [ "<?xml version='1.0' encoding='utf-8'?>"
@@ -121,7 +145,7 @@ data Episode = Episode
 
 episodeLink :: Uri.URI -> Episode -> String
 episodeLink root episode = concat
-  [formatUri root, "#episode-", formatNumber (episodeNumber episode)]
+  [formatUri root, "/episodes/", formatNumber (episodeNumber episode), ".html"]
 
 newtype Bytes = Bytes
   { unwrapBytes :: Natural.Natural
