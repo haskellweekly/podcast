@@ -54,9 +54,18 @@ main = do
       , "</head>"
       , "<body>"
         , "<h1>Haskell Weekly Podcast</h1>"
-        , "<p>"
-          , "<a href='feed.rss'>RSS feed</a>"
-        , "</p>"
+        , "<p><a href='feed.rss'>RSS feed</a></p>"
+        , "<ul>"
+          , concatMap
+            (\ episode -> concat
+              [ "<li>"
+                , "<a href='", escapeString (episodeLink root episode), "'>"
+                  , escapeString (episodeTitle episode)
+                , "</a>"
+              , "</li>"
+              ])
+            episodes
+        , "</ul>"
       , "</body>"
     , "</html>"
     ])
@@ -64,7 +73,7 @@ main = do
 formatEpisode :: Uri.URI -> Episode -> String
 formatEpisode root episode = concat
   [ "<item>"
-    , "<title>Episode ", escapeString (formatNumber (episodeNumber episode)), "</title>"
+    , "<title>", escapeString (episodeTitle episode), "</title>"
     , "<link>", escapeString (episodeLink root episode), "</link>"
     , "<guid isPermalink='false'>", escapeString (formatUuid (episodeGuid episode)), "</guid>"
     , "<description>", escapeString (formatDescription (episodeDescription episode)), "</description>"
@@ -190,3 +199,6 @@ toTimeOfDay h m s = case Time.makeTimeOfDayValid h m s of
 
 formatTime :: Time.UTCTime -> String
 formatTime = Time.formatTime Time.defaultTimeLocale Time.rfc822DateFormat
+
+episodeTitle :: Episode -> String
+episodeTitle episode = "Episode " ++ formatNumber (episodeNumber episode)
