@@ -64,7 +64,7 @@ main = do
 formatEpisode :: Uri.URI -> Episode -> String
 formatEpisode root episode = concat
   [ "<item>"
-    , "<title>", escapeString (formatNumber (episodeNumber episode)), "</title>"
+    , "<title>Episode ", escapeString (formatNumber (episodeNumber episode)), "</title>"
     , "<link>", escapeString (episodeLink root episode), "</link>"
     , "<guid isPermalink='false'>", escapeString (formatUuid (episodeGuid episode)), "</guid>"
     , "<description>", escapeString (formatDescription (episodeDescription episode)), "</description>"
