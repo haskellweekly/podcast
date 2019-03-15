@@ -70,7 +70,7 @@ formatEpisode root episode = concat
     , "<enclosure "
       , "type='audio/mpeg' "
       , "length='", escapeString (formatBytes (episodeSize episode)), "' "
-      , "url='", escapeString (episodeUrl episode), "' />"
+      , "url='", escapeString (formatUri (episodeUrl episode)), "' />"
     , "<itunes:duration>"
       , escapeString (formatSeconds (episodeDuration episode))
     , "</itunes:duration>"
@@ -82,14 +82,14 @@ episodeDefinitions =
   [ Episode
     <$> pure (Number 2)
     <*> pure "Sara Lichtenstein talks about upgrading Elm."
-    <*> pure "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
+    <*> parseUri "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
     <*> pure (Bytes 21580339)
     <*> pure (Seconds 1019)
     <*> parseUuid "00900298-5aa6-4301-a207-619d38cdc81a"
   , Episode
     <$> pure (Number 1)
     <*> pure "Cody Goodman talks about exceptions."
-    <*> pure "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
+    <*> parseUri "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
     <*> pure (Bytes 13999481)
     <*> pure (Seconds 583)
     <*> parseUuid "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
@@ -98,7 +98,7 @@ episodeDefinitions =
 data Episode = Episode
   { episodeNumber :: Number
   , episodeDescription :: String
-  , episodeUrl :: String
+  , episodeUrl :: Uri.URI
   , episodeSize :: Bytes
   , episodeDuration :: Seconds
   , episodeGuid :: Uuid.UUID
