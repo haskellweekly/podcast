@@ -17,10 +17,10 @@ main = do
 
   Directory.copyFile
     (FilePath.combine input "logo.png")
-    (FilePath.combine output "haskell-weekly-podcast.png")
+    (FilePath.combine output "logo.png")
 
   -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
-  writeFile (FilePath.combine output "haskell-weekly-podcast.rss") (concat
+  writeFile (FilePath.combine output "feed.rss") (concat
     [ "<?xml version='1.0' encoding='utf-8'?>"
     , "<rss version='2.0' xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>"
       , "<channel>"
@@ -35,7 +35,7 @@ main = do
         , "<image>"
           , "<title>Haskell Weekly</title>"
           , "<link>", escapeString (formatUri root), "</link>"
-          , "<url>", escapeString (formatUri root), "/haskell-weekly-podcast.png</url>"
+          , "<url>", escapeString (formatUri root), "/logo.png</url>"
         , "</image>"
         , concatMap (formatEpisode root) episodes
       , "</channel>"
@@ -53,7 +53,7 @@ main = do
       , "<body>"
         , "<h1>Haskell Weekly Podcast</h1>"
         , "<p>"
-          , "<a href='haskell-weekly-podcast.rss'>RSS feed</a>"
+          , "<a href='feed.rss'>RSS feed</a>"
         , "</p>"
       , "</body>"
     , "</html>"
