@@ -11,6 +11,7 @@ import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
+import qualified Podcast.Xml as Xml
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
 import qualified Text.Printf as Printf
@@ -53,27 +54,24 @@ defaultMain = do
     episodes
 
   -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
-  writeFile (FilePath.combine output "feed.rss") (concat
-    [ "<?xml version='1.0' encoding='utf-8'?>"
-    , "<rss version='2.0' xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>"
-      , "<channel>"
-        , "<title>Haskell Weekly</title>"
-        , "<link>", escapeString (Url.toString root), "</link>"
-        , "<description>"
-          , "Short, casual discussion about the Haskell programming language."
-        , "</description>"
-        , "<itunes:author>Taylor Fausak</itunes:author>"
-        , "<language>en-US</language>"
-        , "<itunes:category text='Technology' />"
-        , "<image>"
-          , "<title>Haskell Weekly</title>"
-          , "<link>", escapeString (Url.toString root), "</link>"
-          , "<url>", escapeString (Url.toString root), "/logo.png</url>"
-        , "</image>"
-        , concatMap (formatEpisode root) episodes
-      , "</channel>"
-    , "</rss>"
-    ])
+  writeFile (FilePath.combine output "feed.rss") (Xml.render (Xml.root "rss"
+    [ ("version", "2.0")
+    , ("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+    ]
+    [ Xml.node "channel" []
+      ( Xml.node "title" [] [Xml.text "Haskell Weekly"]
+      : Xml.node "link" [] [Xml.text (Url.toString root)]
+      : Xml.node "description" [] [Xml.text "Short, casual discussion about the Haskell programming language."]
+      : Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
+      : Xml.node "language" [] [Xml.text "en-US"]
+      : Xml.node "itunes:category" [("text", "Technology")] []
+      : Xml.node "image" []
+        [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
+        , Xml.node "link" [] [Xml.text (Url.toString root)]
+        , Xml.node "url" [] [Xml.text (Url.toString root <> "/logo.png")]
+        ]
+      : map (episodeToRssItem root) episodes)
+    ]))
 
   writeFile (FilePath.combine output "index.html") (concat
     [ "<!doctype html>"
@@ -101,23 +99,21 @@ defaultMain = do
     , "</html>"
     ])
 
-formatEpisode :: Url.Url -> Episode.Episode -> String
-formatEpisode root episode = concat
-  [ "<item>"
-    , "<title>", escapeString (episodeTitle episode), "</title>"
-    , "<link>", escapeString (episodeLink root episode), "</link>"
-    , "<guid isPermalink='false'>", escapeString (Guid.toString (Episode.guid episode)), "</guid>"
-    , "<description>", escapeString (Description.toString (Episode.description episode)), "</description>"
-    , "<itunes:author>Taylor Fausak</itunes:author>"
-    , "<enclosure "
-      , "type='audio/mpeg' "
-      , "length='", escapeString (show (Bytes.toNatural (Episode.size episode))), "' "
-      , "url='", escapeString (Url.toString (Episode.url episode)), "' />"
-    , "<itunes:duration>"
-      , escapeString (formatSeconds (Episode.duration episode))
-    , "</itunes:duration>"
-    , "<pubDate>", escapeString (Time.toString (Episode.time episode)), "</pubDate>"
-  , "</item>"
+episodeToRssItem :: Url.Url -> Episode.Episode -> Xml.Node
+episodeToRssItem root episode = Xml.node "item" []
+  [ Xml.node "title" [] [Xml.text (episodeTitle episode)]
+  , Xml.node "link" [] [Xml.text (episodeLink root episode)]
+  , Xml.node "guid" [("isPermalink", "false")] [Xml.text (Guid.toString (Episode.guid episode))]
+  , Xml.node "description" [] [Xml.text (Description.toString (Episode.description episode))]
+  , Xml.node "itunes:author" [] [Xml.text "Haskell Weekly"]
+  , Xml.node "enclosure"
+    [ ("type", "audio/mpeg")
+    , ("length", show (Bytes.toNatural (Episode.size episode)))
+    , ("url", Url.toString (Episode.url episode))
+    ]
+    []
+  , Xml.node "itunes:duration" [] [Xml.text (formatSeconds (Episode.duration episode))]
+  , Xml.node "pubDate" [] [Xml.text (Time.toString (Episode.time episode))]
   ]
 
 episodeDefinitions :: [Either String Episode.Episode]
