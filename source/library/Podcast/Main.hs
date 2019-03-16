@@ -120,7 +120,7 @@ episodeDefinitions :: [Either String Episode.Episode]
 episodeDefinitions =
   [ Episode.Episode
     <$> Description.fromString "Sara Lichtenstein talks about upgrading Elm."
-    <*> pure (Seconds.fromNatural 1019)
+    <*> pure (Seconds.fromNatural 899)
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
     <*> Number.fromNatural 2
     <*> pure (Bytes.fromNatural 21580339)
