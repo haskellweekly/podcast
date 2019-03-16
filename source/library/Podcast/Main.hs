@@ -1,4 +1,8 @@
-module Podcast.Main ( main ) where
+module Podcast.Main
+  ( defaultMain
+  )
+where
+
 import qualified Data.Fixed as Fixed
 import qualified Data.Time as Time
 import qualified Data.UUID as Uuid
@@ -8,8 +12,8 @@ import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
 import qualified Text.Printf as Printf
 
-main :: IO ()
-main = do
+defaultMain :: IO ()
+defaultMain = do
   root <- either fail pure (parseUri "https://haskellweekly.news/podcast")
   episodes <- either fail pure (sequence episodeDefinitions)
   let

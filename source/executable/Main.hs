@@ -3,7 +3,7 @@ module Main
   )
 where
 
-import qualified Podcast.Main
+import qualified Podcast.Main as Podcast
 
 main :: IO ()
-main = Podcast.Main.main
+main = Podcast.defaultMain
