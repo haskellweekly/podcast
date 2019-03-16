@@ -107,7 +107,7 @@ formatEpisode root episode = concat
   [ "<item>"
     , "<title>", escapeString (episodeTitle episode), "</title>"
     , "<link>", escapeString (episodeLink root episode), "</link>"
-    , "<guid isPermalink='false'>", escapeString (formatUuid (episodeGuid episode)), "</guid>"
+    , "<guid isPermalink='false'>", escapeString (Guid.toString (episodeGuid episode)), "</guid>"
     , "<description>", escapeString (formatDescription (episodeDescription episode)), "</description>"
     , "<itunes:author>Taylor Fausak</itunes:author>"
     , "<enclosure "
@@ -129,7 +129,7 @@ episodeDefinitions =
     <*> Url.fromString "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
     <*> pure (Bytes.fromNatural 21580339)
     <*> pure (Seconds.fromNatural 1019)
-    <*> parseUuid "00900298-5aa6-4301-a207-619d38cdc81a"
+    <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
     <*> toUTCTime 2019 3 13 12 0 0
   , Episode
     <$> Number.fromNatural 1
@@ -137,7 +137,7 @@ episodeDefinitions =
     <*> Url.fromString "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
     <*> pure (Bytes.fromNatural 13999481)
     <*> pure (Seconds.fromNatural 583)
-    <*> parseUuid "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
+    <*> Guid.fromString "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
     <*> toUTCTime 2019 3 6 12 0 0
   ]
 
@@ -185,12 +185,6 @@ parseUri string = case Uri.parseURIReference string of
 
 formatUri :: Uri.URI -> String
 formatUri uri = Uri.uriToString id uri ""
-
-parseUuid :: String -> Either String Guid.Guid
-parseUuid = Guid.fromString
-
-formatUuid :: Guid.Guid -> String
-formatUuid = Guid.toString
 
 formatDescription :: Description.Description -> String
 formatDescription = Description.toString
