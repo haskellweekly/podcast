@@ -5,12 +5,14 @@ module Podcast.Type.Description
   )
 where
 
+import qualified Data.Text as Text
+
 newtype Description
-  = Description String
+  = Description Text.Text
   deriving (Eq, Ord, Show)
 
 fromString :: String -> Description
-fromString = Description
+fromString = Description . Text.pack
 
 toString :: Description -> String
-toString (Description string) = string
+toString (Description text) = Text.unpack text
