@@ -11,6 +11,7 @@ import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
+import qualified Podcast.Type.Url as Url
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
 import qualified Text.Printf as Printf
@@ -46,7 +47,7 @@ defaultMain = do
             , "<h1>Haskell Weekly Podcast</h1>"
             , "<h2>", escapeString (episodeTitle episode), "</h2>"
             , "<p>", escapeString (formatDescription (episodeDescription episode)), "</p>"
-            , "<audio controls src='", escapeString (formatUri (episodeUrl episode)) ,"'></audio"
+            , "<audio controls src='", escapeString (Url.toString (episodeUrl episode)) ,"'></audio"
           , "</body>"
         , "</html>"
         ]))
@@ -112,7 +113,7 @@ formatEpisode root episode = concat
     , "<enclosure "
       , "type='audio/mpeg' "
       , "length='", escapeString (formatBytes (episodeSize episode)), "' "
-      , "url='", escapeString (formatUri (episodeUrl episode)), "' />"
+      , "url='", escapeString (Url.toString (episodeUrl episode)), "' />"
     , "<itunes:duration>"
       , escapeString (formatSeconds (episodeDuration episode))
     , "</itunes:duration>"
@@ -125,7 +126,7 @@ episodeDefinitions =
   [ Episode
     <$> Number.fromNatural 2
     <*> pure (Description.fromString "Sara Lichtenstein talks about upgrading Elm.")
-    <*> parseUri "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
+    <*> Url.fromString "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
     <*> pure (Bytes.fromNatural 21580339)
     <*> pure (Seconds.fromNatural 1019)
     <*> parseUuid "00900298-5aa6-4301-a207-619d38cdc81a"
@@ -133,7 +134,7 @@ episodeDefinitions =
   , Episode
     <$> Number.fromNatural 1
     <*> pure (Description.fromString "Cody Goodman talks about exceptions.")
-    <*> parseUri "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
+    <*> Url.fromString "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
     <*> pure (Bytes.fromNatural 13999481)
     <*> pure (Seconds.fromNatural 583)
     <*> parseUuid "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
@@ -143,7 +144,7 @@ episodeDefinitions =
 data Episode = Episode
   { episodeNumber :: Number.Number
   , episodeDescription :: Description.Description
-  , episodeUrl :: Uri.URI
+  , episodeUrl :: Url.Url
   , episodeSize :: Bytes.Bytes
   , episodeDuration :: Seconds.Seconds
   , episodeGuid :: Guid.Guid
