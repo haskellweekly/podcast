@@ -4,6 +4,12 @@ name: podcast
 version: 0.0.0.0
 
 build-type: Simple
+category: Podcast
+description: Haskell Weekly is a free weekly podcast about Haskell.
+license: ISC
+license-file: LICENSE.markdown
+maintainer: Taylor Fausak
+synopsis: A free weekly podcast about Haskell.
 
 library
   build-depends:
