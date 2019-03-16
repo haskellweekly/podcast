@@ -16,6 +16,7 @@ common library
   ghc-options:
     -Weverything
     -Wno-implicit-prelude
+    -Wno-missing-exported-signatures
     -Wno-safe
     -Wno-unsafe
 
@@ -33,6 +34,7 @@ library
     Podcast.Type.Guid
     Podcast.Type.Number
     Podcast.Type.Seconds
+    Podcast.Type.Time
     Podcast.Type.Url
   hs-source-dirs: source/library
 

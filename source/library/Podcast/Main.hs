@@ -3,13 +3,12 @@ module Podcast.Main
   )
 where
 
-import qualified Data.Fixed as Fixed
-import qualified Data.Time as Time
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
+import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
@@ -116,7 +115,7 @@ formatEpisode root episode = concat
     , "<itunes:duration>"
       , escapeString (formatSeconds (episodeDuration episode))
     , "</itunes:duration>"
-    , "<pubDate>", escapeString (formatTime (episodeTime episode)), "</pubDate>"
+    , "<pubDate>", escapeString (Time.toString (episodeTime episode)), "</pubDate>"
   , "</item>"
   ]
 
@@ -129,7 +128,7 @@ episodeDefinitions =
     <*> pure (Bytes.fromNatural 21580339)
     <*> pure (Seconds.fromNatural 1019)
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
-    <*> toUTCTime 2019 3 13 12 0 0
+    <*> Time.fromString "2019-03-13T12:00:00"
   , Episode
     <$> Number.fromNatural 1
     <*> Description.fromString "Cody Goodman talks about exceptions."
@@ -137,7 +136,7 @@ episodeDefinitions =
     <*> pure (Bytes.fromNatural 13999481)
     <*> pure (Seconds.fromNatural 583)
     <*> Guid.fromString "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
-    <*> toUTCTime 2019 3 6 12 0 0
+    <*> Time.fromString "2019-03-06T12:00:00"
   ]
 
 data Episode = Episode
@@ -147,7 +146,7 @@ data Episode = Episode
   , episodeSize :: Bytes.Bytes
   , episodeDuration :: Seconds.Seconds
   , episodeGuid :: Guid.Guid
-  , episodeTime :: Time.UTCTime
+  , episodeTime :: Time.Time
   } deriving (Eq, Show)
 
 episodeLink :: Url.Url -> Episode -> String
@@ -179,25 +178,6 @@ escapeChar c = case c of
 
 formatDescription :: Description.Description -> String
 formatDescription = Description.toString
-
-toUTCTime :: Integer -> Int -> Int -> Int -> Int -> Fixed.Pico -> Either String Time.UTCTime
-toUTCTime year month day hour minute second = do
-  date <- toDay year month day
-  time <- toTimeOfDay hour minute second
-  Right (Time.localTimeToUTC Time.utc (Time.LocalTime date time))
-
-toDay :: Integer -> Int -> Int -> Either String Time.Day
-toDay y m d = case Time.fromGregorianValid y m d of
-  Nothing -> Left ("invalid Day: " ++ show (y, m, d))
-  Just day -> Right day
-
-toTimeOfDay :: Int -> Int -> Fixed.Pico -> Either String Time.TimeOfDay
-toTimeOfDay h m s = case Time.makeTimeOfDayValid h m s of
-  Nothing -> Left ("invalid TimeOfDay: " ++ show (h, m, s))
-  Just timeOfDay -> Right timeOfDay
-
-formatTime :: Time.UTCTime -> String
-formatTime = Time.formatTime Time.defaultTimeLocale Time.rfc822DateFormat
 
 episodeTitle :: Episode -> String
 episodeTitle episode = "Episode " ++ formatNumber (episodeNumber episode)
