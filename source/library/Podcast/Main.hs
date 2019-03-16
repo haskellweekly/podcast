@@ -5,6 +5,7 @@ where
 
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Description as Description
+import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
@@ -33,7 +34,7 @@ defaultMain = do
     (\ episode -> writeFile
       (FilePath.combine
         directory
-        (FilePath.addExtension (formatNumber (episodeNumber episode)) "html"))
+        (FilePath.addExtension (formatNumber (Episode.number episode)) "html"))
       (concat
         [ "<!doctype html>"
         , "<html>"
@@ -44,8 +45,8 @@ defaultMain = do
           , "<body>"
             , "<h1>Haskell Weekly Podcast</h1>"
             , "<h2>", escapeString (episodeTitle episode), "</h2>"
-            , "<p>", escapeString (formatDescription (episodeDescription episode)), "</p>"
-            , "<audio controls src='", escapeString (Url.toString (episodeUrl episode)) ,"'></audio"
+            , "<p>", escapeString (formatDescription (Episode.description episode)), "</p>"
+            , "<audio controls src='", escapeString (Url.toString (Episode.url episode)) ,"'></audio"
           , "</body>"
         , "</html>"
         ]))
@@ -100,58 +101,48 @@ defaultMain = do
     , "</html>"
     ])
 
-formatEpisode :: Url.Url -> Episode -> String
+formatEpisode :: Url.Url -> Episode.Episode -> String
 formatEpisode root episode = concat
   [ "<item>"
     , "<title>", escapeString (episodeTitle episode), "</title>"
     , "<link>", escapeString (episodeLink root episode), "</link>"
-    , "<guid isPermalink='false'>", escapeString (Guid.toString (episodeGuid episode)), "</guid>"
-    , "<description>", escapeString (formatDescription (episodeDescription episode)), "</description>"
+    , "<guid isPermalink='false'>", escapeString (Guid.toString (Episode.guid episode)), "</guid>"
+    , "<description>", escapeString (formatDescription (Episode.description episode)), "</description>"
     , "<itunes:author>Taylor Fausak</itunes:author>"
     , "<enclosure "
       , "type='audio/mpeg' "
-      , "length='", escapeString (formatBytes (episodeSize episode)), "' "
-      , "url='", escapeString (Url.toString (episodeUrl episode)), "' />"
+      , "length='", escapeString (formatBytes (Episode.size episode)), "' "
+      , "url='", escapeString (Url.toString (Episode.url episode)), "' />"
     , "<itunes:duration>"
-      , escapeString (formatSeconds (episodeDuration episode))
+      , escapeString (formatSeconds (Episode.duration episode))
     , "</itunes:duration>"
-    , "<pubDate>", escapeString (Time.toString (episodeTime episode)), "</pubDate>"
+    , "<pubDate>", escapeString (Time.toString (Episode.time episode)), "</pubDate>"
   , "</item>"
   ]
 
-episodeDefinitions :: [Either String Episode]
+episodeDefinitions :: [Either String Episode.Episode]
 episodeDefinitions =
-  [ Episode
-    <$> Number.fromNatural 2
-    <*> Description.fromString "Sara Lichtenstein talks about upgrading Elm."
-    <*> Url.fromString "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
-    <*> pure (Bytes.fromNatural 21580339)
+  [ Episode.Episode
+    <$> Description.fromString "Sara Lichtenstein talks about upgrading Elm."
     <*> pure (Seconds.fromNatural 1019)
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
+    <*> Number.fromNatural 2
+    <*> pure (Bytes.fromNatural 21580339)
     <*> Time.fromString "2019-03-13T12:00:00"
-  , Episode
-    <$> Number.fromNatural 1
-    <*> Description.fromString "Cody Goodman talks about exceptions."
-    <*> Url.fromString "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
-    <*> pure (Bytes.fromNatural 13999481)
+    <*> Url.fromString "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
+  , Episode.Episode
+    <$> Description.fromString "Cody Goodman talks about exceptions."
     <*> pure (Seconds.fromNatural 583)
     <*> Guid.fromString "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
+    <*> Number.fromNatural 1
+    <*> pure (Bytes.fromNatural 13999481)
     <*> Time.fromString "2019-03-06T12:00:00"
+    <*> Url.fromString "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
   ]
 
-data Episode = Episode
-  { episodeNumber :: Number.Number
-  , episodeDescription :: Description.Description
-  , episodeUrl :: Url.Url
-  , episodeSize :: Bytes.Bytes
-  , episodeDuration :: Seconds.Seconds
-  , episodeGuid :: Guid.Guid
-  , episodeTime :: Time.Time
-  } deriving (Eq, Show)
-
-episodeLink :: Url.Url -> Episode -> String
+episodeLink :: Url.Url -> Episode.Episode -> String
 episodeLink root episode = concat
-  [Url.toString root, "/episodes/", formatNumber (episodeNumber episode), ".html"]
+  [Url.toString root, "/episodes/", formatNumber (Episode.number episode), ".html"]
 
 formatBytes :: Bytes.Bytes -> String
 formatBytes = show . Bytes.toNatural
@@ -179,5 +170,5 @@ escapeChar c = case c of
 formatDescription :: Description.Description -> String
 formatDescription = Description.toString
 
-episodeTitle :: Episode -> String
-episodeTitle episode = "Episode " ++ formatNumber (episodeNumber episode)
+episodeTitle :: Episode.Episode -> String
+episodeTitle episode = "Episode " ++ formatNumber (Episode.number episode)

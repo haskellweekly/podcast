@@ -31,6 +31,7 @@ library
     Podcast.Main
     Podcast.Type.Bytes
     Podcast.Type.Description
+    Podcast.Type.Episode
     Podcast.Type.Guid
     Podcast.Type.Number
     Podcast.Type.Seconds
