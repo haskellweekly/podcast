@@ -30,6 +30,7 @@ library
     Podcast.Main
     Podcast.Type.Bytes
     Podcast.Type.Description
+    Podcast.Type.Guid
     Podcast.Type.Number
     Podcast.Type.Seconds
   hs-source-dirs: source/library

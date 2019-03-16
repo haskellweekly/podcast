@@ -5,10 +5,10 @@ where
 
 import qualified Data.Fixed as Fixed
 import qualified Data.Time as Time
-import qualified Data.UUID as Uuid
 import qualified Network.URI as Uri
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Description as Description
+import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
 import qualified System.Directory as Directory
@@ -146,7 +146,7 @@ data Episode = Episode
   , episodeUrl :: Uri.URI
   , episodeSize :: Bytes.Bytes
   , episodeDuration :: Seconds.Seconds
-  , episodeGuid :: Uuid.UUID
+  , episodeGuid :: Guid.Guid
   , episodeTime :: Time.UTCTime
   } deriving (Eq, Show)
 
@@ -185,13 +185,11 @@ parseUri string = case Uri.parseURIReference string of
 formatUri :: Uri.URI -> String
 formatUri uri = Uri.uriToString id uri ""
 
-parseUuid :: String -> Either String Uuid.UUID
-parseUuid string = case Uuid.fromString string of
-  Nothing -> Left ("invalid UUID: " ++ show string)
-  Just uuid -> Right uuid
+parseUuid :: String -> Either String Guid.Guid
+parseUuid = Guid.fromString
 
-formatUuid :: Uuid.UUID -> String
-formatUuid = Uuid.toString
+formatUuid :: Guid.Guid -> String
+formatUuid = Guid.toString
 
 formatDescription :: Description.Description -> String
 formatDescription = Description.toString
