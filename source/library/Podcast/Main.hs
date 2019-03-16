@@ -23,81 +23,71 @@ defaultMain = do
   let
     input = "input"
     output = "output"
+    directory = FilePath.combine output "episodes"
   Directory.createDirectoryIfMissing True output
+  Directory.createDirectoryIfMissing True directory
 
   Directory.copyFile
     (FilePath.combine input "logo.png")
     (FilePath.combine output "logo.png")
 
-  let directory = FilePath.combine output "episodes"
-  Directory.createDirectoryIfMissing True directory
   mapM_
     (\ episode -> writeFile
-      (FilePath.combine
-        directory
-        (FilePath.addExtension (show (Number.toNatural (Episode.number episode))) "html"))
-      (concat
-        [ "<!doctype html>"
-        , "<html>"
-          , "<head>"
-            , "<meta charset='utf-8'>"
-            , "<title>", escapeString (episodeTitle episode), " :: Haskell Weekly Podcast</title>"
-          , "</head>"
-          , "<body>"
-            , "<h1>Haskell Weekly Podcast</h1>"
-            , "<h2>", escapeString (episodeTitle episode), "</h2>"
-            , "<p>", escapeString (Description.toString (Episode.description episode)), "</p>"
-            , "<audio controls src='", escapeString (Url.toString (Episode.url episode)) ,"'></audio"
-          , "</body>"
-        , "</html>"
-        ]))
+      (episodePath directory episode)
+      (episodeToHtml episode))
     episodes
 
   -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
-  writeFile (FilePath.combine output "feed.rss") (Xml.render (Xml.root "rss"
-    [ ("version", "2.0")
-    , ("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
-    ]
-    [ Xml.node "channel" []
-      ( Xml.node "title" [] [Xml.text "Haskell Weekly"]
-      : Xml.node "link" [] [Xml.text (Url.toString root)]
-      : Xml.node "description" [] [Xml.text "Short, casual discussion about the Haskell programming language."]
-      : Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
-      : Xml.node "language" [] [Xml.text "en-US"]
-      : Xml.node "itunes:category" [("text", "Technology")] []
-      : Xml.node "image" []
-        [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
-        , Xml.node "link" [] [Xml.text (Url.toString root)]
-        , Xml.node "url" [] [Xml.text (Url.toString root <> "/logo.png")]
-        ]
-      : map (episodeToRssItem root) episodes)
-    ]))
+  writeFile
+    (FilePath.combine output "feed.rss")
+    (Xml.render (episodesToRss root episodes))
 
-  writeFile (FilePath.combine output "index.html") (concat
-    [ "<!doctype html>"
-    , "<html>"
-      , "<head>"
-        , "<meta charset='utf-8'>"
-        , "<title>Haskell Weekly Podcast</title>"
-      , "<head>"
-      , "</head>"
-      , "<body>"
-        , "<h1>Haskell Weekly Podcast</h1>"
-        , "<p><a href='feed.rss'>RSS feed</a></p>"
-        , "<ul>"
-          , concatMap
-            (\ episode -> concat
-              [ "<li>"
-                , "<a href='", escapeString (episodeLink root episode), "'>"
-                  , escapeString (episodeTitle episode)
-                , "</a>"
-              , "</li>"
-              ])
-            episodes
-        , "</ul>"
-      , "</body>"
-    , "</html>"
-    ])
+  writeFile (FilePath.combine output "index.html") (index root episodes)
+
+episodePath :: FilePath -> Episode.Episode -> FilePath
+episodePath directory episode =
+  FilePath.combine
+    directory
+    (FilePath.addExtension
+      (show (Number.toNatural (Episode.number episode)))
+      "html")
+
+episodeToHtml :: Episode.Episode -> String
+episodeToHtml episode = concat
+  [ "<!doctype html>"
+  , "<html>"
+    , "<head>"
+      , "<meta charset='utf-8'>"
+      , "<title>", escapeString (episodeTitle episode), " :: Haskell Weekly Podcast</title>"
+    , "</head>"
+    , "<body>"
+      , "<h1>Haskell Weekly Podcast</h1>"
+      , "<h2>", escapeString (episodeTitle episode), "</h2>"
+      , "<p>", escapeString (Description.toString (Episode.description episode)), "</p>"
+      , "<audio controls src='", escapeString (Url.toString (Episode.url episode)) ,"'></audio"
+    , "</body>"
+  , "</html>"
+  ]
+
+episodesToRss :: Url.Url -> [Episode.Episode] -> Xml.Root
+episodesToRss root episodes = Xml.root "rss"
+  [ ("version", "2.0")
+  , ("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
+  ]
+  [ Xml.node "channel" []
+    ( Xml.node "title" [] [Xml.text "Haskell Weekly"]
+    : Xml.node "link" [] [Xml.text (Url.toString root)]
+    : Xml.node "description" [] [Xml.text "Short, casual discussion about the Haskell programming language."]
+    : Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
+    : Xml.node "language" [] [Xml.text "en-US"]
+    : Xml.node "itunes:category" [("text", "Technology")] []
+    : Xml.node "image" []
+      [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
+      , Xml.node "link" [] [Xml.text (Url.toString root)]
+      , Xml.node "url" [] [Xml.text (Url.toString root <> "/logo.png")]
+      ]
+    : map (episodeToRssItem root) episodes)
+  ]
 
 episodeToRssItem :: Url.Url -> Episode.Episode -> Xml.Node
 episodeToRssItem root episode = Xml.node "item" []
@@ -114,6 +104,33 @@ episodeToRssItem root episode = Xml.node "item" []
     []
   , Xml.node "itunes:duration" [] [Xml.text (formatSeconds (Episode.duration episode))]
   , Xml.node "pubDate" [] [Xml.text (Time.toString (Episode.time episode))]
+  ]
+
+index :: Url.Url -> [Episode.Episode] -> String
+index root episodes = concat
+  [ "<!doctype html>"
+  , "<html>"
+    , "<head>"
+      , "<meta charset='utf-8'>"
+      , "<title>Haskell Weekly Podcast</title>"
+    , "<head>"
+    , "</head>"
+    , "<body>"
+      , "<h1>Haskell Weekly Podcast</h1>"
+      , "<p><a href='feed.rss'>RSS feed</a></p>"
+      , "<ul>"
+        , concatMap
+          (\ episode -> concat
+            [ "<li>"
+              , "<a href='", escapeString (episodeLink root episode), "'>"
+                , escapeString (episodeTitle episode)
+              , "</a>"
+            , "</li>"
+            ])
+          episodes
+      , "</ul>"
+    , "</body>"
+  , "</html>"
   ]
 
 episodeDefinitions :: [Either String Episode.Episode]
@@ -138,7 +155,11 @@ episodeDefinitions =
 
 episodeLink :: Url.Url -> Episode.Episode -> String
 episodeLink root episode = concat
-  [Url.toString root, "/episodes/", show (Number.toNatural (Episode.number episode)), ".html"]
+  [ Url.toString root
+  , "/episodes/"
+  , show (Number.toNatural (Episode.number episode))
+  , ".html"
+  ]
 
 formatSeconds :: Seconds.Seconds -> String
 formatSeconds seconds =
@@ -158,4 +179,5 @@ escapeChar c = case c of
   _ -> [c]
 
 episodeTitle :: Episode.Episode -> String
-episodeTitle episode = "Episode " ++ show (Number.toNatural (Episode.number episode))
+episodeTitle episode =
+  "Episode " <> show (Number.toNatural (Episode.number episode))
