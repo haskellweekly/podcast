@@ -19,4 +19,5 @@ executable podcast
     -Wno-implicit-prelude
     -Wno-safe
     -Wno-unsafe
-  main-is: podcast.hs
+  hs-source-dirs: source/executable
+  main-is: Main.hs
