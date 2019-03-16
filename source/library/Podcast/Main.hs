@@ -9,6 +9,7 @@ import qualified Data.UUID as Uuid
 import qualified Network.URI as Uri
 import qualified Numeric.Natural as Natural
 import qualified Podcast.Type.Bytes as Bytes
+import qualified Podcast.Type.Seconds as Seconds
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
 import qualified Text.Printf as Printf
@@ -125,7 +126,7 @@ episodeDefinitions =
     <*> pure (Description "Sara Lichtenstein talks about upgrading Elm.")
     <*> parseUri "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
     <*> pure (Bytes.fromNatural 21580339)
-    <*> pure (Seconds 1019)
+    <*> pure (Seconds.fromNatural 1019)
     <*> parseUuid "00900298-5aa6-4301-a207-619d38cdc81a"
     <*> toUTCTime 2019 3 13 12 0 0
   , Episode
@@ -133,7 +134,7 @@ episodeDefinitions =
     <*> pure (Description "Cody Goodman talks about exceptions.")
     <*> parseUri "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
     <*> pure (Bytes.fromNatural 13999481)
-    <*> pure (Seconds 583)
+    <*> pure (Seconds.fromNatural 583)
     <*> parseUuid "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
     <*> toUTCTime 2019 3 6 12 0 0
   ]
@@ -143,7 +144,7 @@ data Episode = Episode
   , episodeDescription :: Description
   , episodeUrl :: Uri.URI
   , episodeSize :: Bytes.Bytes
-  , episodeDuration :: Seconds
+  , episodeDuration :: Seconds.Seconds
   , episodeGuid :: Uuid.UUID
   , episodeTime :: Time.UTCTime
   } deriving (Eq, Show)
@@ -155,13 +156,9 @@ episodeLink root episode = concat
 formatBytes :: Bytes.Bytes -> String
 formatBytes = show . Bytes.toNatural
 
-newtype Seconds = Seconds
-  { unwrapSeconds :: Natural.Natural
-  } deriving (Eq, Show)
-
-formatSeconds :: Seconds -> String
+formatSeconds :: Seconds.Seconds -> String
 formatSeconds seconds =
-  let (m, s) = quotRem (unwrapSeconds seconds) 60
+  let (m, s) = quotRem (Seconds.toNatural seconds) 60
   in Printf.printf "%d:%02d" m s
 
 newtype Number = Number

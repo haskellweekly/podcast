@@ -28,6 +28,7 @@ library
   exposed-modules:
     Podcast.Main
     Podcast.Type.Bytes
+    Podcast.Type.Seconds
   hs-source-dirs: source/library
 
 executable podcast
