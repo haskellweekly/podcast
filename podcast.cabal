@@ -29,6 +29,7 @@ common executable
 library
   import: library
   exposed-modules:
+    Podcast.Html
     Podcast.Main
     Podcast.Type.Bytes
     Podcast.Type.Description

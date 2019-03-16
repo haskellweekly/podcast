@@ -5,6 +5,7 @@ module Podcast.Xml
   , node
   , text
   , render
+  , renderRoot
   )
 where
 
@@ -42,8 +43,10 @@ text :: String -> Node
 text string = Node (Node.Content (Text.pack string))
 
 render :: Root -> String
-render (Root element) =
-  "<?xml version='1.0'?>" <> Text.unpack (renderElement element)
+render root_ = "<?xml version='1.0'?>" <> Text.unpack (renderRoot root_)
+
+renderRoot :: Root -> Text.Text
+renderRoot (Root element) = renderElement element
 
 renderElement :: Element.Element Node -> Text.Text
 renderElement element = let name = Element.name element in Text.concat

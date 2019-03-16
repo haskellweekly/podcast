@@ -3,6 +3,7 @@ module Podcast.Main
   )
 where
 
+import qualified Podcast.Html as Html
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
@@ -42,7 +43,7 @@ defaultMain = do
     (FilePath.combine output "feed.rss")
     (Xml.render (episodesToRss root episodes))
 
-  writeFile (FilePath.combine output "index.html") (index root episodes)
+  writeFile (FilePath.combine output "index.html") (index episodes)
 
 episodePath :: FilePath -> Episode.Episode -> FilePath
 episodePath directory episode =
@@ -53,21 +54,20 @@ episodePath directory episode =
       "html")
 
 episodeToHtml :: Episode.Episode -> String
-episodeToHtml episode = concat
-  [ "<!doctype html>"
-  , "<html>"
-    , "<head>"
-      , "<meta charset='utf-8'>"
-      , "<title>", escapeString (episodeTitle episode), " :: Haskell Weekly Podcast</title>"
-    , "</head>"
-    , "<body>"
-      , "<h1>Haskell Weekly Podcast</h1>"
-      , "<h2>", escapeString (episodeTitle episode), "</h2>"
-      , "<p>", escapeString (Description.toString (Episode.description episode)), "</p>"
-      , "<audio controls src='", escapeString (Url.toString (Episode.url episode)) ,"'></audio"
-    , "</body>"
-  , "</html>"
-  ]
+episodeToHtml episode = Html.render (Html.root "html" []
+  [ Html.node "head" []
+    [ Html.node "meta" [("charset", "utf-8")] []
+    , Html.node "title" [] [Html.text (episodeTitle episode <> " :: Haskell Weekly Podcast")]
+    ]
+  , Html.node "body" []
+    [ Html.node "h1" [] [Html.text "Haskell Weekly Podcast"]
+    , Html.node "h2" [] [Html.text (episodeTitle episode)]
+    , Html.node "p" [] [Html.text (Description.toString (Episode.description episode))]
+    , Html.node "audio"
+      [("controls", ""), ("src", Url.toString (Episode.url episode))]
+      [Html.text ""]
+    ]
+  ])
 
 episodesToRss :: Url.Url -> [Episode.Episode] -> Xml.Root
 episodesToRss root episodes = Xml.root "rss"
@@ -106,32 +106,25 @@ episodeToRssItem root episode = Xml.node "item" []
   , Xml.node "pubDate" [] [Xml.text (Time.toString (Episode.time episode))]
   ]
 
-index :: Url.Url -> [Episode.Episode] -> String
-index root episodes = concat
-  [ "<!doctype html>"
-  , "<html>"
-    , "<head>"
-      , "<meta charset='utf-8'>"
-      , "<title>Haskell Weekly Podcast</title>"
-    , "<head>"
-    , "</head>"
-    , "<body>"
-      , "<h1>Haskell Weekly Podcast</h1>"
-      , "<p><a href='feed.rss'>RSS feed</a></p>"
-      , "<ul>"
-        , concatMap
-          (\ episode -> concat
-            [ "<li>"
-              , "<a href='", escapeString (episodeLink root episode), "'>"
-                , escapeString (episodeTitle episode)
-              , "</a>"
-            , "</li>"
-            ])
-          episodes
-      , "</ul>"
-    , "</body>"
-  , "</html>"
-  ]
+index :: [Episode.Episode] -> String
+index episodes = Html.render (Html.root "html" []
+  [ Html.node "head" []
+    [ Html.node "meta" [("charset", "utf-8")] []
+    , Html.node "title" [] [Html.text "Haskell Weekly Podcast"]
+    ]
+  , Html.node "body" []
+    [ Html.node "h1" [] [Html.text "Haskell Weekly Podcast"]
+    , Html.node "p" []
+      [Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]]
+    , Html.node "ul" [] (map
+      (\ episode -> Html.node "li" []
+        [ Html.node "a"
+          [("href", episodePath "episodes" episode)]
+          [Html.text (episodeTitle episode)]
+        ])
+      episodes)
+    ]
+  ])
 
 episodeDefinitions :: [Either String Episode.Episode]
 episodeDefinitions =
@@ -165,18 +158,6 @@ formatSeconds :: Seconds.Seconds -> String
 formatSeconds seconds =
   let (m, s) = quotRem (Seconds.toNatural seconds) 60
   in Printf.printf "%d:%02d" m s
-
-escapeString :: String -> String
-escapeString = concatMap escapeChar
-
-escapeChar :: Char -> String
-escapeChar c = case c of
-  '\x22' -> "&quot;"
-  '\x26' -> "&amp;"
-  '\x27' -> "&apos;"
-  '\x3c' -> "&lt;"
-  '\x3e' -> "&gt;"
-  _ -> [c]
 
 episodeTitle :: Episode.Episode -> String
 episodeTitle episode =
