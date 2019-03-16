@@ -8,6 +8,7 @@ import qualified Data.Time as Time
 import qualified Data.UUID as Uuid
 import qualified Network.URI as Uri
 import qualified Podcast.Type.Bytes as Bytes
+import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
 import qualified System.Directory as Directory
@@ -123,7 +124,7 @@ episodeDefinitions :: [Either String Episode]
 episodeDefinitions =
   [ Episode
     <$> pure (Number.fromNatural 2)
-    <*> pure (Description "Sara Lichtenstein talks about upgrading Elm.")
+    <*> pure (Description.fromString "Sara Lichtenstein talks about upgrading Elm.")
     <*> parseUri "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
     <*> pure (Bytes.fromNatural 21580339)
     <*> pure (Seconds.fromNatural 1019)
@@ -131,7 +132,7 @@ episodeDefinitions =
     <*> toUTCTime 2019 3 13 12 0 0
   , Episode
     <$> pure (Number.fromNatural 1)
-    <*> pure (Description "Cody Goodman talks about exceptions.")
+    <*> pure (Description.fromString "Cody Goodman talks about exceptions.")
     <*> parseUri "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
     <*> pure (Bytes.fromNatural 13999481)
     <*> pure (Seconds.fromNatural 583)
@@ -141,7 +142,7 @@ episodeDefinitions =
 
 data Episode = Episode
   { episodeNumber :: Number.Number
-  , episodeDescription :: Description
+  , episodeDescription :: Description.Description
   , episodeUrl :: Uri.URI
   , episodeSize :: Bytes.Bytes
   , episodeDuration :: Seconds.Seconds
@@ -192,12 +193,8 @@ parseUuid string = case Uuid.fromString string of
 formatUuid :: Uuid.UUID -> String
 formatUuid = Uuid.toString
 
-newtype Description = Description
-  { unwrapDescription :: String
-  } deriving (Eq, Show)
-
-formatDescription :: Description -> String
-formatDescription = unwrapDescription
+formatDescription :: Description.Description -> String
+formatDescription = Description.toString
 
 toUTCTime :: Integer -> Int -> Int -> Int -> Int -> Fixed.Pico -> Either String Time.UTCTime
 toUTCTime year month day hour minute second = do
