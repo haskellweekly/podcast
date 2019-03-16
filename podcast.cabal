@@ -25,7 +25,9 @@ common executable
 
 library
   import: library
-  exposed-modules: Podcast.Main
+  exposed-modules:
+    Podcast.Main
+    Podcast.Type.Bytes
   hs-source-dirs: source/library
 
 executable podcast
