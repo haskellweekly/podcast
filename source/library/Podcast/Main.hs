@@ -34,7 +34,7 @@ defaultMain = do
     (\ episode -> writeFile
       (FilePath.combine
         directory
-        (FilePath.addExtension (formatNumber (Episode.number episode)) "html"))
+        (FilePath.addExtension (show (Number.toNatural (Episode.number episode))) "html"))
       (concat
         [ "<!doctype html>"
         , "<html>"
@@ -45,7 +45,7 @@ defaultMain = do
           , "<body>"
             , "<h1>Haskell Weekly Podcast</h1>"
             , "<h2>", escapeString (episodeTitle episode), "</h2>"
-            , "<p>", escapeString (formatDescription (Episode.description episode)), "</p>"
+            , "<p>", escapeString (Description.toString (Episode.description episode)), "</p>"
             , "<audio controls src='", escapeString (Url.toString (Episode.url episode)) ,"'></audio"
           , "</body>"
         , "</html>"
@@ -107,11 +107,11 @@ formatEpisode root episode = concat
     , "<title>", escapeString (episodeTitle episode), "</title>"
     , "<link>", escapeString (episodeLink root episode), "</link>"
     , "<guid isPermalink='false'>", escapeString (Guid.toString (Episode.guid episode)), "</guid>"
-    , "<description>", escapeString (formatDescription (Episode.description episode)), "</description>"
+    , "<description>", escapeString (Description.toString (Episode.description episode)), "</description>"
     , "<itunes:author>Taylor Fausak</itunes:author>"
     , "<enclosure "
       , "type='audio/mpeg' "
-      , "length='", escapeString (formatBytes (Episode.size episode)), "' "
+      , "length='", escapeString (show (Bytes.toNatural (Episode.size episode))), "' "
       , "url='", escapeString (Url.toString (Episode.url episode)), "' />"
     , "<itunes:duration>"
       , escapeString (formatSeconds (Episode.duration episode))
@@ -142,18 +142,12 @@ episodeDefinitions =
 
 episodeLink :: Url.Url -> Episode.Episode -> String
 episodeLink root episode = concat
-  [Url.toString root, "/episodes/", formatNumber (Episode.number episode), ".html"]
-
-formatBytes :: Bytes.Bytes -> String
-formatBytes = show . Bytes.toNatural
+  [Url.toString root, "/episodes/", show (Number.toNatural (Episode.number episode)), ".html"]
 
 formatSeconds :: Seconds.Seconds -> String
 formatSeconds seconds =
   let (m, s) = quotRem (Seconds.toNatural seconds) 60
   in Printf.printf "%d:%02d" m s
-
-formatNumber :: Number.Number -> String
-formatNumber = show . Number.toNatural
 
 escapeString :: String -> String
 escapeString = concatMap escapeChar
@@ -167,8 +161,5 @@ escapeChar c = case c of
   '\x3e' -> "&gt;"
   _ -> [c]
 
-formatDescription :: Description.Description -> String
-formatDescription = Description.toString
-
 episodeTitle :: Episode.Episode -> String
-episodeTitle episode = "Episode " ++ formatNumber (Episode.number episode)
+episodeTitle episode = "Episode " ++ show (Number.toNatural (Episode.number episode))
