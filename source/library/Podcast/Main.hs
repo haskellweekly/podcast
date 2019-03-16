@@ -5,7 +5,6 @@ where
 
 import qualified Data.Fixed as Fixed
 import qualified Data.Time as Time
-import qualified Network.URI as Uri
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Guid as Guid
@@ -18,7 +17,7 @@ import qualified Text.Printf as Printf
 
 defaultMain :: IO ()
 defaultMain = do
-  root <- either fail pure (parseUri "https://haskellweekly.news/podcast")
+  root <- either fail pure (Url.fromString "https://haskellweekly.news/podcast")
   episodes <- either fail pure (sequence episodeDefinitions)
   let
     input = "input"
@@ -59,7 +58,7 @@ defaultMain = do
     , "<rss version='2.0' xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>"
       , "<channel>"
         , "<title>Haskell Weekly</title>"
-        , "<link>", escapeString (formatUri root), "</link>"
+        , "<link>", escapeString (Url.toString root), "</link>"
         , "<description>"
           , "Short, casual discussion about the Haskell programming language."
         , "</description>"
@@ -68,8 +67,8 @@ defaultMain = do
         , "<itunes:category text='Technology' />"
         , "<image>"
           , "<title>Haskell Weekly</title>"
-          , "<link>", escapeString (formatUri root), "</link>"
-          , "<url>", escapeString (formatUri root), "/logo.png</url>"
+          , "<link>", escapeString (Url.toString root), "</link>"
+          , "<url>", escapeString (Url.toString root), "/logo.png</url>"
         , "</image>"
         , concatMap (formatEpisode root) episodes
       , "</channel>"
@@ -102,7 +101,7 @@ defaultMain = do
     , "</html>"
     ])
 
-formatEpisode :: Uri.URI -> Episode -> String
+formatEpisode :: Url.Url -> Episode -> String
 formatEpisode root episode = concat
   [ "<item>"
     , "<title>", escapeString (episodeTitle episode), "</title>"
@@ -151,9 +150,9 @@ data Episode = Episode
   , episodeTime :: Time.UTCTime
   } deriving (Eq, Show)
 
-episodeLink :: Uri.URI -> Episode -> String
+episodeLink :: Url.Url -> Episode -> String
 episodeLink root episode = concat
-  [formatUri root, "/episodes/", formatNumber (episodeNumber episode), ".html"]
+  [Url.toString root, "/episodes/", formatNumber (episodeNumber episode), ".html"]
 
 formatBytes :: Bytes.Bytes -> String
 formatBytes = show . Bytes.toNatural
@@ -177,14 +176,6 @@ escapeChar c = case c of
   '\x3c' -> "&lt;"
   '\x3e' -> "&gt;"
   _ -> [c]
-
-parseUri :: String -> Either String Uri.URI
-parseUri string = case Uri.parseURIReference string of
-  Nothing -> Left ("invalid URI: " ++ show string)
-  Just uri -> Right uri
-
-formatUri :: Uri.URI -> String
-formatUri uri = Uri.uriToString id uri ""
 
 formatDescription :: Description.Description -> String
 formatDescription = Description.toString
