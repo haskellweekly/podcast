@@ -5,7 +5,6 @@ module Podcast.Xml
   , node
   , text
   , render
-  , Render.renderElement
   )
 where
 
@@ -34,4 +33,4 @@ text :: String -> Element.Node
 text = Node.Content
 
 render :: Element.Element -> String
-render element_ = "<?xml version='1.0'?>" ++ Render.renderElement element_
+render element_ = "<?xml version='1.0'?>" ++ Render.element element_

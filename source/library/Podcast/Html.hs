@@ -9,6 +9,7 @@ module Podcast.Html
 where
 
 import qualified Podcast.Xml as Xml
+import qualified Podcast.Xml.Render as Render
 
 render :: Xml.Element -> String
-render element = "<!doctype html>" ++ Xml.renderElement element
+render element = "<!doctype html>" ++ Render.element element
