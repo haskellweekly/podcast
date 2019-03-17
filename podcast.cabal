@@ -45,6 +45,7 @@ library
     Podcast.Type.Xml.Node
     Podcast.Xml
     Podcast.Xml.Escape
+    Podcast.Xml.Render
 
 executable podcast
   build-depends: base, podcast

@@ -5,14 +5,14 @@ module Podcast.Xml
   , node
   , text
   , render
-  , renderElement
+  , Render.renderElement
   )
 where
 
 import qualified Podcast.Type.Xml.Attribute as Attribute
 import qualified Podcast.Type.Xml.Element as Element
 import qualified Podcast.Type.Xml.Node as Node
-import qualified Podcast.Xml.Escape as Escape
+import qualified Podcast.Xml.Render as Render
 
 element :: String -> [(String, String)] -> [Element.Node] -> Element.Element
 element name attributes nodes = Element.Element
@@ -34,41 +34,4 @@ text :: String -> Element.Node
 text = Node.Content
 
 render :: Element.Element -> String
-render element_ = "<?xml version='1.0'?>" ++ renderElement element_
-
-renderElement :: Element.Element -> String
-renderElement element_ = let name = Element.name element_ in concat
-  [ "<"
-  , name
-  , renderAttributes (Element.attributes element_)
-  , let nodes = Element.nodes element_ in if null nodes
-    then " />"
-    else concat
-      [ ">"
-      , renderNodes nodes
-      , "</"
-      , name
-      , ">"
-      ]
-  ]
-
-renderAttributes :: [Attribute.Attribute] -> String
-renderAttributes attributes = if null attributes
-  then ""
-  else ' ' : unwords (map renderAttribute attributes)
-
-renderAttribute :: Attribute.Attribute -> String
-renderAttribute attribute_ = concat
-  [ Attribute.name attribute_
-  , "='"
-  , Escape.escape (Attribute.value attribute_)
-  , "'"
-  ]
-
-renderNodes :: [Element.Node] -> String
-renderNodes = concatMap renderNode
-
-renderNode :: Element.Node -> String
-renderNode node_ = case node_ of
-  Node.Content text_ -> Escape.escape text_
-  Node.Element element_ -> renderElement element_
+render element_ = "<?xml version='1.0'?>" ++ Render.renderElement element_
