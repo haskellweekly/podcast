@@ -30,6 +30,7 @@ library
     -Wno-unsafe
   hs-source-dirs: source/library
   other-modules:
+    Podcast.Episodes
     Podcast.Html
     Podcast.Type.Bytes
     Podcast.Type.Description
