@@ -58,7 +58,7 @@ episodeToHtml :: Episode.Episode -> String
 episodeToHtml episode = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
-    , Html.node "title" [] [Html.text (episodeTitle episode <> " :: Haskell Weekly Podcast")]
+    , Html.node "title" [] [Html.text (episodeTitle episode ++ " :: Haskell Weekly Podcast")]
     ]
   , Html.node "body" []
     [ Html.node "h1" [] [Html.text "Haskell Weekly Podcast"]
@@ -85,7 +85,7 @@ episodesToRss root episodes = Xml.element "rss"
     : Xml.node "image" []
       [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
       , Xml.node "link" [] [Xml.text (Url.toString root)]
-      , Xml.node "url" [] [Xml.text (Url.toString root <> "/logo.png")]
+      , Xml.node "url" [] [Xml.text (Url.toString root ++ "/logo.png")]
       ]
     : map (episodeToRssItem root) episodes)
   ]
@@ -142,4 +142,4 @@ formatSeconds seconds =
 
 episodeTitle :: Episode.Episode -> String
 episodeTitle episode =
-  "Episode " <> show (Number.toNatural (Episode.number episode))
+  "Episode " ++ show (Number.toNatural (Episode.number episode))

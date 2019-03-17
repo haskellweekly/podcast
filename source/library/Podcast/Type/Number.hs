@@ -13,7 +13,7 @@ newtype Number
 
 fromNatural :: Natural.Natural -> Either String Number
 fromNatural natural = if natural == 0
-  then Left ("invalid Number: " <> show natural)
+  then Left ("invalid Number: " ++ show natural)
   else Right (Number natural)
 
 toNatural :: Number -> Natural.Natural

@@ -11,4 +11,4 @@ where
 import qualified Podcast.Xml as Xml
 
 render :: Xml.Element -> String
-render element = "<!doctype html>" <> Xml.renderElement element
+render element = "<!doctype html>" ++ Xml.renderElement element

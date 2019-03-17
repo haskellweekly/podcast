@@ -33,7 +33,7 @@ text :: String -> Element.Node
 text = Node.Content
 
 render :: Element.Element -> String
-render element_ = "<?xml version='1.0'?>" <> renderElement element_
+render element_ = "<?xml version='1.0'?>" ++ renderElement element_
 
 renderElement :: Element.Element -> String
 renderElement element_ = let name = Element.name element_ in concat

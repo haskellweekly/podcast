@@ -13,7 +13,7 @@ newtype Guid
 
 fromString :: String -> Either String Guid
 fromString string = case Uuid.fromString string of
-  Nothing -> Left ("invalid Guid: " <> show string)
+  Nothing -> Left ("invalid Guid: " ++ show string)
   Just uuid -> Right (Guid uuid)
 
 toString :: Guid -> String

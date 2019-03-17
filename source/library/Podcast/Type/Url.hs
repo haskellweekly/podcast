@@ -13,7 +13,7 @@ newtype Url
 
 fromString :: String -> Either String Url
 fromString string = case Uri.parseURIReference string of
-  Nothing -> Left ("invalid Url: " <> show string)
+  Nothing -> Left ("invalid Url: " ++ show string)
   Just uri -> Right (Url uri)
 
 toString :: Url -> String

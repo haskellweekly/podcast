@@ -13,7 +13,7 @@ newtype Description
 
 fromString :: String -> Either String Description
 fromString string = if all Char.isSpace string
-  then Left ("invalid Description: " <> show string)
+  then Left ("invalid Description: " ++ show string)
   else Right (Description string)
 
 toString :: Description -> String

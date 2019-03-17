@@ -13,7 +13,7 @@ newtype Time
 
 fromString :: String -> Either String Time
 fromString string = case Time.parseTimeM False locale iso8601 string of
-  Nothing -> Left ("invalid Time: " <> show string)
+  Nothing -> Left ("invalid Time: " ++ show string)
   Just utcTime -> Right (Time utcTime)
 
 toString :: Time -> String

@@ -1,31 +1,14 @@
 dist: xenial
 
-language: generic
-
-cache:
-  directories:
-    - /opt/cabal
-    - /opt/ghc
-    - $HOME/.cabal
-    - dist-newstyle
-
-env:
-  global:
-    - GHC_VERSION=8.6.4
-    - CABAL_VERSION=2.4
+language: haskell
 
 install:
-  - sudo add-apt-repository --yes ppa:hvr/ghc
-  - sudo apt-get update
-  - export PATH="/opt/ghc/$GHC_VERSION/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH"
-  - which ghc || sudo apt-get install "ghc-$GHC_VERSION"
-  - which cabal || sudo apt-get install "cabal-install-$CABAL_VERSION"
-  - cabal v2-update
-  - cabal v2-build --only-dependencies
+  - cabal update
+  - cabal install --only-dependencies
 
 script:
-  - cabal v2-build
-  - cabal v2-exec podcast
+  - cabal build
+  - cabal exec podcast
 
 deploy:
   github-token: $GITHUB_TOKEN
