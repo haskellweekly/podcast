@@ -1,11 +1,11 @@
 module Podcast.Xml
-  ( Root
+  ( Element.Element
   , Node
-  , root
+  , element
   , node
   , text
   , render
-  , renderRoot
+  , renderElement
   )
 where
 
@@ -15,16 +15,10 @@ import qualified Podcast.Type.Xml.Attribute as Attribute
 import qualified Podcast.Type.Xml.Element as Element
 import qualified Podcast.Type.Xml.Node as Node
 
-newtype Root
-  = Root (Element.Element Node)
-  deriving (Eq, Ord, Show)
+type Node = Node.Node Element.Element
 
-newtype Node
-  = Node (Node.Node Root)
-  deriving (Eq, Ord, Show)
-
-root :: String -> [(String, String)] -> [Node] -> Root
-root name attributes nodes = Root Element.Element
+element :: String -> [(String, String)] -> [Node] -> Element.Element
+element name attributes nodes = Element.Element
   { Element.name = Text.pack name
   , Element.attributes = Vector.fromList (map attribute attributes)
   , Element.nodes = Vector.fromList nodes
@@ -37,23 +31,20 @@ attribute (name, value) = Attribute.Attribute
   }
 
 node :: String -> [(String, String)] -> [Node] -> Node
-node name attributes nodes = Node (Node.Element (root name attributes nodes))
+node name attributes nodes = Node.Element (element name attributes nodes)
 
 text :: String -> Node
-text string = Node (Node.Content (Text.pack string))
+text string = Node.Content (Text.pack string)
 
-render :: Root -> String
-render root_ = "<?xml version='1.0'?>" <> Text.unpack (renderRoot root_)
+render :: Element.Element -> String
+render element_ = "<?xml version='1.0'?>" <> Text.unpack (renderElement element_)
 
-renderRoot :: Root -> Text.Text
-renderRoot (Root element) = renderElement element
-
-renderElement :: Element.Element Node -> Text.Text
-renderElement element = let name = Element.name element in Text.concat
+renderElement :: Element.Element -> Text.Text
+renderElement element_ = let name = Element.name element_ in Text.concat
   [ Text.singleton '<'
   , name
-  , renderAttributes (Element.attributes element)
-  , let nodes = Element.nodes element in if Vector.null nodes
+  , renderAttributes (Element.attributes element_)
+  , let nodes = Element.nodes element_ in if Vector.null nodes
     then Text.pack " />"
     else Text.concat
       [ Text.singleton '>'
@@ -81,9 +72,9 @@ renderNodes :: Vector.Vector Node -> Text.Text
 renderNodes nodes = Text.concat (map renderNode (Vector.toList nodes))
 
 renderNode :: Node -> Text.Text
-renderNode (Node node_) = case node_ of
+renderNode node_ = case node_ of
   Node.Content text_ -> escape text_
-  Node.Element (Root element) -> renderElement element
+  Node.Element element_ -> renderElement element_
 
 escape :: Text.Text -> Text.Text
 escape = Text.concatMap escapeChar

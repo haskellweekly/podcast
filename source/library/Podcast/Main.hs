@@ -54,7 +54,7 @@ episodePath directory episode =
       "html")
 
 episodeToHtml :: Episode.Episode -> String
-episodeToHtml episode = Html.render (Html.root "html" []
+episodeToHtml episode = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
     , Html.node "title" [] [Html.text (episodeTitle episode <> " :: Haskell Weekly Podcast")]
@@ -69,8 +69,8 @@ episodeToHtml episode = Html.render (Html.root "html" []
     ]
   ])
 
-episodesToRss :: Url.Url -> [Episode.Episode] -> Xml.Root
-episodesToRss root episodes = Xml.root "rss"
+episodesToRss :: Url.Url -> [Episode.Episode] -> Xml.Element
+episodesToRss root episodes = Xml.element "rss"
   [ ("version", "2.0")
   , ("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
   ]
@@ -107,7 +107,7 @@ episodeToRssItem root episode = Xml.node "item" []
   ]
 
 index :: [Episode.Episode] -> String
-index episodes = Html.render (Html.root "html" []
+index episodes = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
     , Html.node "title" [] [Html.text "Haskell Weekly Podcast"]

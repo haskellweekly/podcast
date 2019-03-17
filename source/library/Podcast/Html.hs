@@ -1,7 +1,7 @@
 module Podcast.Html
-  ( Xml.Root
+  ( Xml.Element
   , Xml.Node
-  , Xml.root
+  , Xml.element
   , Xml.node
   , Xml.text
   , render
@@ -11,5 +11,5 @@ where
 import qualified Data.Text as Text
 import qualified Podcast.Xml as Xml
 
-render :: Xml.Root -> String
-render root = "<!doctype html>" <> Text.unpack (Xml.renderRoot root)
+render :: Xml.Element -> String
+render element = "<!doctype html>" <> Text.unpack (Xml.renderElement element)
