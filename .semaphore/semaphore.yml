@@ -20,4 +20,4 @@ blocks:
             - git config user.name 'Haskell Weekly'
             - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
             - git remote add origin git@github.com:haskellweekly/podcast.git
-            - git push --force --set-upstream origin gh-pages
+            - git push --force --set-upstream origin master:gh-pages
