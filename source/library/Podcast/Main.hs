@@ -81,6 +81,7 @@ episodesToRss root episodes = Xml.element "rss"
     : Xml.node "description" [] [Xml.text "Short, casual discussion about the Haskell programming language."]
     : Xml.node "itunes:author" [] [Xml.text "Haskell Weekly"]
     : Xml.node "language" [] [Xml.text "en-US"]
+    : Xml.node "itunes:explicit" [] [Xml.text "clean"]
     : Xml.node "itunes:category" [("text", "Technology")] []
     : Xml.node "image" []
       [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
