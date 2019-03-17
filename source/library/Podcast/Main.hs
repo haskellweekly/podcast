@@ -16,6 +16,7 @@ import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
+import qualified System.IO as IO
 import qualified Text.Printf as Printf
 
 defaultMain :: IO ()
@@ -34,17 +35,17 @@ defaultMain = do
     (FilePath.combine output "logo.png")
 
   mapM_
-    (\ episode -> writeFile
+    (\ episode -> writeFileUTF8
       (episodePath directory episode)
       (episodeToHtml episode))
     episodes
 
   -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
-  writeFile
+  writeFileUTF8
     (FilePath.combine output "feed.rss")
     (Xml.render (episodesToRss root episodes))
 
-  writeFile (FilePath.combine output "index.html") (index episodes)
+  writeFileUTF8 (FilePath.combine output "index.html") (index episodes)
 
 episodePath :: FilePath -> Episode.Episode -> FilePath
 episodePath directory episode =
@@ -153,3 +154,8 @@ podcastDescription =
   \professional software developers discuss using functional programming to \
   \solve real-world business problems. Each episode uses a conversational two-\
   \host format and runs for about 15 minutes."
+
+writeFileUTF8 :: FilePath -> String -> IO ()
+writeFileUTF8 file contents = IO.withFile file IO.WriteMode (\ handle -> do
+  IO.hSetEncoding handle IO.utf8
+  IO.hPutStr handle contents)
