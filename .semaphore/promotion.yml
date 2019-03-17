@@ -1,0 +1,23 @@
+version: v1.0
+name: Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Block
+    task:
+      secrets:
+        - name: github
+      jobs:
+        - name: Job
+          commands:
+            - cache restore "output-$SEMAPHORE_GIT_SHA"
+            - cd output
+            - git init
+            - git add .
+            - git config user.email taylor@fausak.me
+            - git config user.name 'Taylor Fausak'
+            - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
+            - git remote add origin "https://tfausak:$GITHUB_TOKEN@github.com/haskellweekly/podcast.git"
+            - git push --force --set-upstream origin master:gh-pages

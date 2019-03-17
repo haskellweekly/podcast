@@ -5,21 +5,19 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Build
+  - name: Block
     task:
-      secrets:
-        - name: github
       jobs:
         - name: Job
           commands:
             - checkout
             - docker run --rm --volume "$(pwd):/root/podcast" --workdir /root/podcast alpine:3.9.2 sh -c 'apk add --no-cache cabal ghc musl-dev wget && cabal new-update && cabal new-build && cabal new-exec podcast'
             - sudo chown -R "$USER" output
-            - cd output
-            - git init
-            - git add .
-            - git config user.email taylor@fausak.me
-            - git config user.name 'Taylor Fausak'
-            - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
-            - git remote add origin "https://tfausak:$GITHUB_TOKEN@github.com/haskellweekly/podcast.git"
-            - git push --force --set-upstream origin master:gh-pages
+            - cache store "output-$SEMAPHORE_GIT_SHA"
+promotions:
+  - name: Promotion
+    pipeline_file: promotion.yml
+    auto_promote_on:
+      - result: passed
+        branch:
+          - master
