@@ -8,8 +8,7 @@ module Podcast.Html
   )
 where
 
-import qualified Data.Text as Text
 import qualified Podcast.Xml as Xml
 
 render :: Xml.Element -> String
-render element = "<!doctype html>" <> Text.unpack (Xml.renderElement element)
+render element = "<!doctype html>" <> Xml.renderElement element

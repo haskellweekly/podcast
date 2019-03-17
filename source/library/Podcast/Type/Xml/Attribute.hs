@@ -3,9 +3,7 @@ module Podcast.Type.Xml.Attribute
   )
 where
 
-import qualified Data.Text as Text
-
 data Attribute = Attribute
-  { name :: Text.Text
-  , value :: Text.Text
+  { name :: String
+  , value :: String
   } deriving (Eq, Ord, Show)

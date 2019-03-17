@@ -3,9 +3,7 @@ module Podcast.Type.Xml.Node
   )
 where
 
-import qualified Data.Text as Text
-
 data Node element
-  = Content Text.Text
+  = Content String
   | Element element
   deriving (Eq, Ord, Show)

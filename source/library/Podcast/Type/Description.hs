@@ -6,16 +6,15 @@ module Podcast.Type.Description
 where
 
 import qualified Data.Char as Char
-import qualified Data.Text as Text
 
 newtype Description
-  = Description Text.Text
+  = Description String
   deriving (Eq, Ord, Show)
 
 fromString :: String -> Either String Description
 fromString string = if all Char.isSpace string
   then Left ("invalid Description: " <> show string)
-  else Right (Description (Text.pack string))
+  else Right (Description string)
 
 toString :: Description -> String
-toString (Description text) = Text.unpack text
+toString (Description string) = string
