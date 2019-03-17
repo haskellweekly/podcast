@@ -19,4 +19,5 @@ blocks:
             - git config user.email info@haskellweekly.news
             - git config user.name 'Haskell Weekly'
             - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
+            - git remote add origin git@github.com:haskellweekly/podcast.git
             - git push --force --set-upstream origin gh-pages
