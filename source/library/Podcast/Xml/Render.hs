@@ -13,29 +13,35 @@ import qualified Podcast.Type.Xml.Node as Node
 import qualified Podcast.Xml.Escape as Escape
 
 element :: Element.Element -> String
-element e =
+element element_ =
   let
-    n = Element.name e
-    as = Element.attributes e
-    ns = Element.nodes e
+    name = Element.name element_
+    nodes_ = Element.nodes element_
   in concat
     [ "<"
-    , n
-    , attributes as
-    , if null ns then " />" else concat [">", nodes ns, "</", n, ">"]
+    , name
+    , attributes (Element.attributes element_)
+    , if null nodes_
+      then " />"
+      else concat [">", nodes nodes_, "</", name, ">"]
     ]
 
 attributes :: [Attribute.Attribute] -> String
-attributes as = if null as then "" else ' ' : unwords (map attribute as)
+attributes attributes_ =
+  if null attributes_ then "" else ' ' : unwords (map attribute attributes_)
 
 attribute :: Attribute.Attribute -> String
-attribute a =
-  concat [Attribute.name a, "='", Escape.escape (Attribute.value a), "'"]
+attribute attribute_ = concat
+  [ Attribute.name attribute_
+  , "='"
+  , Escape.escape (Attribute.value attribute_)
+  , "'"
+  ]
 
 nodes :: [Element.Node] -> String
 nodes = concatMap node
 
 node :: Element.Node -> String
-node n = case n of
-  Node.Content c -> Escape.escape c
-  Node.Element e -> element e
+node node_ = case node_ of
+  Node.Content content -> Escape.escape content
+  Node.Element element_ -> element element_
