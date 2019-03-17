@@ -7,6 +7,8 @@ agent:
 blocks:
   - name: Build
     task:
+      secrets:
+        - name: github
       jobs:
         - name: Job
           commands:
@@ -16,8 +18,8 @@ blocks:
             - cd output
             - git init
             - git add .
-            - git config user.email info@haskellweekly.news
-            - git config user.name 'Haskell Weekly'
+            - git config user.email taylor@fausak.me
+            - git config user.name 'Taylor Fausak'
             - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
-            - git remote add origin git@github.com:haskellweekly/podcast.git
+            - git remote add origin "https://tfausak:$GITHUB_TOKEN@github.com/haskellweekly/podcast.git"
             - git push --force --set-upstream origin master:gh-pages
