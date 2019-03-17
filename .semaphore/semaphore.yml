@@ -12,6 +12,7 @@ blocks:
           commands:
             - checkout
             - docker run --rm --volume "$(pwd):/root/podcast" --workdir /root/podcast alpine:3.9.2 sh -c 'apk add --no-cache cabal ghc musl-dev wget && cabal new-update && cabal new-build && cabal new-exec podcast'
+            - sudo chown -R "$USER" output
             - cd output
             - git init
             - git add .
