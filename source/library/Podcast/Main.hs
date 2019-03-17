@@ -58,10 +58,10 @@ episodeToHtml :: Episode.Episode -> String
 episodeToHtml episode = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
-    , Html.node "title" [] [Html.text (episodeTitle episode ++ " :: Haskell Weekly Podcast")]
+    , Html.node "title" [] [Html.text (episodeTitle episode ++ " :: Haskell Weekly podcast")]
     ]
   , Html.node "body" []
-    [ Html.node "h1" [] [Html.text "Haskell Weekly Podcast"]
+    [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
     , Html.node "h2" [] [Html.text (episodeTitle episode)]
     , Html.node "p" [] [Html.text (Description.toString (Episode.description episode))]
     , Html.node "audio"
@@ -78,7 +78,7 @@ episodesToRss root episodes = Xml.element "rss"
   [ Xml.node "channel" []
     ( Xml.node "title" [] [Xml.text "Haskell Weekly"]
     : Xml.node "link" [] [Xml.text (Url.toString root)]
-    : Xml.node "description" [] [Xml.text "Short, casual discussion about the Haskell programming language."]
+    : Xml.node "description" [] [Xml.text podcastDescription]
     : Xml.node "itunes:author" [] [Xml.text "Haskell Weekly"]
     : Xml.node "language" [] [Xml.text "en-US"]
     : Xml.node "itunes:explicit" [] [Xml.text "clean"]
@@ -112,10 +112,11 @@ index :: [Episode.Episode] -> String
 index episodes = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
-    , Html.node "title" [] [Html.text "Haskell Weekly Podcast"]
+    , Html.node "title" [] [Html.text "Haskell Weekly podcast"]
     ]
   , Html.node "body" []
-    [ Html.node "h1" [] [Html.text "Haskell Weekly Podcast"]
+    [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
+    , Html.node "p" [] [Html.text podcastDescription]
     , Html.node "p" []
       [Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]]
     , Html.node "ul" [] (map
@@ -144,3 +145,10 @@ formatSeconds seconds =
 episodeTitle :: Episode.Episode -> String
 episodeTitle episode =
   "Episode " ++ show (Number.toNatural (Episode.number episode))
+
+podcastDescription :: String
+podcastDescription =
+  "Haskell Weekly covers the Haskell progamming langauge. Listen to \
+  \professional software developers discuss using functional programming to \
+  \solve real-world business problems. Each episode uses a conversational two-\
+  \host format and runs for about 15 minutes."
