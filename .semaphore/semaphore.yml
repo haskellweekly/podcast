@@ -13,7 +13,7 @@ blocks:
             - checkout
             - docker run --rm --volume "$(pwd):/root/podcast" --workdir /root/podcast alpine:3.9.2 sh -c 'apk add --no-cache cabal ghc musl-dev wget && cabal new-update && cabal new-build && cabal new-exec podcast'
             - sudo chown -R "$USER" output
-            - cache store "output-$SEMAPHORE_GIT_SHA"
+            - cache store "output-$SEMAPHORE_GIT_SHA" output
 promotions:
   - name: Promotion
     pipeline_file: promotion.yml
