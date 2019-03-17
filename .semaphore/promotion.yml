@@ -18,6 +18,6 @@ blocks:
             - git add .
             - git config user.email taylor@fausak.me
             - git config user.name 'Taylor Fausak'
-            - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
+            - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA [skip ci]"
             - git remote add origin "https://tfausak:$GITHUB_TOKEN@github.com/haskellweekly/podcast.git"
             - git push --force --set-upstream origin master:gh-pages
