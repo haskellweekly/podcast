@@ -97,7 +97,7 @@ episodeToRssItem :: Url.Url -> Episode.Episode -> Xml.Node
 episodeToRssItem root episode = Xml.node "item" []
   [ Xml.node "title" [] [Xml.text (episodeTitle episode)]
   , Xml.node "link" [] [Xml.text (episodeLink root episode)]
-  , Xml.node "guid" [("isPermalink", "false")] [Xml.text (Guid.toString (Episode.guid episode))]
+  , Xml.node "guid" [("isPermaLink", "false")] [Xml.text (Guid.toString (Episode.guid episode))]
   , Xml.node "description" [] [Xml.text (Description.toString (Episode.description episode))]
   , Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
   , Xml.node "enclosure"
