@@ -79,9 +79,10 @@ episodesToRss root episodes = Xml.element "rss"
     ( Xml.node "title" [] [Xml.text "Haskell Weekly"]
     : Xml.node "link" [] [Xml.text (Url.toString root)]
     : Xml.node "description" [] [Xml.text podcastDescription]
-    : Xml.node "itunes:author" [] [Xml.text "Haskell Weekly"]
+    : Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
     : Xml.node "language" [] [Xml.text "en-US"]
     : Xml.node "itunes:explicit" [] [Xml.text "clean"]
+    : Xml.node "itunes:copyright" [] [Xml.text "\x2117 & \xa9 2019 Taylor Fausak"]
     : Xml.node "itunes:category" [("text", "Technology")] []
     : Xml.node "image" []
       [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
@@ -97,7 +98,7 @@ episodeToRssItem root episode = Xml.node "item" []
   , Xml.node "link" [] [Xml.text (episodeLink root episode)]
   , Xml.node "guid" [("isPermalink", "false")] [Xml.text (Guid.toString (Episode.guid episode))]
   , Xml.node "description" [] [Xml.text (Description.toString (Episode.description episode))]
-  , Xml.node "itunes:author" [] [Xml.text "Haskell Weekly"]
+  , Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
   , Xml.node "enclosure"
     [ ("type", "audio/mpeg")
     , ("length", show (Bytes.toNatural (Episode.size episode)))
