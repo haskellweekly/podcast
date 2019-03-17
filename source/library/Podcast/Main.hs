@@ -74,6 +74,7 @@ episodeToHtml episode = Html.render (Html.element "html" []
 episodesToRss :: Url.Url -> [Episode.Episode] -> Xml.Element
 episodesToRss root episodes = Xml.element "rss"
   [ ("version", "2.0")
+  , ("xmlns:atom", "http://www.w3.org/2005/Atom")
   , ("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
   ]
   [ Xml.node "channel" []
@@ -89,6 +90,12 @@ episodesToRss root episodes = Xml.element "rss"
       [ Xml.node "itunes:name" [] [Xml.text "Taylor Fausak"]
       , Xml.node "itunes:email" [] [Xml.text "taylor@fausak.me"]
       ]
+    : Xml.node "atom:link"
+      [ ("rel", "self")
+      , ("href", Url.toString root ++ "/feed.rss")
+      , ("type", "application/rss+xml")
+      ]
+      []
     : Xml.node "image" []
       [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
       , Xml.node "link" [] [Xml.text (Url.toString root)]
