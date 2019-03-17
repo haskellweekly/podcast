@@ -12,6 +12,7 @@ where
 import qualified Podcast.Type.Xml.Attribute as Attribute
 import qualified Podcast.Type.Xml.Element as Element
 import qualified Podcast.Type.Xml.Node as Node
+import qualified Podcast.Xml.Escape as Escape
 
 element :: String -> [(String, String)] -> [Element.Node] -> Element.Element
 element name attributes nodes = Element.Element
@@ -60,7 +61,7 @@ renderAttribute :: Attribute.Attribute -> String
 renderAttribute attribute_ = concat
   [ Attribute.name attribute_
   , "='"
-  , escape (Attribute.value attribute_)
+  , Escape.escape (Attribute.value attribute_)
   , "'"
   ]
 
@@ -69,17 +70,5 @@ renderNodes = concatMap renderNode
 
 renderNode :: Element.Node -> String
 renderNode node_ = case node_ of
-  Node.Content text_ -> escape text_
+  Node.Content text_ -> Escape.escape text_
   Node.Element element_ -> renderElement element_
-
-escape :: String -> String
-escape = concatMap escapeChar
-
-escapeChar :: Char -> String
-escapeChar char = case char of
-  '\x22' -> "&quot;"
-  '\x26' -> "&amp;"
-  '\x27' -> "&apos;"
-  '\x3c' -> "&lt;"
-  '\x3e' -> "&gt;"
-  _ -> [char]
