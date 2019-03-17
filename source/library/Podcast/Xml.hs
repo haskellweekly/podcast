@@ -1,6 +1,6 @@
 module Podcast.Xml
   ( Element.Element
-  , Node
+  , Element.Node
   , element
   , node
   , text
@@ -13,9 +13,7 @@ import qualified Podcast.Type.Xml.Attribute as Attribute
 import qualified Podcast.Type.Xml.Element as Element
 import qualified Podcast.Type.Xml.Node as Node
 
-type Node = Node.Node Element.Element
-
-element :: String -> [(String, String)] -> [Node] -> Element.Element
+element :: String -> [(String, String)] -> [Element.Node] -> Element.Element
 element name attributes nodes = Element.Element
   { Element.name = name
   , Element.attributes = map attribute attributes
@@ -28,10 +26,10 @@ attribute (name, value) = Attribute.Attribute
   , Attribute.value = value
   }
 
-node :: String -> [(String, String)] -> [Node] -> Node
+node :: String -> [(String, String)] -> [Element.Node] -> Element.Node
 node name attributes nodes = Node.Element (element name attributes nodes)
 
-text :: String -> Node
+text :: String -> Element.Node
 text = Node.Content
 
 render :: Element.Element -> String
@@ -66,10 +64,10 @@ renderAttribute attribute_ = concat
   , "'"
   ]
 
-renderNodes :: [Node] -> String
+renderNodes :: [Element.Node] -> String
 renderNodes = concatMap renderNode
 
-renderNode :: Node -> String
+renderNode :: Element.Node -> String
 renderNode node_ = case node_ of
   Node.Content text_ -> escape text_
   Node.Element element_ -> renderElement element_
