@@ -16,5 +16,7 @@ blocks:
             - cd output
             - git init
             - git add .
-            - git commit --author 'Semaphore CI <info@haskellweekly.news>' --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
+            - git config user.email info@haskellweekly.news
+            - git config user.name 'Haskell Weekly'
+            - git commit --message "Automatic deploy of $SEMAPHORE_GIT_SHA"
             - git push --force --set-upstream origin gh-pages
