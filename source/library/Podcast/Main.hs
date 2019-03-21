@@ -141,15 +141,14 @@ index episodes = Html.render (Html.element "html" []
       [ Html.node "li" []
         [ Html.node "a"
           [ ("href", "https://itunes.apple.com/us/podcast/haskell-weekly/id1456545040?mt=2&app=podcast")
-          , ( "style"
-            , "display:inline-block;\
-              \overflow:hidden;\
-              \background:url('https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2019-03-13T00:00:00Z&kind=podcast&bubble=apple_music') no-repeat;\
-              \width:165px;\
-              \height:40px;"
-            )
           ]
-          [Html.text ""]
+          [Html.node "img"
+            [ ("alt", "Listen on Apple Podcasts")
+            , ("src", "https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?kind=podcast")
+            , ("width", "165")
+            , ("height", "40")
+            ]
+            []]
         ]
       , Html.node "li" []
         [ Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]
