@@ -148,9 +148,12 @@ index episodes = Html.render (Html.element "html" []
           [Html.text ""]
         ]
       ]
+    , Html.node "h2" [] [Html.text "Episodes"]
     , Html.node "ul" [] (map
       (\ episode -> Html.node "li" []
-        [ Html.node "a"
+        [ Html.text (Time.toDateString (Episode.time episode))
+        , Html.text " "
+        , Html.node "a"
           [("href", episodePath "episodes" episode)]
           [Html.text (episodeTitle episode)]
         ])
