@@ -84,7 +84,7 @@ episodesToRss root episodes = Xml.element "rss"
     : Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
     : Xml.node "language" [] [Xml.text "en-US"]
     : Xml.node "itunes:explicit" [] [Xml.text "clean"]
-    : Xml.node "copyright" [] [Xml.text "\x2117 & \xa9 2019 Taylor Fausak"]
+    : Xml.node "copyright" [] [Xml.text "\xa9 2019 Taylor Fausak"]
     : Xml.node "itunes:category" [("text", "Technology")] []
     : Xml.node "itunes:owner" []
       [ Xml.node "itunes:name" [] [Xml.text "Taylor Fausak"]
