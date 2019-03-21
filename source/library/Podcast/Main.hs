@@ -130,8 +130,24 @@ index episodes = Html.render (Html.element "html" []
   , Html.node "body" []
     [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
     , Html.node "p" [] [Html.text podcastDescription]
-    , Html.node "p" []
-      [Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]]
+    , Html.node "ul" []
+      [ Html.node "li" []
+        [ Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]
+        ]
+      , Html.node "li" []
+        [ Html.node "a"
+          [ ("href", "https://itunes.apple.com/us/podcast/haskell-weekly/id1456545040?mt=2&app=podcast")
+          , ( "style"
+            , "display:inline-block;\
+              \overflow:hidden;\
+              \background:url('https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2019-03-13T00:00:00Z&kind=podcast&bubble=apple_music') no-repeat;\
+              \width:165px;\
+              \height:40px;"
+            )
+          ]
+          [Html.text ""]
+        ]
+      ]
     , Html.node "ul" [] (map
       (\ episode -> Html.node "li" []
         [ Html.node "a"
