@@ -20,7 +20,7 @@ episodes =
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
     <*> Number.fromNatural 2
     <*> pure (Bytes.fromNatural 21580339)
-    <*> Time.fromString "2019-03-18T12:00:00"
+    <*> Time.fromIso8601 "2019-03-18T12:00:00"
     <*> Url.fromString "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
   , Episode.Episode
     <$> Description.fromString "Cody Goodman and Taylor Fausak talk about handling exceptions in Haskell.\n\nhttps://markkarpov.com/tutorial/exceptions.html"
@@ -28,6 +28,6 @@ episodes =
     <*> Guid.fromString "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
     <*> Number.fromNatural 1
     <*> pure (Bytes.fromNatural 13999481)
-    <*> Time.fromString "2019-03-11T12:00:00"
+    <*> Time.fromIso8601 "2019-03-11T12:00:00"
     <*> Url.fromString "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
   ]

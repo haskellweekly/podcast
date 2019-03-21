@@ -118,7 +118,7 @@ episodeToRssItem root episode = Xml.node "item" []
     ]
     []
   , Xml.node "itunes:duration" [] [Xml.text (formatSeconds (Episode.duration episode))]
-  , Xml.node "pubDate" [] [Xml.text (Time.toString (Episode.time episode))]
+  , Xml.node "pubDate" [] [Xml.text (Time.toRfc822 (Episode.time episode))]
   ]
 
 index :: [Episode.Episode] -> String

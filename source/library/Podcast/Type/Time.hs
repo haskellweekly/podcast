@@ -1,7 +1,7 @@
 module Podcast.Type.Time
   ( Time
-  , fromString
-  , toString
+  , fromIso8601
+  , toRfc822
   )
 where
 
@@ -11,13 +11,13 @@ newtype Time
   = Time Time.UTCTime
   deriving (Eq, Ord, Show)
 
-fromString :: String -> Either String Time
-fromString string = case Time.parseTimeM False locale iso8601 string of
+fromIso8601 :: String -> Either String Time
+fromIso8601 string = case Time.parseTimeM False locale iso8601 string of
   Nothing -> Left ("invalid Time: " ++ show string)
   Just utcTime -> Right (Time utcTime)
 
-toString :: Time -> String
-toString (Time utcTime) = Time.formatTime locale rfc822 utcTime
+toRfc822 :: Time -> String
+toRfc822 (Time utcTime) = Time.formatTime locale rfc822 utcTime
 
 locale :: Time.TimeLocale
 locale = Time.defaultTimeLocale
