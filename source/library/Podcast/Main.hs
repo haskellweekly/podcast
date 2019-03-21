@@ -126,6 +126,13 @@ index episodes = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
     , Html.node "title" [] [Html.text "Haskell Weekly podcast"]
+    , Html.node "link"
+      [ ("href", "feed.rss")
+      , ("rel", "alternate")
+      , ("title", "Haskell Weekly podcast")
+      , ("type", "application/rss+xml")
+      ]
+      []
     ]
   , Html.node "body" []
     [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
