@@ -68,6 +68,11 @@ episodeToHtml episode = Html.render (Html.element "html" []
     , Html.node "audio"
       [("controls", ""), ("src", Url.toString (Episode.url episode))]
       [Html.text ""]
+    , Html.node "p" []
+      [ Html.text "Published on "
+      , Html.text (Time.toDateString (Episode.time episode))
+      , Html.text "."
+      ]
     ]
   ])
 
@@ -125,6 +130,10 @@ index :: [Episode.Episode] -> String
 index episodes = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
+    , Html.node "meta"
+      [ ("name", "viewport")
+      , ("content", "initial-scale = 1, width = device-width")
+      ] []
     , Html.node "title" [] [Html.text "Haskell Weekly podcast"]
     , Html.node "link"
       [ ("href", "feed.rss")
@@ -136,6 +145,7 @@ index episodes = Html.render (Html.element "html" []
     ]
   , Html.node "body" []
     [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
+    , Html.node "div" [("style", "width:100px;height:100px;background:#5c3566")] [logoSvg]
     , Html.node "p" [] [Html.text podcastDescription]
     , Html.node "ul" []
       [ Html.node "li" []
@@ -195,3 +205,19 @@ writeFileUTF8 :: FilePath -> String -> IO ()
 writeFileUTF8 file contents = IO.withFile file IO.WriteMode (\ handle -> do
   IO.hSetEncoding handle IO.utf8
   IO.hPutStr handle contents)
+
+logoSvg :: Xml.Node
+logoSvg = Xml.node "svg"
+  [ ("xmlns", "http://www.w3.org/2000/svg")
+  , ("viewBox", "0 0 100 100")
+  ]
+  [ Xml.node "path"
+    [ ("fill", "#fff")
+    , ("opacity", "0.8")
+    , ("d", "M80.8 49.9l-19 28.4H76l19-28.4zm-61.6 0l19 28.4H24L5 49.9z")
+    ] []
+  , Xml.node "path"
+    [ ("fill", "#fff")
+    , ("d", "M24 78.3l19-28.4-19-28.4h14.2l38 56.8H61.8L50 60.5l-11.8 18H24zm0 0")
+    ] []
+  ]
