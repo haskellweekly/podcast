@@ -132,9 +132,6 @@ index episodes = Html.render (Html.element "html" []
     , Html.node "p" [] [Html.text podcastDescription]
     , Html.node "ul" []
       [ Html.node "li" []
-        [ Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]
-        ]
-      , Html.node "li" []
         [ Html.node "a"
           [ ("href", "https://itunes.apple.com/us/podcast/haskell-weekly/id1456545040?mt=2&app=podcast")
           , ( "style"
@@ -146,6 +143,9 @@ index episodes = Html.render (Html.element "html" []
             )
           ]
           [Html.text ""]
+        ]
+      , Html.node "li" []
+        [ Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]
         ]
       ]
     , Html.node "h2" [] [Html.text "Episodes"]
