@@ -30,9 +30,14 @@ defaultMain = do
   Directory.createDirectoryIfMissing True output
   Directory.createDirectoryIfMissing True directory
 
-  Directory.copyFile
-    (FilePath.combine input "logo.png")
-    (FilePath.combine output "logo.png")
+  mapM_
+    (\ file -> Directory.copyFile
+      (FilePath.combine input file)
+      (FilePath.combine output file))
+    [ "listen-on-apple-podcasts.svg"
+    , "listen-on-google-podcasts.svg"
+    , "logo.png"
+    ]
 
   mapM_
     (\ episode -> writeFileUTF8
@@ -154,9 +159,9 @@ index episodes = Html.render (Html.element "html" []
           ]
           [ Html.node "img"
             [ ("alt", "Listen on Apple Podcasts")
-            , ("src", "https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?kind=podcast")
-            , ("width", "165")
-            , ("height", "40")
+            , ("src", "listen-on-apple-podcasts.svg")
+            , ("width", "200")
+            , ("height", "49")
             ] []
           ]
         ]
@@ -165,10 +170,10 @@ index episodes = Html.render (Html.element "html" []
           [ ("href", "https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&isi=691797987&ius=googleplaymusic&apn=com.google.android.music&link=https://play.google.com/music/m/Irjo4hxyfeiid3zhasycmgs3o2q?t%3DHaskell_Weekly%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16")
           ]
           [ Html.node "img"
-            [ ("alt", "Listen on Google Play Music")
-            , ("src", "https://play.google.com/intl/en_us/badges-music/images/badges/en_badge_web_music.png")
-            , ("width", "125px")
-            , ("height", "46px")
+            [ ("alt", "Listen on Google Podcasts")
+            , ("src", "listen-on-google-podcasts.svg")
+            , ("width", "200")
+            , ("height", "51")
             ] []
           ]
         ]
