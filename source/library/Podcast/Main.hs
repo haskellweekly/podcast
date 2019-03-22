@@ -152,13 +152,25 @@ index episodes = Html.render (Html.element "html" []
         [ Html.node "a"
           [ ("href", "https://itunes.apple.com/us/podcast/haskell-weekly/id1456545040?mt=2&app=podcast")
           ]
-          [Html.node "img"
+          [ Html.node "img"
             [ ("alt", "Listen on Apple Podcasts")
             , ("src", "https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?kind=podcast")
             , ("width", "165")
             , ("height", "40")
-            ]
-            []]
+            ] []
+          ]
+        ]
+      , Html.node "li" []
+        [ Html.node "a"
+          [ ("href", "https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&amp;isi=691797987&amp;ius=googleplaymusic&amp;apn=com.google.android.music&amp;link=https://play.google.com/music/m/Irjo4hxyfeiid3zhasycmgs3o2q?t%3DHaskell_Weekly%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16")
+          ]
+          [ Html.node "img"
+            [ ("alt", "Listen on Google Play Music")
+            , ("src", "https://play.google.com/intl/en_us/badges-music/images/badges/en_badge_web_music.png")
+            , ("width", "125px")
+            , ("height", "46px")
+            ] []
+          ]
         ]
       , Html.node "li" []
         [ Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]
