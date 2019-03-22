@@ -50,7 +50,7 @@ defaultMain = do
     (FilePath.combine output "feed.rss")
     (Xml.render (episodesToRss root episodes))
 
-  writeFileUTF8 (FilePath.combine output "index.html") (index episodes)
+  writeFileUTF8 (FilePath.combine output "index.html") (index root episodes)
 
 episodePath :: FilePath -> Episode.Episode -> FilePath
 episodePath directory episode =
@@ -131,8 +131,8 @@ episodeToRssItem root episode = Xml.node "item" []
   , Xml.node "pubDate" [] [Xml.text (Time.toRfc822 (Episode.time episode))]
   ]
 
-index :: [Episode.Episode] -> String
-index episodes = Html.render (Html.element "html" []
+index :: Url.Url -> [Episode.Episode] -> String
+index root episodes = Html.render (Html.element "html" []
   [ Html.node "head" []
     [ Html.node "meta" [("charset", "utf-8")] []
     , Html.node "meta"
@@ -141,7 +141,7 @@ index episodes = Html.render (Html.element "html" []
       ] []
     , Html.node "title" [] [Html.text "Haskell Weekly podcast"]
     , Html.node "link"
-      [ ("href", "feed.rss")
+      [ ("href", Url.toString root ++ "feed.rss")
       , ("rel", "alternate")
       , ("title", "Haskell Weekly podcast")
       , ("type", "application/rss+xml")
@@ -159,7 +159,7 @@ index episodes = Html.render (Html.element "html" []
           ]
           [ Html.node "img"
             [ ("alt", "Listen on Apple Podcasts")
-            , ("src", "listen-on-apple-podcasts.svg")
+            , ("src", Url.toString root ++ "listen-on-apple-podcasts.svg")
             , ("width", "200")
             , ("height", "49")
             ] []
@@ -171,7 +171,7 @@ index episodes = Html.render (Html.element "html" []
           ]
           [ Html.node "img"
             [ ("alt", "Listen on Google Podcasts")
-            , ("src", "listen-on-google-podcasts.svg")
+            , ("src", Url.toString root ++ "listen-on-google-podcasts.svg")
             , ("width", "200")
             , ("height", "51")
             ] []
