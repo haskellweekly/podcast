@@ -141,7 +141,7 @@ index root episodes = Html.render (Html.element "html" []
       ] []
     , Html.node "title" [] [Html.text "Haskell Weekly podcast"]
     , Html.node "link"
-      [ ("href", Url.toString root ++ "feed.rss")
+      [ ("href", Url.toString root ++ "/feed.rss")
       , ("rel", "alternate")
       , ("title", "Haskell Weekly podcast")
       , ("type", "application/rss+xml")
@@ -159,7 +159,7 @@ index root episodes = Html.render (Html.element "html" []
           ]
           [ Html.node "img"
             [ ("alt", "Listen on Apple Podcasts")
-            , ("src", Url.toString root ++ "listen-on-apple-podcasts.svg")
+            , ("src", Url.toString root ++ "/listen-on-apple-podcasts.svg")
             , ("width", "200")
             , ("height", "49")
             ] []
@@ -171,7 +171,7 @@ index root episodes = Html.render (Html.element "html" []
           ]
           [ Html.node "img"
             [ ("alt", "Listen on Google Podcasts")
-            , ("src", Url.toString root ++ "listen-on-google-podcasts.svg")
+            , ("src", Url.toString root ++ "/listen-on-google-podcasts.svg")
             , ("width", "200")
             , ("height", "51")
             ] []
