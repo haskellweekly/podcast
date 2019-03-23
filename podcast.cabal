@@ -37,6 +37,7 @@ library
     Podcast.Type.Episode
     Podcast.Type.Guid
     Podcast.Type.Number
+    Podcast.Type.Route
     Podcast.Type.Seconds
     Podcast.Type.Time
     Podcast.Type.Url

@@ -10,6 +10,7 @@ import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
+import qualified Podcast.Type.Route as Route
 import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
@@ -25,39 +26,33 @@ defaultMain = do
   let
     input = "input"
     output = "output"
-    directory = FilePath.combine output "episodes"
   Directory.createDirectoryIfMissing True output
-  Directory.createDirectoryIfMissing True directory
+  Directory.createDirectoryIfMissing True (FilePath.combine output "episodes")
 
   mapM_
     (\ file -> Directory.copyFile
       (FilePath.combine input file)
       (FilePath.combine output file))
-    [ "listen-on-apple-podcasts.svg"
-    , "listen-on-google-podcasts.svg"
-    , "logo.png"
+    [ Route.toFilePath Route.AppleBadge
+    , Route.toFilePath Route.GoogleBadge
+    , Route.toFilePath Route.Logo
     ]
 
   mapM_
     (\ episode -> writeFileUTF8
-      (episodePath directory episode)
+      (episodePath episode)
       (episodeToHtml episode))
     episodes
 
   -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
   writeFileUTF8
-    (FilePath.combine output "feed.rss")
+    (FilePath.combine output (Route.toFilePath Route.Feed))
     (Xml.render (episodesToRss root episodes))
 
-  writeFileUTF8 (FilePath.combine output "index.html") (index root episodes)
+  writeFileUTF8 (FilePath.combine output (Route.toFilePath Route.Index)) (index root episodes)
 
-episodePath :: FilePath -> Episode.Episode -> FilePath
-episodePath directory episode =
-  FilePath.combine
-    directory
-    (FilePath.addExtension
-      (Number.toString (Episode.number episode))
-      "html")
+episodePath :: Episode.Episode -> FilePath
+episodePath episode = Route.toFilePath (Route.Episode (Episode.number episode))
 
 episodeToHtml :: Episode.Episode -> String
 episodeToHtml episode = Html.render (Html.element "html" []
@@ -101,14 +96,14 @@ episodesToRss root episodes = Xml.element "rss"
       ]
     : Xml.node "atom:link"
       [ ("rel", "self")
-      , ("href", Url.toString root ++ "/feed.rss")
+      , ("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))
       , ("type", "application/rss+xml")
       ]
       []
     : Xml.node "image" []
       [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
       , Xml.node "link" [] [Xml.text (Url.toString root)]
-      , Xml.node "url" [] [Xml.text (Url.toString root ++ "/logo.png")]
+      , Xml.node "url" [] [Xml.text (Url.toString (Url.combine root (Route.toUrl Route.Logo)))]
       ]
     : map (episodeToRssItem root) episodes)
   ]
@@ -140,7 +135,7 @@ index root episodes = Html.render (Html.element "html" []
       ] []
     , Html.node "title" [] [Html.text "Haskell Weekly podcast"]
     , Html.node "link"
-      [ ("href", Url.toString root ++ "/feed.rss")
+      [ ("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))
       , ("rel", "alternate")
       , ("title", "Haskell Weekly podcast")
       , ("type", "application/rss+xml")
@@ -158,7 +153,7 @@ index root episodes = Html.render (Html.element "html" []
           ]
           [ Html.node "img"
             [ ("alt", "Listen on Apple Podcasts")
-            , ("src", Url.toString root ++ "/listen-on-apple-podcasts.svg")
+            , ("src", Url.toString (Url.combine root (Route.toUrl Route.AppleBadge)))
             , ("width", "200")
             , ("height", "49")
             ] []
@@ -170,14 +165,14 @@ index root episodes = Html.render (Html.element "html" []
           ]
           [ Html.node "img"
             [ ("alt", "Listen on Google Podcasts")
-            , ("src", Url.toString root ++ "/listen-on-google-podcasts.svg")
+            , ("src", Url.toString (Url.combine root (Route.toUrl Route.GoogleBadge)))
             , ("width", "200")
             , ("height", "51")
             ] []
           ]
         ]
       , Html.node "li" []
-        [ Html.node "a" [("href", "feed.rss")] [Html.text "RSS feed"]
+        [ Html.node "a" [("href", Route.toFilePath Route.Feed)] [Html.text "RSS feed"]
         ]
       ]
     , Html.node "h2" [] [Html.text "Episodes"]
@@ -186,7 +181,7 @@ index root episodes = Html.render (Html.element "html" []
         [ Html.text (Time.toDateString (Episode.time episode))
         , Html.text " "
         , Html.node "a"
-          [("href", episodePath "episodes" episode)]
+          [("href", episodePath episode)]
           [Html.text (episodeTitle episode)]
         ])
       episodes)
@@ -194,12 +189,7 @@ index root episodes = Html.render (Html.element "html" []
   ])
 
 episodeLink :: Url.Url -> Episode.Episode -> String
-episodeLink root episode = concat
-  [ Url.toString root
-  , "/episodes/"
-  , Number.toString (Episode.number episode)
-  , ".html"
-  ]
+episodeLink root episode = Url.toString (Url.combine root (Route.toUrl (Route.Episode (Episode.number episode))))
 
 episodeTitle :: Episode.Episode -> String
 episodeTitle episode =
