@@ -2,6 +2,7 @@ module Podcast.Type.Bytes
   ( Bytes
   , fromNatural
   , toNatural
+  , toString
   )
 where
 
@@ -16,3 +17,6 @@ fromNatural = Bytes
 
 toNatural :: Bytes -> Natural.Natural
 toNatural (Bytes natural) = natural
+
+toString :: Bytes -> String
+toString bytes = show (toNatural bytes)

@@ -2,6 +2,7 @@ module Podcast.Type.Number
   ( Number
   , fromNatural
   , toNatural
+  , toString
   )
 where
 
@@ -18,3 +19,6 @@ fromNatural natural = if natural == 0
 
 toNatural :: Number -> Natural.Natural
 toNatural (Number natural) = natural
+
+toString :: Number -> String
+toString number = show (toNatural number)

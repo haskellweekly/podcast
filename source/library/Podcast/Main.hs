@@ -17,7 +17,6 @@ import qualified Podcast.Xml as Xml
 import qualified System.Directory as Directory
 import qualified System.FilePath as FilePath
 import qualified System.IO as IO
-import qualified Text.Printf as Printf
 
 defaultMain :: IO ()
 defaultMain = do
@@ -57,7 +56,7 @@ episodePath directory episode =
   FilePath.combine
     directory
     (FilePath.addExtension
-      (show (Number.toNatural (Episode.number episode)))
+      (Number.toString (Episode.number episode))
       "html")
 
 episodeToHtml :: Episode.Episode -> String
@@ -123,11 +122,11 @@ episodeToRssItem root episode = Xml.node "item" []
   , Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
   , Xml.node "enclosure"
     [ ("type", "audio/mpeg")
-    , ("length", show (Bytes.toNatural (Episode.size episode)))
+    , ("length", Bytes.toString (Episode.size episode))
     , ("url", Url.toString (Episode.url episode))
     ]
     []
-  , Xml.node "itunes:duration" [] [Xml.text (formatSeconds (Episode.duration episode))]
+  , Xml.node "itunes:duration" [] [Xml.text (Seconds.toString (Episode.duration episode))]
   , Xml.node "pubDate" [] [Xml.text (Time.toRfc822 (Episode.time episode))]
   ]
 
@@ -198,18 +197,13 @@ episodeLink :: Url.Url -> Episode.Episode -> String
 episodeLink root episode = concat
   [ Url.toString root
   , "/episodes/"
-  , show (Number.toNatural (Episode.number episode))
+  , Number.toString (Episode.number episode)
   , ".html"
   ]
 
-formatSeconds :: Seconds.Seconds -> String
-formatSeconds seconds =
-  let (m, s) = quotRem (Seconds.toNatural seconds) 60
-  in Printf.printf "%d:%02d" m s
-
 episodeTitle :: Episode.Episode -> String
 episodeTitle episode =
-  "Episode " ++ show (Number.toNatural (Episode.number episode))
+  "Episode " ++ Number.toString (Episode.number episode)
 
 podcastDescription :: String
 podcastDescription =
@@ -231,10 +225,10 @@ logoSvg = Xml.node "svg"
   [ Xml.node "path"
     [ ("fill", "#fff")
     , ("opacity", "0.8")
-    , ("d", "M80.8 49.9l-19 28.4H76l19-28.4zm-61.6 0l19 28.4H24L5 49.9z")
+    , ("d", "M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z")
     ] []
   , Xml.node "path"
     [ ("fill", "#fff")
-    , ("d", "M24 78.3l19-28.4-19-28.4h14.2l38 56.8H61.8L50 60.5l-11.8 18H24zm0 0")
+    , ("d", "M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0")
     ] []
   ]
