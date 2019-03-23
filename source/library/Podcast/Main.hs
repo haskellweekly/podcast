@@ -61,7 +61,7 @@ makeSite root episodes =
   (Route.toFilePath Route.Index, pure (toUtf8 (index root episodes)))
   : (Route.toFilePath Route.AppleBadge, ByteString.readFile "input/listen-on-apple-podcasts.svg")
   : (Route.toFilePath Route.GoogleBadge, ByteString.readFile "input/listen-on-google-podcasts.svg")
-  : (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.svg")
+  : (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.png")
   : (Route.toFilePath Route.Feed, pure (toUtf8 (Xml.render (episodesToRss root episodes))))
   : map
     (\ episode ->
