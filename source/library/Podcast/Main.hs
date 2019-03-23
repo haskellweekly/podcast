@@ -3,6 +3,7 @@ module Podcast.Main
   )
 where
 
+import qualified Data.Maybe as Maybe
 import qualified Podcast.Episodes as Episodes
 import qualified Podcast.Html as Html
 import qualified Podcast.Type.Bytes as Bytes
@@ -16,12 +17,14 @@ import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
 import qualified System.Directory as Directory
+import qualified System.Environment as Environment
 import qualified System.FilePath as FilePath
 import qualified System.IO as IO
 
 defaultMain :: IO ()
 defaultMain = do
-  root <- either fail pure (Url.fromString "https://haskellweekly.news/podcast/")
+  maybeRoot <- Environment.lookupEnv "ROOT_URL"
+  root <- either fail pure (Url.fromString (Maybe.fromMaybe "./" maybeRoot))
   episodes <- either fail pure (sequence Episodes.episodes)
   let
     input = "input"

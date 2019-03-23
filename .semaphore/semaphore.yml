@@ -7,6 +7,9 @@ agent:
 blocks:
   - name: Block
     task:
+      env_vars:
+        - name: ROOT_URL
+          value: https://haskellweekly.news/podcast/
       jobs:
         - name: Job
           commands:
