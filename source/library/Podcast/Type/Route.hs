@@ -16,7 +16,7 @@ data Route
   | GoogleBadge
   | Index
   | Logo
-  deriving (Eq, Show)
+  deriving (Eq, Ord, Show)
 
 toFilePath :: Route -> FilePath
 toFilePath route = case route of

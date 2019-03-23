@@ -3,7 +3,10 @@ module Podcast.Main
   )
 where
 
+import qualified Data.ByteString as ByteString
 import qualified Data.Maybe as Maybe
+import qualified Data.Text as Text
+import qualified Data.Text.Encoding as Encoding
 import qualified Podcast.Episodes as Episodes
 import qualified Podcast.Html as Html
 import qualified Podcast.Type.Bytes as Bytes
@@ -19,43 +22,51 @@ import qualified Podcast.Xml as Xml
 import qualified System.Directory as Directory
 import qualified System.Environment as Environment
 import qualified System.FilePath as FilePath
-import qualified System.IO as IO
 
 defaultMain :: IO ()
 defaultMain = do
-  maybeRoot <- Environment.lookupEnv "ROOT_URL"
-  root <- either fail pure (Url.fromString (Maybe.fromMaybe "./" maybeRoot))
-  episodes <- either fail pure (sequence Episodes.episodes)
-  let
-    input = "input"
-    output = "output"
-  Directory.createDirectoryIfMissing True output
-  Directory.createDirectoryIfMissing True (FilePath.combine output "episodes")
+  let output = "output"
+  Directory.removePathForcibly output
+
+  root <- getRootUrl
+  episodes <- getEpisodes
+  let site = makeSite root episodes
 
   mapM_
-    (\ file -> Directory.copyFile
-      (FilePath.combine input file)
-      (FilePath.combine output file))
-    [ Route.toFilePath Route.AppleBadge
-    , Route.toFilePath Route.GoogleBadge
-    , Route.toFilePath Route.Logo
-    ]
+    (\ (file, generate) -> do
+      let path = FilePath.combine output file
+      Directory.createDirectoryIfMissing True (FilePath.takeDirectory path)
+      contents <- generate
+      ByteString.writeFile path contents)
+    site
 
-  mapM_
-    (\ episode -> writeFileUTF8
-      (episodePath output episode)
-      (episodeToHtml episode))
+getRootUrl :: IO Url.Url
+getRootUrl = do
+  maybeString <- Environment.lookupEnv "ROOT_URL"
+  fromRight (Url.fromString (Maybe.fromMaybe "./" maybeString))
+
+getEpisodes :: IO [Episode.Episode]
+getEpisodes = fromRight (sequence Episodes.episodes)
+
+fromRight :: Either String a -> IO a
+fromRight = either fail pure
+
+makeSite :: Url.Url -> [Episode.Episode] -> [(FilePath, IO ByteString.ByteString)]
+makeSite root episodes =
+  (Route.toFilePath Route.Index, pure (toUtf8 (index root episodes)))
+  : (Route.toFilePath Route.AppleBadge, ByteString.readFile "input/listen-on-apple-podcasts.svg")
+  : (Route.toFilePath Route.GoogleBadge, ByteString.readFile "input/listen-on-google-podcasts.svg")
+  : (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.svg")
+  : (Route.toFilePath Route.Feed, pure (toUtf8 (Xml.render (episodesToRss root episodes))))
+  : map
+    (\ episode ->
+      ( Route.toFilePath (Route.Episode (Episode.number episode))
+      , pure (toUtf8 (episodeToHtml episode))
+      ))
     episodes
 
-  -- https://help.apple.com/itc/podcasts_connect/#/itcbaf351599
-  writeFileUTF8
-    (FilePath.combine output (Route.toFilePath Route.Feed))
-    (Xml.render (episodesToRss root episodes))
-
-  writeFileUTF8 (FilePath.combine output (Route.toFilePath Route.Index)) (index root episodes)
-
-episodePath :: FilePath -> Episode.Episode -> FilePath
-episodePath output episode = FilePath.combine output (Route.toFilePath (Route.Episode (Episode.number episode)))
+toUtf8 :: String -> ByteString.ByteString
+toUtf8 string = Encoding.encodeUtf8 (Text.pack string)
 
 episodeToHtml :: Episode.Episode -> String
 episodeToHtml episode = Html.render (Html.element "html" []
@@ -204,11 +215,6 @@ podcastDescription =
   \professional software developers discuss using functional programming to \
   \solve real-world business problems. Each episode uses a conversational two-\
   \host format and runs for about 15 minutes."
-
-writeFileUTF8 :: FilePath -> String -> IO ()
-writeFileUTF8 file contents = IO.withFile file IO.WriteMode (\ handle -> do
-  IO.hSetEncoding handle IO.utf8
-  IO.hPutStr handle contents)
 
 logoSvg :: Xml.Node
 logoSvg = Xml.node "svg"
