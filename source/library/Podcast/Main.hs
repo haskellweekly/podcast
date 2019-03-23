@@ -5,6 +5,7 @@ where
 
 import qualified Data.ByteString as ByteString
 import qualified Data.Maybe as Maybe
+import qualified Data.Set as Set
 import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Encoding
 import qualified Podcast.Episodes as Episodes
@@ -33,11 +34,15 @@ defaultMain = do
   let site = makeSite root episodes
 
   mapM_
+    (Directory.createDirectoryIfMissing True)
+    (Set.fromList (map
+      (\ (file, _) -> FilePath.takeDirectory (FilePath.combine output file))
+      site))
+
+  mapM_
     (\ (file, generate) -> do
-      let path = FilePath.combine output file
-      Directory.createDirectoryIfMissing True (FilePath.takeDirectory path)
       contents <- generate
-      ByteString.writeFile path contents)
+      ByteString.writeFile (FilePath.combine output file) contents)
     site
 
 getRootUrl :: IO Url.Url
