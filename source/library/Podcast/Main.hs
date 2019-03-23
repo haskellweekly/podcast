@@ -27,14 +27,14 @@ import qualified System.FilePath as FilePath
 defaultMain :: IO ()
 defaultMain = do
   let output = "output"
-  Directory.removePathForcibly output
+  removeDirectory output
 
   root <- getRootUrl
   episodes <- getEpisodes
   let site = makeSite root episodes
 
   mapM_
-    (Directory.createDirectoryIfMissing True)
+    createDirectory
     (Set.fromList (map
       (\ (file, _) -> FilePath.takeDirectory (FilePath.combine output file))
       site))
@@ -44,6 +44,12 @@ defaultMain = do
       contents <- generate
       ByteString.writeFile (FilePath.combine output file) contents)
     site
+
+removeDirectory :: FilePath -> IO ()
+removeDirectory = Directory.removePathForcibly
+
+createDirectory :: FilePath -> IO ()
+createDirectory = Directory.createDirectoryIfMissing True
 
 getRootUrl :: IO Url.Url
 getRootUrl = do
