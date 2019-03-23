@@ -4,13 +4,13 @@ module Podcast.Xml.Render
   , attribute
   , nodes
   , node
+  , text
   )
 where
 
 import qualified Podcast.Type.Xml.Attribute as Attribute
 import qualified Podcast.Type.Xml.Element as Element
 import qualified Podcast.Type.Xml.Node as Node
-import qualified Podcast.Xml.Escape as Escape
 
 element :: Element.Element -> String
 element element_ =
@@ -34,7 +34,7 @@ attribute :: Attribute.Attribute -> String
 attribute attribute_ = concat
   [ Attribute.name attribute_
   , "='"
-  , Escape.escape (Attribute.value attribute_)
+  , text (Attribute.value attribute_)
   , "'"
   ]
 
@@ -43,5 +43,17 @@ nodes = concatMap node
 
 node :: Element.Node -> String
 node node_ = case node_ of
-  Node.Content content -> Escape.escape content
+  Node.Content content -> text content
   Node.Element element_ -> element element_
+
+text :: String -> String
+text = concatMap escape
+
+escape :: Char -> String
+escape char = case char of
+  '\x22' -> "&quot;"
+  '\x26' -> "&amp;"
+  '\x27' -> "&apos;"
+  '\x3c' -> "&lt;"
+  '\x3e' -> "&gt;"
+  _ -> [char]
