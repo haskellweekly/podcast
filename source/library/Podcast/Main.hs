@@ -21,7 +21,7 @@ import qualified System.IO as IO
 
 defaultMain :: IO ()
 defaultMain = do
-  root <- either fail pure (Url.fromString "https://haskellweekly.news/podcast")
+  root <- either fail pure (Url.fromString "https://haskellweekly.news/podcast/")
   episodes <- either fail pure (sequence Episodes.episodes)
   let
     input = "input"
@@ -40,7 +40,7 @@ defaultMain = do
 
   mapM_
     (\ episode -> writeFileUTF8
-      (episodePath episode)
+      (episodePath output episode)
       (episodeToHtml episode))
     episodes
 
@@ -51,8 +51,8 @@ defaultMain = do
 
   writeFileUTF8 (FilePath.combine output (Route.toFilePath Route.Index)) (index root episodes)
 
-episodePath :: Episode.Episode -> FilePath
-episodePath episode = Route.toFilePath (Route.Episode (Episode.number episode))
+episodePath :: FilePath -> Episode.Episode -> FilePath
+episodePath output episode = FilePath.combine output (Route.toFilePath (Route.Episode (Episode.number episode)))
 
 episodeToHtml :: Episode.Episode -> String
 episodeToHtml episode = Html.render (Html.element "html" []
@@ -181,7 +181,7 @@ index root episodes = Html.render (Html.element "html" []
         [ Html.text (Time.toDateString (Episode.time episode))
         , Html.text " "
         , Html.node "a"
-          [("href", episodePath episode)]
+          [("href", episodeLink root episode)]
           [Html.text (episodeTitle episode)]
         ])
       episodes)
