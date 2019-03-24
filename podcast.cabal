@@ -47,6 +47,7 @@ library
     Podcast.Type.Number
     Podcast.Type.Route
     Podcast.Type.Seconds
+    Podcast.Type.Source
     Podcast.Type.Time
     Podcast.Type.Url
     Podcast.Type.Xml.Attribute

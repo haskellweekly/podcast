@@ -16,6 +16,7 @@ import qualified Podcast.Site.Feed as Feed
 import qualified Podcast.Site.Index as Index
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Route as Route
+import qualified Podcast.Type.Source as Source
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
 import qualified System.Directory as Directory
@@ -34,21 +35,24 @@ defaultMain = do
   createDirectories output site
   createFiles output site
 
-createDirectories :: FilePath -> [(Route.Route, a)] -> IO ()
+createDirectories :: FilePath -> [(Route.Route, source)] -> IO ()
 createDirectories directory site = Foldable.traverse_
   createDirectory
   (Set.fromList (map (getDirectory directory) site))
 
-getDirectory :: FilePath -> (Route.Route, a) -> FilePath
+getDirectory :: FilePath -> (Route.Route, source) -> FilePath
 getDirectory directory (route, _) =
   FilePath.takeDirectory (buildRoute directory route)
 
-createFiles :: FilePath -> [(Route.Route, IO ByteString.ByteString)] -> IO ()
+createFiles :: FilePath -> [(Route.Route, Source.Source)] -> IO ()
 createFiles directory site = Foldable.traverse_ (createFile directory) site
 
-createFile :: FilePath -> (Route.Route, IO ByteString.ByteString) -> IO ()
-createFile directory (route, generate) = do
-  contents <- generate
+createFile :: FilePath -> (Route.Route, Source.Source) -> IO ()
+createFile directory (route, source) = do
+  contents <- case source of
+    Source.File file -> ByteString.readFile (FilePath.combine "input" file)
+    Source.Html html -> pure (toUtf8 (Html.render html))
+    Source.Xml xml -> pure (toUtf8 (Xml.render xml))
   ByteString.writeFile (buildRoute directory route) contents
 
 buildRoute :: FilePath -> Route.Route -> FilePath
@@ -72,8 +76,7 @@ getEpisodes = fromRight (sequence Episodes.episodes)
 fromRight :: Either String a -> IO a
 fromRight = either fail pure
 
-makeSite
-  :: Url.Url -> [Episode.Episode] -> [(Route.Route, IO ByteString.ByteString)]
+makeSite :: Url.Url -> [Episode.Episode] -> [(Route.Route, Source.Source)]
 makeSite root episodes =
   makeAppleBadge
     : makeFeed root episodes
@@ -85,48 +88,29 @@ makeSite root episodes =
 toUtf8 :: String -> ByteString.ByteString
 toUtf8 string = Encoding.encodeUtf8 (Text.pack string)
 
-makeAppleBadge :: (Route.Route, IO ByteString.ByteString)
+makeAppleBadge :: (Route.Route, Source.Source)
 makeAppleBadge =
-  (Route.AppleBadge, ByteString.readFile "input/listen-on-apple-podcasts.svg")
+  (Route.AppleBadge, Source.File "listen-on-apple-podcasts.svg")
 
-makeFeed
-  :: Applicative f
-  => Url.Url
-  -> [Episode.Episode]
-  -> (Route.Route, f ByteString.ByteString)
-makeFeed root episodes =
-  (Route.Feed, pure (toUtf8 (Xml.render (Feed.rss root episodes))))
+makeFeed :: Url.Url -> [Episode.Episode] -> (Route.Route, Source.Source)
+makeFeed root episodes = (Route.Feed, Source.Xml (Feed.rss root episodes))
 
-makeGoogleBadge :: (Route.Route, IO ByteString.ByteString)
+makeGoogleBadge :: (Route.Route, Source.Source)
 makeGoogleBadge =
-  ( Route.GoogleBadge
-  , ByteString.readFile "input/listen-on-google-podcasts.svg"
-  )
+  (Route.GoogleBadge, Source.File "listen-on-google-podcasts.svg")
 
-makeIndex
-  :: Applicative f
-  => Url.Url
-  -> [Episode.Episode]
-  -> (Route.Route, f ByteString.ByteString)
+makeIndex :: Url.Url -> [Episode.Episode] -> (Route.Route, Source.Source)
 makeIndex root episodes =
-  (Route.Index, pure (toUtf8 (Html.render (Index.html root episodes))))
+  (Route.Index, Source.Html (Index.html root episodes))
 
-makeLogo :: (Route.Route, IO ByteString.ByteString)
-makeLogo = (Route.Logo, ByteString.readFile "input/logo.png")
+makeLogo :: (Route.Route, Source.Source)
+makeLogo = (Route.Logo, Source.File "logo.png")
 
-makeEpisodes
-  :: Applicative f
-  => Url.Url
-  -> [Episode.Episode]
-  -> [(Route.Route, f ByteString.ByteString)]
+makeEpisodes :: Url.Url -> [Episode.Episode] -> [(Route.Route, Source.Source)]
 makeEpisodes root = map (makeEpisode root)
 
-makeEpisode
-  :: Applicative f
-  => Url.Url
-  -> Episode.Episode
-  -> (Route.Route, f ByteString.ByteString)
+makeEpisode :: Url.Url -> Episode.Episode -> (Route.Route, Source.Source)
 makeEpisode root episode =
   ( Route.Episode (Episode.number episode)
-  , pure (toUtf8 (Html.render (Site.Episode.html root episode)))
+  , Source.Html (Site.Episode.html root episode)
   )
