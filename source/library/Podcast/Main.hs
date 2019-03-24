@@ -4,6 +4,7 @@ module Podcast.Main
 where
 
 import qualified Data.ByteString as ByteString
+import qualified Data.Foldable as Foldable
 import qualified Data.Maybe as Maybe
 import qualified Data.Set as Set
 import qualified Data.Text as Text
@@ -33,17 +34,27 @@ defaultMain = do
   episodes <- getEpisodes
   let site = makeSite root episodes
 
-  mapM_
-    createDirectory
-    (Set.fromList (map
-      (\ (file, _) -> FilePath.takeDirectory (FilePath.combine output file))
-      site))
+  createDirectories output site
+  createFiles output site
 
-  mapM_
-    (\ (file, generate) -> do
-      contents <- generate
-      ByteString.writeFile (FilePath.combine output file) contents)
-    site
+createDirectories :: FilePath -> [(FilePath, a)] -> IO ()
+createDirectories directory site = Foldable.traverse_
+  createDirectory
+  (Set.fromList (map (getDirectory directory) site))
+
+getDirectory :: FilePath -> (FilePath, a) -> FilePath
+getDirectory directory (file, _) =
+  FilePath.takeDirectory (FilePath.combine directory file)
+
+createFiles :: FilePath -> [(FilePath, IO ByteString.ByteString)] -> IO ()
+createFiles directory site = Foldable.traverse_
+  (createFile directory)
+  site
+
+createFile :: FilePath -> (FilePath, IO ByteString.ByteString) -> IO ()
+createFile directory (file, generate) = do
+  contents <- generate
+  ByteString.writeFile (FilePath.combine directory file) contents
 
 removeDirectory :: FilePath -> IO ()
 removeDirectory = Directory.removePathForcibly
