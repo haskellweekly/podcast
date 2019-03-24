@@ -11,6 +11,7 @@ import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Encoding
 import qualified Podcast.Episodes as Episodes
 import qualified Podcast.Html as Html
+import qualified Podcast.Site.Logo as Logo
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
@@ -180,7 +181,7 @@ index root episodes = Html.render (Html.element "html" []
     ]
   , Html.node "body" []
     [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
-    , Html.node "div" [("style", "width:100px;height:100px;background:#5c3566")] [logoSvg]
+    , Html.node "div" [("style", "width:100px;height:100px;background:#5c3566")] [Logo.svg]
     , Html.node "p" [] [Html.text podcastDescription]
     , Html.node "ul" []
       [ Html.node "li" []
@@ -237,19 +238,3 @@ podcastDescription =
   \professional software developers discuss using functional programming to \
   \solve real-world business problems. Each episode uses a conversational two-\
   \host format and runs for about 15 minutes."
-
-logoSvg :: Xml.Node
-logoSvg = Xml.node "svg"
-  [ ("xmlns", "http://www.w3.org/2000/svg")
-  , ("viewBox", "0 0 100 100")
-  ]
-  [ Xml.node "path"
-    [ ("fill", "#fff")
-    , ("opacity", "0.8")
-    , ("d", "M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z")
-    ] []
-  , Xml.node "path"
-    [ ("fill", "#fff")
-    , ("d", "M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0")
-    ] []
-  ]
