@@ -3,6 +3,7 @@ module Podcast.Site.Template
   )
 where
 
+import qualified Podcast.Css as Css
 import qualified Podcast.Html as Html
 import qualified Podcast.Site.Logo as Logo
 import qualified Podcast.Type.Route as Route
@@ -32,6 +33,21 @@ head_ root title = Html.node
     , ("type", "application/rss+xml")
     ]
     []
+  , Html.node
+    "style"
+    []
+    [ Html.text
+        (Css.render
+          [ Css.rule "body" [("margin", "0 auto"), ("max-width", "40em")]
+          , Css.rule
+            ".logo"
+            [ ("background", "#5c3566")
+            , ("height", "100px")
+            , ("width", "100px")
+            ]
+          ]
+        )
+    ]
   ]
 
 body :: Html.Node -> Html.Node
@@ -39,9 +55,6 @@ body content = Html.node
   "body"
   []
   [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
-  , Html.node
-    "div"
-    [("style", "width: 100px; height: 100px; background: #5c3566;")]
-    [Logo.svg]
+  , Html.node "div" [("class", "logo")] [Logo.svg]
   , content
   ]
