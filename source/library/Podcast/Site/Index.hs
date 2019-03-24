@@ -4,7 +4,7 @@ module Podcast.Site.Index
 where
 
 import qualified Podcast.Html as Html
-import qualified Podcast.Site.Logo as Logo
+import qualified Podcast.Site.Template as Template
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
@@ -12,40 +12,14 @@ import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
 
 html :: Url.Url -> [Episode.Episode] -> Html.Element
-html root episodes = Html.element "html" [] [head_ root, body root episodes]
-
-head_ :: Url.Url -> Html.Node
-head_ root = Html.node
-  "head"
-  []
-  [ Html.node "meta" [("charset", "utf-8")] []
-  , Html.node
-    "meta"
-    [ ("content", "initial-scale = 1, width = device-width")
-    , ("name", "viewport")
-    ]
-    []
-  , Html.node "title" [] [Html.text "Haskell Weekly podcast"]
-  , Html.node
-    "link"
-    [ ("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))
-    , ("rel", "alternate")
-    , ("title", "Haskell Weekly podcast")
-    , ("type", "application/rss+xml")
-    ]
-    []
-  ]
+html root episodes =
+  Template.html root "Haskell Weekly podcast" (body root episodes)
 
 body :: Url.Url -> [Episode.Episode] -> Html.Node
 body root episodes = Html.node
-  "body"
+  "div"
   []
-  [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
-  , Html.node
-    "div"
-    [("style", "width: 100px; height: 100px; background: #5c3566;")]
-    [Logo.svg]
-  , Html.node
+  [ Html.node
     "p"
     []
     [ Html.text
