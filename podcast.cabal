@@ -36,6 +36,7 @@ library
     Podcast.Episodes
     Podcast.Html
     Podcast.Site.Feed
+    Podcast.Site.Index
     Podcast.Site.Logo
     Podcast.Type.Bytes
     Podcast.Type.Description
