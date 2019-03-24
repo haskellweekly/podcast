@@ -44,9 +44,7 @@ getDirectory directory (file, _) =
   FilePath.takeDirectory (FilePath.combine directory file)
 
 createFiles :: FilePath -> [(FilePath, IO ByteString.ByteString)] -> IO ()
-createFiles directory site = Foldable.traverse_
-  (createFile directory)
-  site
+createFiles directory site = Foldable.traverse_ (createFile directory) site
 
 createFile :: FilePath -> (FilePath, IO ByteString.ByteString) -> IO ()
 createFile directory (file, generate) = do
@@ -70,19 +68,66 @@ getEpisodes = fromRight (sequence Episodes.episodes)
 fromRight :: Either String a -> IO a
 fromRight = either fail pure
 
-makeSite :: Url.Url -> [Episode.Episode] -> [(FilePath, IO ByteString.ByteString)]
+makeSite
+  :: Url.Url -> [Episode.Episode] -> [(FilePath, IO ByteString.ByteString)]
 makeSite root episodes =
-  (Route.toFilePath Route.Index, pure (toUtf8 (Html.render (Index.html root episodes))))
-  : (Route.toFilePath Route.AppleBadge, ByteString.readFile "input/listen-on-apple-podcasts.svg")
-  : (Route.toFilePath Route.GoogleBadge, ByteString.readFile "input/listen-on-google-podcasts.svg")
-  : (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.png")
-  : (Route.toFilePath Route.Feed, pure (toUtf8 (Xml.render (Feed.rss root episodes))))
-  : map (makeEpisode root) episodes
+  makeAppleBadge
+    : makeFeed root episodes
+    : makeGoogleBadge
+    : makeIndex root episodes
+    : makeLogo
+    : makeEpisodes root episodes
 
 toUtf8 :: String -> ByteString.ByteString
 toUtf8 string = Encoding.encodeUtf8 (Text.pack string)
 
-makeEpisode :: Url.Url -> Episode.Episode -> (FilePath, IO ByteString.ByteString)
+makeAppleBadge :: (FilePath, IO ByteString.ByteString)
+makeAppleBadge =
+  ( Route.toFilePath Route.AppleBadge
+  , ByteString.readFile "input/listen-on-apple-podcasts.svg"
+  )
+
+makeFeed
+  :: Applicative f
+  => Url.Url
+  -> [Episode.Episode]
+  -> (FilePath, f ByteString.ByteString)
+makeFeed root episodes =
+  ( Route.toFilePath Route.Feed
+  , pure (toUtf8 (Xml.render (Feed.rss root episodes)))
+  )
+
+makeGoogleBadge :: (FilePath, IO ByteString.ByteString)
+makeGoogleBadge =
+  ( Route.toFilePath Route.GoogleBadge
+  , ByteString.readFile "input/listen-on-google-podcasts.svg"
+  )
+
+makeIndex
+  :: Applicative f
+  => Url.Url
+  -> [Episode.Episode]
+  -> (FilePath, f ByteString.ByteString)
+makeIndex root episodes =
+  ( Route.toFilePath Route.Index
+  , pure (toUtf8 (Html.render (Index.html root episodes)))
+  )
+
+makeLogo :: (FilePath, IO ByteString.ByteString)
+makeLogo = (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.png")
+
+makeEpisodes
+  :: Applicative f
+  => Url.Url
+  -> [Episode.Episode]
+  -> [(FilePath, f ByteString.ByteString)]
+makeEpisodes root = map (makeEpisode root)
+
+makeEpisode
+  :: Applicative f
+  => Url.Url
+  -> Episode.Episode
+  -> (FilePath, f ByteString.ByteString)
 makeEpisode root episode =
   ( Route.toFilePath (Route.Episode (Episode.number episode))
   , pure (toUtf8 (Html.render (Site.Episode.html root episode)))
