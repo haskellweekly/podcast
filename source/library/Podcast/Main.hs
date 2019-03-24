@@ -11,14 +11,12 @@ import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Encoding
 import qualified Podcast.Episodes as Episodes
 import qualified Podcast.Html as Html
+import qualified Podcast.Site.Feed as Feed
 import qualified Podcast.Site.Logo as Logo
-import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
-import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
-import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
@@ -80,7 +78,7 @@ makeSite root episodes =
   : (Route.toFilePath Route.AppleBadge, ByteString.readFile "input/listen-on-apple-podcasts.svg")
   : (Route.toFilePath Route.GoogleBadge, ByteString.readFile "input/listen-on-google-podcasts.svg")
   : (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.png")
-  : (Route.toFilePath Route.Feed, pure (toUtf8 (Xml.render (episodesToRss root episodes))))
+  : (Route.toFilePath Route.Feed, pure (toUtf8 (Xml.render (Feed.rss root episodes))))
   : map
     (\ episode ->
       ( Route.toFilePath (Route.Episode (Episode.number episode))
@@ -111,56 +109,6 @@ episodeToHtml episode = Html.render (Html.element "html" []
       ]
     ]
   ])
-
-episodesToRss :: Url.Url -> [Episode.Episode] -> Xml.Element
-episodesToRss root episodes = Xml.element "rss"
-  [ ("version", "2.0")
-  , ("xmlns:atom", "http://www.w3.org/2005/Atom")
-  , ("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd")
-  ]
-  [ Xml.node "channel" []
-    ( Xml.node "title" [] [Xml.text "Haskell Weekly"]
-    : Xml.node "link" [] [Xml.text (Url.toString root)]
-    : Xml.node "description" [] [Xml.text podcastDescription]
-    : Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
-    : Xml.node "language" [] [Xml.text "en-US"]
-    : Xml.node "itunes:explicit" [] [Xml.text "clean"]
-    : Xml.node "copyright" [] [Xml.text "\xa9 2019 Taylor Fausak"]
-    : Xml.node "itunes:category" [("text", "Technology")] []
-    : Xml.node "itunes:owner" []
-      [ Xml.node "itunes:name" [] [Xml.text "Taylor Fausak"]
-      , Xml.node "itunes:email" [] [Xml.text "taylor@fausak.me"]
-      ]
-    : Xml.node "atom:link"
-      [ ("rel", "self")
-      , ("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))
-      , ("type", "application/rss+xml")
-      ]
-      []
-    : Xml.node "image" []
-      [ Xml.node "title" [] [Xml.text "Haskell Weekly"]
-      , Xml.node "link" [] [Xml.text (Url.toString root)]
-      , Xml.node "url" [] [Xml.text (Url.toString (Url.combine root (Route.toUrl Route.Logo)))]
-      ]
-    : map (episodeToRssItem root) episodes)
-  ]
-
-episodeToRssItem :: Url.Url -> Episode.Episode -> Xml.Node
-episodeToRssItem root episode = Xml.node "item" []
-  [ Xml.node "title" [] [Xml.text (episodeTitle episode)]
-  , Xml.node "link" [] [Xml.text (episodeLink root episode)]
-  , Xml.node "guid" [("isPermaLink", "false")] [Xml.text (Guid.toString (Episode.guid episode))]
-  , Xml.node "description" [] [Xml.text (Description.toString (Episode.description episode))]
-  , Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
-  , Xml.node "enclosure"
-    [ ("type", "audio/mpeg")
-    , ("length", Bytes.toString (Episode.size episode))
-    , ("url", Url.toString (Episode.url episode))
-    ]
-    []
-  , Xml.node "itunes:duration" [] [Xml.text (Seconds.toString (Episode.duration episode))]
-  , Xml.node "pubDate" [] [Xml.text (Time.toRfc822 (Episode.time episode))]
-  ]
 
 index :: Url.Url -> [Episode.Episode] -> String
 index root episodes = Html.render (Html.element "html" []
