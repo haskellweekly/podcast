@@ -33,21 +33,16 @@ head_ root title = Html.node
     , ("type", "application/rss+xml")
     ]
     []
-  , Html.node
-    "style"
-    []
-    [ Html.text
-        (Css.render
-          [ Css.rule "body" [("margin", "0 auto"), ("max-width", "40em")]
-          , Css.rule
-            ".logo"
-            [ ("background", "#5c3566")
-            , ("height", "100px")
-            , ("width", "100px")
-            ]
-          ]
-        )
-    ]
+  , Html.node "style" [] [Html.text (Css.render styles)]
+  ]
+
+styles :: [Css.Rule]
+styles =
+  [ Css.rule "body" [("margin", "0 auto"), ("max-width", "40em")]
+  , Css.rule
+    ".logo"
+    [("background", "#5c3566"), ("height", "100px"), ("width", "100px")]
+  , Css.rule ".badges" [("text-align", "center")]
   ]
 
 body :: Html.Node -> Html.Node

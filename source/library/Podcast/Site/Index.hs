@@ -23,14 +23,16 @@ body root episodes = Html.node
     "p"
     []
     [ Html.text
-        "Haskell Weekly is a podcast that covers the Haskell progamming \
+        "Haskell Weekly is a podcast covering the Haskell progamming \
         \langauge. Listen to professional software developers discuss using \
         \functional programming to solve real-world business problems. Each \
         \episode uses a conversational two-host format and runs for about 15 \
         \minutes."
     ]
-  , Html.node "p" [] [appleBadge root]
-  , Html.node "p" [] [googleBadge root]
+  , Html.node
+    "p"
+    [("class", "badges")]
+    [appleBadge root, Html.text " ", googleBadge root]
   , Html.node "h2" [] [Html.text "Episodes"]
   , Html.node "ul" [] (map (item root) episodes)
   ]

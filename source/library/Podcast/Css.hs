@@ -1,5 +1,6 @@
 module Podcast.Css
-  ( render
+  ( Rule.Rule
+  , render
   , rule
   )
 where
