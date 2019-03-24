@@ -34,22 +34,26 @@ defaultMain = do
   createDirectories output site
   createFiles output site
 
-createDirectories :: FilePath -> [(FilePath, a)] -> IO ()
+createDirectories :: FilePath -> [(Route.Route, a)] -> IO ()
 createDirectories directory site = Foldable.traverse_
   createDirectory
   (Set.fromList (map (getDirectory directory) site))
 
-getDirectory :: FilePath -> (FilePath, a) -> FilePath
-getDirectory directory (file, _) =
-  FilePath.takeDirectory (FilePath.combine directory file)
+getDirectory :: FilePath -> (Route.Route, a) -> FilePath
+getDirectory directory (route, _) =
+  FilePath.takeDirectory (buildRoute directory route)
 
-createFiles :: FilePath -> [(FilePath, IO ByteString.ByteString)] -> IO ()
+createFiles :: FilePath -> [(Route.Route, IO ByteString.ByteString)] -> IO ()
 createFiles directory site = Foldable.traverse_ (createFile directory) site
 
-createFile :: FilePath -> (FilePath, IO ByteString.ByteString) -> IO ()
-createFile directory (file, generate) = do
+createFile :: FilePath -> (Route.Route, IO ByteString.ByteString) -> IO ()
+createFile directory (route, generate) = do
   contents <- generate
-  ByteString.writeFile (FilePath.combine directory file) contents
+  ByteString.writeFile (buildRoute directory route) contents
+
+buildRoute :: FilePath -> Route.Route -> FilePath
+buildRoute directory route =
+  FilePath.combine directory (Route.toFilePath route)
 
 removeDirectory :: FilePath -> IO ()
 removeDirectory = Directory.removePathForcibly
@@ -69,7 +73,7 @@ fromRight :: Either String a -> IO a
 fromRight = either fail pure
 
 makeSite
-  :: Url.Url -> [Episode.Episode] -> [(FilePath, IO ByteString.ByteString)]
+  :: Url.Url -> [Episode.Episode] -> [(Route.Route, IO ByteString.ByteString)]
 makeSite root episodes =
   makeAppleBadge
     : makeFeed root episodes
@@ -81,25 +85,21 @@ makeSite root episodes =
 toUtf8 :: String -> ByteString.ByteString
 toUtf8 string = Encoding.encodeUtf8 (Text.pack string)
 
-makeAppleBadge :: (FilePath, IO ByteString.ByteString)
+makeAppleBadge :: (Route.Route, IO ByteString.ByteString)
 makeAppleBadge =
-  ( Route.toFilePath Route.AppleBadge
-  , ByteString.readFile "input/listen-on-apple-podcasts.svg"
-  )
+  (Route.AppleBadge, ByteString.readFile "input/listen-on-apple-podcasts.svg")
 
 makeFeed
   :: Applicative f
   => Url.Url
   -> [Episode.Episode]
-  -> (FilePath, f ByteString.ByteString)
+  -> (Route.Route, f ByteString.ByteString)
 makeFeed root episodes =
-  ( Route.toFilePath Route.Feed
-  , pure (toUtf8 (Xml.render (Feed.rss root episodes)))
-  )
+  (Route.Feed, pure (toUtf8 (Xml.render (Feed.rss root episodes))))
 
-makeGoogleBadge :: (FilePath, IO ByteString.ByteString)
+makeGoogleBadge :: (Route.Route, IO ByteString.ByteString)
 makeGoogleBadge =
-  ( Route.toFilePath Route.GoogleBadge
+  ( Route.GoogleBadge
   , ByteString.readFile "input/listen-on-google-podcasts.svg"
   )
 
@@ -107,28 +107,26 @@ makeIndex
   :: Applicative f
   => Url.Url
   -> [Episode.Episode]
-  -> (FilePath, f ByteString.ByteString)
+  -> (Route.Route, f ByteString.ByteString)
 makeIndex root episodes =
-  ( Route.toFilePath Route.Index
-  , pure (toUtf8 (Html.render (Index.html root episodes)))
-  )
+  (Route.Index, pure (toUtf8 (Html.render (Index.html root episodes))))
 
-makeLogo :: (FilePath, IO ByteString.ByteString)
-makeLogo = (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.png")
+makeLogo :: (Route.Route, IO ByteString.ByteString)
+makeLogo = (Route.Logo, ByteString.readFile "input/logo.png")
 
 makeEpisodes
   :: Applicative f
   => Url.Url
   -> [Episode.Episode]
-  -> [(FilePath, f ByteString.ByteString)]
+  -> [(Route.Route, f ByteString.ByteString)]
 makeEpisodes root = map (makeEpisode root)
 
 makeEpisode
   :: Applicative f
   => Url.Url
   -> Episode.Episode
-  -> (FilePath, f ByteString.ByteString)
+  -> (Route.Route, f ByteString.ByteString)
 makeEpisode root episode =
-  ( Route.toFilePath (Route.Episode (Episode.number episode))
+  ( Route.Episode (Episode.number episode)
   , pure (toUtf8 (Html.render (Site.Episode.html root episode)))
   )
