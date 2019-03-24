@@ -11,13 +11,11 @@ import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Encoding
 import qualified Podcast.Episodes as Episodes
 import qualified Podcast.Html as Html
+import qualified Podcast.Site.Episode as Site.Episode
 import qualified Podcast.Site.Feed as Feed
 import qualified Podcast.Site.Index as Index
-import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
-import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
-import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
 import qualified System.Directory as Directory
@@ -79,37 +77,13 @@ makeSite root episodes =
   : (Route.toFilePath Route.GoogleBadge, ByteString.readFile "input/listen-on-google-podcasts.svg")
   : (Route.toFilePath Route.Logo, ByteString.readFile "input/logo.png")
   : (Route.toFilePath Route.Feed, pure (toUtf8 (Xml.render (Feed.rss root episodes))))
-  : map
-    (\ episode ->
-      ( Route.toFilePath (Route.Episode (Episode.number episode))
-      , pure (toUtf8 (episodeToHtml episode))
-      ))
-    episodes
+  : map (makeEpisode root) episodes
 
 toUtf8 :: String -> ByteString.ByteString
 toUtf8 string = Encoding.encodeUtf8 (Text.pack string)
 
-episodeToHtml :: Episode.Episode -> String
-episodeToHtml episode = Html.render (Html.element "html" []
-  [ Html.node "head" []
-    [ Html.node "meta" [("charset", "utf-8")] []
-    , Html.node "title" [] [Html.text (episodeTitle episode ++ " :: Haskell Weekly podcast")]
-    ]
-  , Html.node "body" []
-    [ Html.node "h1" [] [Html.text "Haskell Weekly podcast"]
-    , Html.node "h2" [] [Html.text (episodeTitle episode)]
-    , Html.node "p" [] [Html.text (Description.toString (Episode.description episode))]
-    , Html.node "audio"
-      [("controls", ""), ("src", Url.toString (Episode.url episode))]
-      [Html.text ""]
-    , Html.node "p" []
-      [ Html.text "Published on "
-      , Html.text (Time.toDateString (Episode.time episode))
-      , Html.text "."
-      ]
-    ]
-  ])
-
-episodeTitle :: Episode.Episode -> String
-episodeTitle episode =
-  "Episode " ++ Number.toString (Episode.number episode)
+makeEpisode :: Url.Url -> Episode.Episode -> (FilePath, IO ByteString.ByteString)
+makeEpisode root episode =
+  ( Route.toFilePath (Route.Episode (Episode.number episode))
+  , pure (toUtf8 (Html.render (Site.Episode.html root episode)))
+  )
