@@ -7,14 +7,12 @@ agent:
 blocks:
   - name: Block
     task:
-      env_vars:
-        - name: ROOT_URL
-          value: https://haskellweekly.news/podcast/
       jobs:
         - name: Job
           commands:
             - checkout
             - docker run
+              --env ROOT_URL=https://haskellweekly.news/podcast/
               --rm
               --volume "$(pwd):/root/podcast"
               --workdir /root/podcast
