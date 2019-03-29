@@ -22,7 +22,7 @@ data Route
 toFilePath :: Route -> FilePath
 toFilePath route = case route of
   AppleBadge -> "apple-badge.svg"
-  Bootstrap -> "bootstrap-3.4.1.svg"
+  Bootstrap -> "bootstrap-3.4.1.css"
   Episode number -> concat ["episodes/", Number.toString number, ".html"]
   Feed -> "feed.rss"
   GoogleBadge -> "google-badge.svg"
