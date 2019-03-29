@@ -45,7 +45,7 @@ getDirectory directory (route, _) =
   FilePath.takeDirectory (buildRoute directory route)
 
 createFiles :: FilePath -> [(Route.Route, Source.Source)] -> IO ()
-createFiles directory site = Foldable.traverse_ (createFile directory) site
+createFiles directory = Foldable.traverse_ (createFile directory)
 
 createFile :: FilePath -> (Route.Route, Source.Source) -> IO ()
 createFile directory (route, source) = do
@@ -68,7 +68,10 @@ createDirectory = Directory.createDirectoryIfMissing True
 getRootUrl :: IO Url.Url
 getRootUrl = do
   maybeString <- Environment.lookupEnv "ROOT_URL"
-  fromRight (Url.fromString (Maybe.fromMaybe "./" maybeString))
+  fromRight
+    (Url.fromString
+      (Maybe.fromMaybe "file:///E:/code/podcast/output/" maybeString)
+    )
 
 getEpisodes :: IO [Episode.Episode]
 getEpisodes = fromRight (sequence Episodes.episodes)
@@ -79,6 +82,7 @@ fromRight = either fail pure
 makeSite :: Url.Url -> [Episode.Episode] -> [(Route.Route, Source.Source)]
 makeSite root episodes =
   makeAppleBadge
+    : makeBootstrap
     : makeFeed root episodes
     : makeGoogleBadge
     : makeIndex root episodes
@@ -89,15 +93,16 @@ toUtf8 :: String -> ByteString.ByteString
 toUtf8 string = Encoding.encodeUtf8 (Text.pack string)
 
 makeAppleBadge :: (Route.Route, Source.Source)
-makeAppleBadge =
-  (Route.AppleBadge, Source.File "listen-on-apple-podcasts.svg")
+makeAppleBadge = (Route.AppleBadge, Source.File "apple-badge.svg")
+
+makeBootstrap :: (Route.Route, Source.Source)
+makeBootstrap = (Route.Bootstrap, Source.File "bootstrap-4.3.1.css")
 
 makeFeed :: Url.Url -> [Episode.Episode] -> (Route.Route, Source.Source)
 makeFeed root episodes = (Route.Feed, Source.Xml (Feed.rss root episodes))
 
 makeGoogleBadge :: (Route.Route, Source.Source)
-makeGoogleBadge =
-  (Route.GoogleBadge, Source.File "listen-on-google-podcasts.svg")
+makeGoogleBadge = (Route.GoogleBadge, Source.File "google-badge.svg")
 
 makeIndex :: Url.Url -> [Episode.Episode] -> (Route.Route, Source.Source)
 makeIndex root episodes =

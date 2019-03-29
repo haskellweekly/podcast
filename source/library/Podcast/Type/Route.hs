@@ -11,6 +11,7 @@ import qualified Podcast.Type.Url as Url
 
 data Route
   = AppleBadge
+  | Bootstrap
   | Episode Number.Number
   | Feed
   | GoogleBadge
@@ -20,10 +21,11 @@ data Route
 
 toFilePath :: Route -> FilePath
 toFilePath route = case route of
-  AppleBadge -> "listen-on-apple-podcasts.svg"
+  AppleBadge -> "apple-badge.svg"
+  Bootstrap -> "bootstrap-3.4.1.svg"
   Episode number -> concat ["episodes/", Number.toString number, ".html"]
   Feed -> "feed.rss"
-  GoogleBadge -> "listen-on-google-podcasts.svg"
+  GoogleBadge -> "google-badge.svg"
   Index -> "index.html"
   Logo -> "logo.png"
 

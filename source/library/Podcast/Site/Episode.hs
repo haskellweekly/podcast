@@ -14,7 +14,7 @@ import qualified Podcast.Type.Url as Url
 html :: Url.Url -> Episode.Episode -> Html.Element
 html root episode = Template.html
   root
-  ("Haskell Weekly -> Podcast -> Episode "
+  ("Haskell Weekly podcast episode "
   ++ Number.toString (Episode.number episode)
   )
   (Html.node
@@ -27,19 +27,37 @@ html root episode = Template.html
       , Html.text (Number.toString (Episode.number episode))
       ]
     , Html.node
-      "p"
-      []
-      [Html.text (Description.toString (Episode.description episode))]
+      "h3"
+      [("class", "text-muted")]
+      [Html.text (Time.toDateString (Episode.time episode))]
     , Html.node
-      "audio"
-      [("controls", "controls"), ("src", Url.toString (Episode.url episode))]
-      [Html.text ""]
-    , Html.node
-      "p"
-      []
-      [ Html.text "Published on "
-      , Html.text (Time.toDateString (Episode.time episode))
-      , Html.text "."
+      "div"
+      [("class", "row")]
+      [ Html.node
+        "div"
+        [("class", "col-md-4 mb-3 mt-3")]
+        [ Html.node
+            "audio"
+            [ ("class", "d-block w-100")
+            , ("controls", "controls")
+            , ("src", Url.toString (Episode.url episode))
+            ]
+            [Html.text ""]
+        ]
+      , Html.node
+        "div"
+        [("class", "col")]
+        [ Html.node
+            "div"
+            [("class", "card")]
+            [ Html.node
+                "div"
+                [("class", "card-body"), ("style", "white-space: pre-wrap;")]
+                [ Html.text
+                    (Description.toString (Episode.description episode))
+                ]
+            ]
+        ]
       ]
     ]
   )
