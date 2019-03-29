@@ -16,6 +16,18 @@ episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
     <$> Description.fromString
+          "Jason Fry and Taylor Fausak talk which languages to use on the \
+          \frontend and backend, including Haskell, PureScript, and Elm.\n\n\
+          \https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
+    <*> pure (Seconds.fromNatural 1426)
+    <*> Guid.fromString "069964f7-2457-479f-8bab-9cb4f3abec9c"
+    <*> Number.fromNatural 3
+    <*> pure (Bytes.fromNatural 34265398)
+    <*> Time.fromIso8601 "2019-03-25T12:00:00"
+    <*> Url.fromString
+          "https://user.fm/files/v2-7223322ce11c6c3ec69111784aa34893/episode-3.mp3"
+  , Episode.Episode
+    <$> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about upgrading from Elm \
           \0.18 to 0.19.\n\n\
           \https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
