@@ -16,6 +16,18 @@ episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
     <$> Description.fromString
+          "Dustin Segers and Taylor Fausak talk about avoiding boolean \
+          \blindness by using custom types.\n\n\
+          \https://runtimeverification.com/blog/code-smell-boolean-blindness/"
+    <*> pure (Seconds.fromNatural 957)
+    <*> Guid.fromString "aea8101c-b126-4cb5-be14-00200d3f6c27"
+    <*> Number.fromNatural 4
+    <*> pure (Bytes.fromNatural 23002958)
+    <*> Time.fromIso8601 "2019-04-01T12:00:00"
+    <*> Url.fromString
+          "https://user.fm/files/v2-1323dfdd0d35e682971a2bbeb5dc3a9e/episode-4.mp3"
+  , Episode.Episode
+    <$> Description.fromString
           "Jason Fry and Taylor Fausak talk which languages to use on the \
           \frontend and backend, including Haskell, PureScript, and Elm.\n\n\
           \https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
