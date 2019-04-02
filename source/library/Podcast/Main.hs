@@ -68,7 +68,8 @@ createDirectory = Directory.createDirectoryIfMissing True
 getRootUrl :: IO Url.Url
 getRootUrl = do
   maybeString <- Environment.lookupEnv "ROOT_URL"
-  fromRight (Url.fromString (Maybe.fromMaybe "./" maybeString))
+  fromRight
+    (Url.fromString (Maybe.fromMaybe "http://localhost:3000/" maybeString))
 
 getEpisodes :: IO [Episode.Episode]
 getEpisodes = fromRight (sequence Episodes.episodes)
