@@ -15,6 +15,18 @@ import qualified Podcast.Type.Url as Url
 episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
+  --   <$> Description.fromString
+  --         "Cameron Gera and Taylor Fausak talk about build tools in Haskell, \
+  --         \including Stack and Cabal.\n\n\
+  --         \https://sakshamsharma.com/2018/03/haskell-proj-struct/"
+  --   <*> pure (Seconds.fromNatural 915)
+  --   <*> Guid.fromString "25b43cdb-e278-42da-97dc-3c6d353ec8c8"
+  --   <*> Number.fromNatural 5
+  --   <*> pure (Bytes.fromNatural 21977225)
+  --   <*> Time.fromIso8601 "2019-04-08T12:00:00"
+  --   <*> Url.fromString
+  --         "https://user.fm/files/v2-5566df6d67fc930b0e1fdece8b231918/episode-5.mp3"
+  -- , Episode.Episode
     <$> Description.fromString
           "Dustin Segers and Taylor Fausak talk about avoiding boolean \
           \blindness by using custom types.\n\n\
