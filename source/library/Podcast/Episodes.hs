@@ -16,6 +16,18 @@ episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
     <$> Description.fromString
+          "Cameron Gera and Taylor Fausak talk about how regular expressions \
+          \compare to parser combinators in Haskell.\n\n\
+          \https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
+    <*> pure (Seconds.fromNatural 1050)
+    <*> Guid.fromString "287a197e-e9fd-47b6-9506-2f39be002af7"
+    <*> Number.fromNatural 7
+    <*> pure (Bytes.fromNatural 25296111)
+    <*> Time.fromIso8601 "2019-04-22T12:00:00"
+    <*> Url.fromString
+          "https://user.fm/files/v2-7f984b030cc6c2f46fb6b4b78e802d4c/episode-7.mp3"
+  , Episode.Episode
+    <$> Description.fromString
           "Jason Fry and Taylor Fausak talk about getting fast feedback with \
           \ghcid.\n\n\
           \https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
