@@ -41,6 +41,7 @@ library
     Podcast.Site.Logo
     Podcast.Site.Template
     Podcast.Type.Bytes
+    Podcast.Type.Date
     Podcast.Type.Description
     Podcast.Type.Episode
     Podcast.Type.Guid
@@ -48,7 +49,6 @@ library
     Podcast.Type.Route
     Podcast.Type.Seconds
     Podcast.Type.Source
-    Podcast.Type.Time
     Podcast.Type.Url
     Podcast.Type.Xml.Attribute
     Podcast.Type.Xml.Element

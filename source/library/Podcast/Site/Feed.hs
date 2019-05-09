@@ -4,13 +4,13 @@ module Podcast.Site.Feed
 where
 
 import qualified Podcast.Type.Bytes as Bytes
+import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
 import qualified Podcast.Type.Seconds as Seconds
-import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
 
@@ -162,7 +162,7 @@ itemLink root episode = Xml.node
 
 itemPubDate :: Episode.Episode -> Xml.Node
 itemPubDate episode =
-  Xml.node "pubDate" [] [Xml.text (Time.toRfc822 (Episode.time episode))]
+  Xml.node "pubDate" [] [Xml.text (Date.toRfc822 (Episode.date episode))]
 
 itemTitle :: Episode.Episode -> Xml.Node
 itemTitle episode = Xml.node

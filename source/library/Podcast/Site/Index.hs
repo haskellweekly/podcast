@@ -5,11 +5,11 @@ where
 
 import qualified Podcast.Html as Html
 import qualified Podcast.Site.Template as Template
+import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
-import qualified Podcast.Type.Time as Time
 import qualified Podcast.Type.Url as Url
 
 html :: Url.Url -> [Episode.Episode] -> Html.Element
@@ -63,7 +63,7 @@ item root episode = Html.node
           , Html.node
             "h6"
             [("class", "card-subtitle mb-3 text-muted")]
-            [Html.text (Time.toDateString (Episode.time episode))]
+            [Html.text (Date.toDateString (Episode.date episode))]
           , Html.node
             "p"
             [("class", "card-text")]
