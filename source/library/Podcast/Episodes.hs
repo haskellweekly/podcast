@@ -16,6 +16,18 @@ episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
     <$> Description.fromString
+          "Cameron Gera and Cody Goodman talk about enforcing best practices \
+          \with HLint and refactoring.\n\n\
+          \https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
+    <*> pure (Seconds.fromNatural 860)
+    <*> Guid.fromString "346b385f-40e4-4938-aecc-d9d82de4aeec"
+    <*> Number.fromNatural 8
+    <*> pure (Bytes.fromNatural 20714874)
+    <*> Time.fromIso8601 "2019-04-29T12:00:00"
+    <*> Url.fromString
+          "https://user.fm/files/v2-a250a0ecdb53e9e3c36c4d57c7cceb21/episode-8.mp3"
+  , Episode.Episode
+    <$> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how regular expressions \
           \compare to parser combinators in Haskell.\n\n\
           \https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
