@@ -1,6 +1,7 @@
 module Podcast.Type.Seconds
   ( Seconds
   , fromNatural
+  , fromTimestamp
   , toNatural
   , toString
   )
@@ -15,6 +16,11 @@ newtype Seconds
 
 fromNatural :: Natural.Natural -> Seconds
 fromNatural = Seconds
+
+fromTimestamp :: Natural.Natural -> Natural.Natural -> Either String Seconds
+fromTimestamp minutes seconds = if seconds >= 60
+  then Left ("invalid Seconds: " <> show (minutes, seconds))
+  else Right (fromNatural ((60 * minutes) + seconds))
 
 toNatural :: Seconds -> Natural.Natural
 toNatural (Seconds natural) = natural

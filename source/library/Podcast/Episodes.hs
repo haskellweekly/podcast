@@ -19,7 +19,7 @@ episodes =
           "Jason Fry and Cameron Gera talk about four small ways to improve \
           \Haskell as a language.\n\n\
           \https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
-    <*> pure (Seconds.fromNatural 1312)
+    <*> Seconds.fromTimestamp 21 52
     <*> Guid.fromString "346b385f-40e4-4938-aecc-d9d82de4aeec"
     <*> Number.fromNatural 9
     <*> pure (Bytes.fromNatural 31507647)
@@ -31,7 +31,7 @@ episodes =
           "Cameron Gera and Cody Goodman talk about enforcing best practices \
           \with HLint and refactoring.\n\n\
           \https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
-    <*> pure (Seconds.fromNatural 860)
+    <*> Seconds.fromTimestamp 14 20
     <*> Guid.fromString "346b385f-40e4-4938-aecc-d9d82de4aeec"
     <*> Number.fromNatural 8
     <*> pure (Bytes.fromNatural 20714874)
@@ -43,7 +43,7 @@ episodes =
           "Cameron Gera and Taylor Fausak talk about how regular expressions \
           \compare to parser combinators in Haskell.\n\n\
           \https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
-    <*> pure (Seconds.fromNatural 1050)
+    <*> Seconds.fromTimestamp 17 29
     <*> Guid.fromString "287a197e-e9fd-47b6-9506-2f39be002af7"
     <*> Number.fromNatural 7
     <*> pure (Bytes.fromNatural 25296111)
@@ -55,7 +55,7 @@ episodes =
           "Jason Fry and Taylor Fausak talk about getting fast feedback with \
           \ghcid.\n\n\
           \https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
-    <*> pure (Seconds.fromNatural 1118)
+    <*> Seconds.fromTimestamp 18 38
     <*> Guid.fromString "7ed15199-bcd3-461e-af62-d504ae8a4a01"
     <*> Number.fromNatural 6
     <*> pure (Bytes.fromNatural 26845627)
@@ -67,7 +67,7 @@ episodes =
           "Cameron Gera and Taylor Fausak talk about build tools in Haskell, \
           \including Stack and Cabal.\n\n\
           \https://sakshamsharma.com/2018/03/haskell-proj-struct/"
-    <*> pure (Seconds.fromNatural 915)
+    <*> Seconds.fromTimestamp 15 15
     <*> Guid.fromString "25b43cdb-e278-42da-97dc-3c6d353ec8c8"
     <*> Number.fromNatural 5
     <*> pure (Bytes.fromNatural 21977225)
@@ -79,7 +79,7 @@ episodes =
           "Dustin Segers and Taylor Fausak talk about avoiding boolean \
           \blindness by using custom types.\n\n\
           \https://runtimeverification.com/blog/code-smell-boolean-blindness/"
-    <*> pure (Seconds.fromNatural 957)
+    <*> Seconds.fromTimestamp 15 57
     <*> Guid.fromString "aea8101c-b126-4cb5-be14-00200d3f6c27"
     <*> Number.fromNatural 4
     <*> pure (Bytes.fromNatural 23002958)
@@ -91,7 +91,7 @@ episodes =
           "Jason Fry and Taylor Fausak talk which languages to use on the \
           \frontend and backend, including Haskell, PureScript, and Elm.\n\n\
           \https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
-    <*> pure (Seconds.fromNatural 1426)
+    <*> Seconds.fromTimestamp 23 47
     <*> Guid.fromString "069964f7-2457-479f-8bab-9cb4f3abec9c"
     <*> Number.fromNatural 3
     <*> pure (Bytes.fromNatural 34265398)
@@ -103,7 +103,7 @@ episodes =
           "Sara Lichtenstein and Taylor Fausak talk about upgrading from Elm \
           \0.18 to 0.19.\n\n\
           \https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
-    <*> pure (Seconds.fromNatural 899)
+    <*> Seconds.fromTimestamp 14 59
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
     <*> Number.fromNatural 2
     <*> pure (Bytes.fromNatural 21580339)
@@ -115,7 +115,7 @@ episodes =
           "Cody Goodman and Taylor Fausak talk about handling exceptions in \
           \Haskell.\n\n\
           \https://markkarpov.com/tutorial/exceptions.html"
-    <*> pure (Seconds.fromNatural 583)
+    <*> Seconds.fromTimestamp 9 43
     <*> Guid.fromString "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
     <*> Number.fromNatural 1
     <*> pure (Bytes.fromNatural 13999481)
