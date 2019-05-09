@@ -16,6 +16,18 @@ episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
     <$> Description.fromString
+          "Jason Fry and Cameron Gera talk about four small ways to improve \
+          \Haskell as a language.\n\n\
+          \https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
+    <*> pure (Seconds.fromNatural 1312)
+    <*> Guid.fromString "346b385f-40e4-4938-aecc-d9d82de4aeec"
+    <*> Number.fromNatural 9
+    <*> pure (Bytes.fromNatural 31507647)
+    <*> Time.fromIso8601 "2019-05-06T12:00:00"
+    <*> Url.fromString
+          "https://user.fm/files/v2-c184bb75e7ebae3e6d24f15a08aeb557/episode-9.mp3"
+  , Episode.Episode
+    <$> Description.fromString
           "Cameron Gera and Cody Goodman talk about enforcing best practices \
           \with HLint and refactoring.\n\n\
           \https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
