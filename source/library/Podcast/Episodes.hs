@@ -21,7 +21,7 @@ episodes =
           \Haskell as a language.\n\n\
           \https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
     <*> Seconds.fromTimestamp 21 52
-    <*> Guid.fromString "346b385f-40e4-4938-aecc-d9d82de4aeec"
+    <*> Guid.fromString "de704aad-e6a1-41a6-976f-bd3f2ef34ad2"
     <*> Number.fromNatural 9
     <*> pure (Bytes.fromNatural 31507647)
     <*> Url.fromString
