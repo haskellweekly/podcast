@@ -9,6 +9,7 @@ import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Number as Number
+import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 
 html :: Url.Url -> Episode.Episode -> Html.Element
@@ -23,8 +24,10 @@ html root episode = Template.html
     [ Html.node
       "h2"
       []
-      [ Html.text "Episode "
+      [ Html.text "#"
       , Html.text (Number.toString (Episode.number episode))
+      , Html.text ": "
+      , Html.text (Title.toString (Episode.title episode))
       ]
     , Html.node
       "h3"

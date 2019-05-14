@@ -11,6 +11,7 @@ import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
 import qualified Podcast.Type.Seconds as Seconds
+import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
 
@@ -111,6 +112,7 @@ item root episode = Xml.node
   , itemDescription episode
   , itemDuration episode
   , itemEnclosure episode
+  , itemEpisode episode
   , itemGuid episode
   , itemLink root episode
   , itemPubDate episode
@@ -141,6 +143,12 @@ itemEnclosure episode = Xml.node
   ]
   []
 
+itemEpisode :: Episode.Episode -> Xml.Node
+itemEpisode episode = Xml.node
+  "itunes:episode"
+  []
+  [Xml.text (Number.toString (Episode.number episode))]
+
 itemGuid :: Episode.Episode -> Xml.Node
 itemGuid episode = Xml.node
   "guid"
@@ -168,4 +176,4 @@ itemTitle :: Episode.Episode -> Xml.Node
 itemTitle episode = Xml.node
   "title"
   []
-  [Xml.text ("Episode " ++ Number.toString (Episode.number episode))]
+  [Xml.text (Title.toString (Episode.title episode))]

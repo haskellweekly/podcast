@@ -9,6 +9,7 @@ import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
+import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 
 data Episode = Episode
@@ -18,5 +19,6 @@ data Episode = Episode
   , guid :: Guid.Guid
   , number :: Number.Number
   , size :: Bytes.Bytes
+  , title :: Title.Title
   , url :: Url.Url
   } deriving (Eq, Ord, Show)

@@ -10,6 +10,7 @@ import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
+import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 
 html :: Url.Url -> [Episode.Episode] -> Html.Element
@@ -57,8 +58,10 @@ item root episode = Html.node
           [ Html.node
             "h5"
             [("class", "card-title")]
-            [ Html.text
-                ("Episode " ++ Number.toString (Episode.number episode))
+            [ Html.text "#"
+            , Html.text (Number.toString (Episode.number episode))
+            , Html.text ": "
+            , Html.text (Title.toString (Episode.title episode))
             ]
           , Html.node
             "h6"
