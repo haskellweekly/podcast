@@ -4,19 +4,19 @@ module Podcast.Episodes
 where
 
 import qualified Podcast.Type.Bytes as Bytes
+import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
-import qualified Podcast.Type.Date as Time
 import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 
 episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
-    <$> Time.fromGregorian 2019 5 6
+    <$> Date.fromGregorian 2019 5 6
     <*> Description.fromString
           "Jason Fry and Cameron Gera talk about four small ways to improve \
           \Haskell as a language.\n\n\
@@ -29,7 +29,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-c184bb75e7ebae3e6d24f15a08aeb557/episode-9.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 4 29
+    <$> Date.fromGregorian 2019 4 29
     <*> Description.fromString
           "Cameron Gera and Cody Goodman talk about enforcing best practices \
           \with HLint and refactoring.\n\n\
@@ -42,7 +42,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-a250a0ecdb53e9e3c36c4d57c7cceb21/episode-8.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 4 22
+    <$> Date.fromGregorian 2019 4 22
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how regular expressions \
           \compare to parser combinators in Haskell.\n\n\
@@ -55,7 +55,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-7f984b030cc6c2f46fb6b4b78e802d4c/episode-7.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 4 15
+    <$> Date.fromGregorian 2019 4 15
     <*> Description.fromString
           "Jason Fry and Taylor Fausak talk about getting fast feedback with \
           \ghcid.\n\n\
@@ -68,7 +68,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-fb17e86f19ce358097a1c11c1276733d/episode-6.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 4 08
+    <$> Date.fromGregorian 2019 4 08
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about build tools in Haskell, \
           \including Stack and Cabal.\n\n\
@@ -81,7 +81,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-5566df6d67fc930b0e1fdece8b231918/episode-5.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 4 1
+    <$> Date.fromGregorian 2019 4 1
     <*> Description.fromString
           "Dustin Segers and Taylor Fausak talk about avoiding boolean \
           \blindness by using custom types.\n\n\
@@ -94,7 +94,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-1323dfdd0d35e682971a2bbeb5dc3a9e/episode-4.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 3 25
+    <$> Date.fromGregorian 2019 3 25
     <*> Description.fromString
           "Jason Fry and Taylor Fausak talk which languages to use on the \
           \frontend and backend, including Haskell, PureScript, and Elm.\n\n\
@@ -107,7 +107,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-7223322ce11c6c3ec69111784aa34893/episode-3.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 3 18
+    <$> Date.fromGregorian 2019 3 18
     <*> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about upgrading from Elm \
           \0.18 to 0.19.\n\n\
@@ -120,7 +120,7 @@ episodes =
     <*> Url.fromString
           "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
   , Episode.Episode
-    <$> Time.fromGregorian 2019 3 11
+    <$> Date.fromGregorian 2019 3 11
     <*> Description.fromString
           "Cody Goodman and Taylor Fausak talk about handling exceptions in \
           \Haskell.\n\n\
