@@ -3,8 +3,10 @@ module Podcast.Main
   )
 where
 
+import qualified Control.Monad as Monad
 import qualified Data.ByteString as ByteString
 import qualified Data.Foldable as Foldable
+import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
 import qualified Data.Set as Set
 import qualified Data.Text as Text
@@ -72,7 +74,19 @@ getRootUrl = do
     (Url.fromString (Maybe.fromMaybe "http://localhost:3000/" maybeString))
 
 getEpisodes :: IO [Episode.Episode]
-getEpisodes = fromRight (sequence Episodes.episodes)
+getEpisodes = do
+  episodes <- fromRight (sequence Episodes.episodes)
+  let duplicateGuids = duplicates (map Episode.guid episodes)
+  Monad.unless
+    (Set.null duplicateGuids)
+    (fail ("duplicate Guids: " <> show duplicateGuids))
+  pure episodes
+
+duplicates :: (Foldable t, Ord a) => t a -> Set.Set a
+duplicates = Map.keysSet . Map.filter (> (1 :: Integer)) . frequencies
+
+frequencies :: (Foldable t, Ord k, Num v) => t k -> Map.Map k v
+frequencies = foldr (\k -> Map.insertWith (+) k 1) Map.empty
 
 fromRight :: Either String a -> IO a
 fromRight = either fail pure
