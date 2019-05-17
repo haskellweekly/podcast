@@ -16,6 +16,19 @@ import qualified Podcast.Type.Url as Url
 episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
+    <$> Date.fromGregorian 2019 5 20
+    <*> Description.fromString
+          "Cameron Gera and Taylor Fausak talk about how Haskell encourages \
+	  \you to use the ports and adapters architecture.\n\n\
+          \https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
+    <*> Seconds.fromTimestamp 16 37
+    <*> Guid.fromString "32fd3459-b349-4c99-9150-5073fedab6bf"
+    <*> Number.fromNatural 10
+    <*> pure (Bytes.fromNatural 23942886)
+    <*> Title.fromString "Functional architecture"
+    <*> Url.fromString
+          "https://user.fm/files/v2-899d3b6f3afd69e0548d7c47ec34eca7/episode-10.mp3"
+  , Episode.Episode
     <$> Date.fromGregorian 2019 5 6
     <*> Description.fromString
           "Jason Fry and Cameron Gera talk about four small ways to improve \
