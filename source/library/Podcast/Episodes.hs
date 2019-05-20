@@ -70,8 +70,8 @@ episodes =
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 15
     <*> Description.fromString
-          "Jason Fry and Taylor Fausak talk about getting fast feedback with \
-          \ghcid.\n\n\
+          "Jason Fry and Taylor Fausak talk about getting fast feedback when \
+          \developing Haskell by using ghcid.\n\n\
           \https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
     <*> Seconds.fromTimestamp 18 38
     <*> Guid.fromString "7ed15199-bcd3-461e-af62-d504ae8a4a01"
@@ -109,8 +109,8 @@ episodes =
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 25
     <*> Description.fromString
-          "Jason Fry and Taylor Fausak talk which languages to use on the \
-          \frontend and backend, including Haskell, PureScript, and Elm.\n\n\
+          "Jason Fry and Taylor Fausak compare frontend and backend \
+          \languages, including PureScript and Elm.\n\n\
           \https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
     <*> Seconds.fromTimestamp 23 47
     <*> Guid.fromString "069964f7-2457-479f-8bab-9cb4f3abec9c"
@@ -122,8 +122,7 @@ episodes =
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 18
     <*> Description.fromString
-          "Sara Lichtenstein and Taylor Fausak talk about upgrading from Elm \
-          \0.18 to 0.19.\n\n\
+          "Sara Lichtenstein and Taylor Fausak talk about the good and bad of \ \upgrading from Elm 0.18 to 0.19.\n\n\
           \https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
     <*> Seconds.fromTimestamp 14 59
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
@@ -135,8 +134,8 @@ episodes =
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 11
     <*> Description.fromString
-          "Cody Goodman and Taylor Fausak talk about handling exceptions in \
-          \Haskell.\n\n\
+          "Cody Goodman and Taylor Fausak talk about handling errors in \
+          \Haskell by using exceptions.\n\n\
           \https://markkarpov.com/tutorial/exceptions.html"
     <*> Seconds.fromTimestamp 9 43
     <*> Guid.fromString "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
