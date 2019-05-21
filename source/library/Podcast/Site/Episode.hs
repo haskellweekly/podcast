@@ -43,6 +43,7 @@ html root episode = Template.html
             "audio"
             [ ("class", "d-block w-100")
             , ("controls", "controls")
+            , ("preload", "metadata")
             , ("src", Url.toString (Episode.url episode))
             ]
             [Html.text ""]
