@@ -19,7 +19,7 @@ episodes =
     <$> Date.fromGregorian 2019 5 20
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how Haskell encourages \
-	  \you to use the ports and adapters architecture.\n\n\
+          \you to use the ports and adapters architecture.\n\n\
           \https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
     <*> Seconds.fromTimestamp 16 37
     <*> Guid.fromString "32fd3459-b349-4c99-9150-5073fedab6bf"
@@ -27,7 +27,7 @@ episodes =
     <*> pure (Bytes.fromNatural 23942886)
     <*> Title.fromString "Functional architecture"
     <*> Url.fromString
-          "https://user.fm/files/v2-899d3b6f3afd69e0548d7c47ec34eca7/episode-10.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-20-episode-10.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 5 6
     <*> Description.fromString
@@ -40,7 +40,7 @@ episodes =
     <*> pure (Bytes.fromNatural 31507647)
     <*> Title.fromString "Improving Haskell"
     <*> Url.fromString
-          "https://user.fm/files/v2-c184bb75e7ebae3e6d24f15a08aeb557/episode-9.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-06-episode-9.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 29
     <*> Description.fromString
@@ -53,7 +53,7 @@ episodes =
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
     <*> Url.fromString
-          "https://user.fm/files/v2-a250a0ecdb53e9e3c36c4d57c7cceb21/episode-8.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-29-episode-8.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 22
     <*> Description.fromString
@@ -66,7 +66,7 @@ episodes =
     <*> pure (Bytes.fromNatural 25296111)
     <*> Title.fromString "Parser combinators"
     <*> Url.fromString
-          "https://user.fm/files/v2-7f984b030cc6c2f46fb6b4b78e802d4c/episode-7.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-22-episode-7.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 15
     <*> Description.fromString
@@ -79,9 +79,9 @@ episodes =
     <*> pure (Bytes.fromNatural 26845627)
     <*> Title.fromString "Fast feedback"
     <*> Url.fromString
-          "https://user.fm/files/v2-fb17e86f19ce358097a1c11c1276733d/episode-6.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-15-episode-6.mp3"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 4 08
+    <$> Date.fromGregorian 2019 4 8
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about build tools in Haskell, \
           \including Stack and Cabal.\n\n\
@@ -92,7 +92,7 @@ episodes =
     <*> pure (Bytes.fromNatural 21977225)
     <*> Title.fromString "Build tools"
     <*> Url.fromString
-          "https://user.fm/files/v2-5566df6d67fc930b0e1fdece8b231918/episode-5.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-08-episode-5.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 1
     <*> Description.fromString
@@ -105,7 +105,7 @@ episodes =
     <*> pure (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
     <*> Url.fromString
-          "https://user.fm/files/v2-1323dfdd0d35e682971a2bbeb5dc3a9e/episode-4.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-01-episode-4.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 25
     <*> Description.fromString
@@ -118,7 +118,7 @@ episodes =
     <*> pure (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
     <*> Url.fromString
-          "https://user.fm/files/v2-7223322ce11c6c3ec69111784aa34893/episode-3.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-25-episode-3.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 18
     <*> Description.fromString
@@ -130,7 +130,7 @@ episodes =
     <*> pure (Bytes.fromNatural 21580339)
     <*> Title.fromString "Upgrading Elm"
     <*> Url.fromString
-          "https://user.fm/files/v2-713fb5701a33ecfce9fbd9d407df747f/episode-2.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-18-episode-2.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 11
     <*> Description.fromString
@@ -143,5 +143,5 @@ episodes =
     <*> pure (Bytes.fromNatural 13999481)
     <*> Title.fromString "Handling exceptions"
     <*> Url.fromString
-          "https://user.fm/files/v2-9466bdde6ba1f30d51e417712da15053/episode-1.mp3"
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-11-episode-1.mp3"
   ]
