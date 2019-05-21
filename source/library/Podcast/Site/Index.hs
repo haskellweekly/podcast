@@ -29,7 +29,7 @@ body root episodes = Html.node
       "p"
       [("class", "lead")]
       [ Html.text
-          "Haskell Weekly is a podcast covering the Haskell progamming \
+          "Haskell Weekly is a podcast covering the Haskell programming \
           \langauge. Listen to professional software developers discuss using \
           \functional programming to solve real-world business problems. Each \
           \episode uses a conversational two-host format and runs for about \
