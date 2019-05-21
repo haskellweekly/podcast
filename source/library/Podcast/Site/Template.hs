@@ -84,7 +84,7 @@ body root content = Html.node
             , Html.node
               "a"
               [("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))]
-              [Html.text "Atom feed"]
+              [Html.text "RSS feed"]
             , Html.text "."
             ]
         ]
