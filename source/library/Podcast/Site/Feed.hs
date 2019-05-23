@@ -57,7 +57,7 @@ channelDescription = Xml.node
   "description"
   []
   [ Xml.text
-      "Haskell Weekly covers the Haskell progamming langauge. Listen to \
+      "Haskell Weekly covers the Haskell progamming language. Listen to \
       \professional software developers discuss using functional programming \
       \to solve real-world business problems. Each episode uses a \
       \conversational two-host format and runs for about 15 minutes."
