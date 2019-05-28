@@ -16,6 +16,19 @@ import qualified Podcast.Type.Url as Url
 episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
+    <$> Date.fromGregorian 2019 5 27
+    <*> Description.fromString
+          "Sara Lichtenstein and Taylor Fausak talk about improving the \
+          \performance of Haskell programs by profiling them.\n\n\
+          \https://blog.jez.io/profiling-in-haskell/"
+    <*> Seconds.fromTimestamp 19 12
+    <*> Guid.fromString "3ec1dc79-7a9c-46c3-b919-61471e876708"
+    <*> Number.fromNatural 11
+    <*> pure (Bytes.fromNatural 27690623)
+    <*> Title.fromString "Profiling performance"
+    <*> Url.fromString
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-27-episode-11.mp3"
+  , Episode.Episode
     <$> Date.fromGregorian 2019 5 20
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how Haskell encourages \
