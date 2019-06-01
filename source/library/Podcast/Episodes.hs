@@ -61,7 +61,7 @@ episodes =
           \with HLint and refactoring.\n\n\
           \https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
     <*> Seconds.fromTimestamp 14 20
-    <*> Guid.fromString "346b385f-40e4-4938-aecc-d9d82de4aeec"
+    <*> Guid.fromString "53bbcaeb-6e6f-4e1f-9806-f24032ac7a9f"
     <*> Number.fromNatural 8
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
