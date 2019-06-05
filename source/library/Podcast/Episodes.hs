@@ -16,6 +16,19 @@ import qualified Podcast.Type.Url as Url
 episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
+    <$> Date.fromGregorian 2019 6 3
+    <*> Description.fromString
+          "Dustin Segers and Cody Goodman talk about formatting Haskell \
+          \source code with automated tools like Ormolu.\n\n\
+          \https://www.tweag.io/posts/2019-05-27-ormolu.html"
+    <*> Seconds.fromTimestamp 16 37
+    <*> Guid.fromString "f166f89f-1a16-49f1-915a-d54505c301a0"
+    <*> Number.fromNatural 12
+    <*> pure (Bytes.fromNatural 23912963)
+    <*> Title.fromString "Formatting code"
+    <*> Url.fromString
+          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-03-episode-12.mp3"
+  , Episode.Episode
     <$> Date.fromGregorian 2019 5 27
     <*> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about improving the \
