@@ -15,11 +15,13 @@ import qualified Podcast.Episodes.Episode9 as Episodes
 import qualified Podcast.Episodes.Episode10 as Episodes
 import qualified Podcast.Episodes.Episode11 as Episodes
 import qualified Podcast.Episodes.Episode12 as Episodes
+import qualified Podcast.Episodes.Episode13 as Episodes
 import qualified Podcast.Type.Episode as Episode
 
 episodes :: [Either String Episode.Episode]
 episodes =
-  [ Episodes.episode12
+  [ Episodes.episode13
+  , Episodes.episode12
   , Episodes.episode11
   , Episodes.episode10
   , Episodes.episode9
