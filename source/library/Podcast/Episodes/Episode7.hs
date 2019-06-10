@@ -45,7 +45,6 @@ It's good to be back.
 >> How you doing? Yeah, right. I always loved being in here. It's always fun. They have this really scary picture behind where Taylor sits. It's quite intimidating.
 >> Too bad we can't pick it up on audio. Yeah, I can't remember I don't. What's its name again?
 
-
 >> I don't know. I thought you would know.
 >> I don't know. Well, any who we're here to talk about Haskell, not that guy in the picture.
 >> Which we'll get to that later, maybe. But today I had some questions about parsing in Haskell. I know Haskell's really powerful for that.
@@ -80,10 +79,8 @@ So Haskell's really good at providing those things, but it's not the only langua
 
 But I'd like to touch on the JSON, or the JavaScript side a little bit, being more background in JavaScript, becoming more 50/50 now Haskell or JavaScript as far as knowledge is concerned. In JavaScript, we use regex a lot to parse, and match, and see if something's what we expect it to be.
 
-
 >> Yeah, like on a credit card form.
 >> Right, and like validation, all that kind of stuff. Kind of make sure it's all numbers or whatever. And we tend to just use regex, cuz the library's pretty easy to use. It's very well resourced, there's a lot of stuff out there for regex, they're everywhere.
-
 
 >> It confuses the crap out of me still, and I have to reference it from time to time. But it is still, there's a lot out there and I know Haskell, we can use regex in Haskell for parsing, and it can do that. But it's probably a little bit better at just kinda the simple stuff, right.
 
@@ -92,11 +89,9 @@ Whereas maybe something like, like a programming language there's a little more 
 
 That's pretty easy to write a regular expression for. Most people would probably understand what that means. But if you wanted to write a regular expression that parses, say, a Python program, that's not gonna work. You're not gonna be able to do it or if you can, it's gonna be some giant monstrosity that nobody wants to look at.
 
-
 >> Hey, but regex is strong enough, it can do it, okay?
 >> If it sets its mind to it, it might be able to. You were talking about, maybe, more powerful abstractions we could use to parse something that's a little richer than a credit card number.
 >> Right.
-
 
 >> And in Haskell, the thing that we reach for is parser combinators. It's not the only thing that'll do this, but it's the one that I think we're most interested in talking about today.
 >> That's the one I heard recently and I would like to talk more about for sure.
@@ -104,17 +99,14 @@ That's pretty easy to write a regular expression for. Most people would probably
 Cuz it's definitely pretty interesting. The idea of a combinator in my mind sounds like something that we would be combining these little functions or something together.
 >> Exactly that kind of do this action and say, hey, I'll take this kind of file or this kind of text, and I can give you out this kind of result.
 
-
 >> Mm-hm, that's a great explanation of what combinator is. And when you plug it together with something like parser and you end up with parser combinator, what that means is that you can take small parsers that are all pretty simple by themselves. Let's say you have a parser that parses a string of numbers and another one that parses a comma and another one that parses a bunch of white space.
 
 You could combine all of those using parser combinators to come up with an expression that says something like, parse a number followed by a comma followed by another number. Or parse any number of numbers, each separated by a comma. Those types of expressions are really easy to do with parser combinators, but surprisingly difficult to do with regular expressions.
-
 
 >> Mm-hm.
 >> Usually in a language like JavaScript, you will use regular expressions as part of otherwise imperative code that parses some stream. So you're like, chew up, you know, a bunch of digits and then change your parser state to say, okay, now I'm looking for a comma, and then you go look for a comma.
 
 And then you switch back into the I'm looking for a numbers thing. Whereas in a language like Haskell with parser combinators, you can express that more declaratively and say, I want a bunch of numbers. And then a comma, and then some more numbers and it reads very well.
-
 
 >> That's really neat, that's nice that it gives us that ability. So we want to parse some big weather data for fun. Let's see what some weather trends are and let's write a little app for it. And we would be able to take whatever weather format data it is and if we have these simple little parsers that parse each little piece, we can kind of combine those all together just to make it all work.
 
@@ -133,7 +125,6 @@ You can code review it without having to look over to your cheat sheet and figur
 
 And so that makes it really powerful because you can apply all the same tooling that you do for static analysis or just your gut feel for that code looks right in that code doesn't look right. You can apply that to code written with parser combinators versus stuff wouldn't written with regular expressions.
 
-
 >> No, that makes sense and I was I don't like this guys cheat cheats. Pretty cool as far as like just little bits of Haskell regex, a little shortcuts and things that. But it just doesn't seem like it's all that robust. And obviously, it's hard when it's a tutorial to really go deep into maybe some of the powerful sides of regex, but I just I just see it getting confusing.
 
 If we were trying to go any further than the simple examples.
@@ -142,7 +133,6 @@ If we were trying to go any further than the simple examples.
 But then, six months later when you come to look at it you think, I don't know what this means anymore.
 >> I hope it researched and figured out which is which is where and there's obviously rejects.
 >> It's useful, it's got a purpose. There's plenty of people out there using it.
-
 
 >> Yeah. Is cool.
 >> And earlier you mentioned something about type safety which I wanted to come back to because Haskell is a strongly typed language, not every language is. But even aside from that, when you parse something with regular expressions, the only thing you can get out of it, use strings, you match strings and you get them out as groups of strings.
@@ -163,7 +153,6 @@ For anything to go wrong cuz they happen at the same time.
 That's its nature. Yeah.
 >> I will say indefensive regexes. One thing they do very well that pressure combinators aren't necessarily as good at is substituting something in a string of text. So if you have some big run and you want to replace every letter t with the letter g, For whatever reason.
 
-
 >> Maybe you're doing DNA sequencing and you're doing some weird stuff. I don't know.
 >> Maybe YG.
 >> Something like that.
@@ -178,10 +167,8 @@ If you're looking through this set of data, and you say, hey, every time you see
 
 A little, more intense, without losing understanding and also some type safety like that's I that is important to writing good robust code that doesn't break every other week. It's only about finding a bug. This forum is validating right anymore which I mean I doubt we would use pressure commentators on a form validation because.
 
-
 >> But you, right.
 >> Yeah, there's no reason not to. Yeah, swear. So I know we're kind of running out on time maybe but I just kind of wanted to. Have more of a curiosity, is there much overhead with understanding parser combinators? If you have a good level understanding of Haskell, what's the level of difficulty of parser combinators?
-
 
 >> Parser combinators definitely don't come for free. It's not like if you already understand Haskell, you can jump right into a parser and work it out just fine. You'll probably be able to stumble around and figure stuff out and go look at documentation or read something, but it won't necessarily be immediately obvious.
 
@@ -190,7 +177,6 @@ That being said, as I said earlier, you can still lean on your ASCII knowledge, 
 They use the same words for stuff which makes it really easy to jump between them. So if you use parser and one of your libraries and you use mega parts like in the other or there's a bunch cool. You'll be able to jump between those without too much trouble.
 
 So your knowledge is transferable between them. There's still the downside of as you mentioned at the top of the show. Regex is are everywhere, every language basically has them everybody. Most working programmers know what they mean and parser commentators are not like that at all. They're their own little thing.
-
 
 >> Right. So there's a little bit of mental complexity there but.
 >> Mm-hm.
@@ -229,7 +215,6 @@ Just because it's quick and it works the way you expect it to work and there's t
 
 It's been a lot of fun. It was really cool to hear your background and your knowledge and understanding of parsing the Haskell
 >> I hope I've helped you understand parsing in Haskell a little better and I hope I've helped our listeners understand parsing and how it compares with regular expressions other languages like JavaScript.
-
 
 >> Yeah, I'm excited about topics to come to I think our listeners got some cool stuff coming.
 >> Thank you for listening to the Haskell Weekly podcast. This has been episode seven. If you liked our show, find out more at our website, haskellweekly.news. Thanks again for listening. I've been your host Taylor Fausek.

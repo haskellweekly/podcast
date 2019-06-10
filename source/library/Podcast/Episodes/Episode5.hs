@@ -48,11 +48,9 @@ I'm doing pretty good. I'm pretty excited about today.
 
 So I just wanna talk about kind of stack a little bit more, and maybe some of the build tools and how that's helpful for us. I was reading an article about kind of how stack can give you this project structure out of the box, and how that's helpful for keeping all Haskell projects in the same format.
 
-
 >> We use Stack here at ITProTV to manage our Haskell projects. We only have one big project, and it's got a lot of smaller projects tucked inside of it. And Stack does a great job of keeping those things all in sync, along with all the dependencies that we use.
 
 Cabal is kind of the other contender in this area and we don't have any experience as a team here using Cabal directly. But Zach uses Cabal for a lot of things behind the scenes and in a lot of ways you could think of it as a smooth veneer on top of the foundation that Cabal provides.
-
 
 >> So it's like a shiny little outer coating.
 >> Exactly.
@@ -101,7 +99,6 @@ In the old days with Cabal, it installed most of your Haskell packages globally.
 
 But the sand box augmented your global packages, it was in addition to all of the global stuff. So if you accidentally installed some global package that wasn't the one you wanted in your project, again, you're stuck. You have to go remove that global package and install it locally instead
 
-
 >> That thing is rough, because then that could cause mismatches in people's local environments to what's happening in production, too. I feel like that's super dangerous.
 >> Very dangerous and annoying.
 >> Right, and I feel like we've kinda circumvented that because we dockerize things. So in our development locally, we dockerize everything.
@@ -115,7 +112,6 @@ Like you said, a global package inside a Docker container is still kind of local
 
 They call this NYX-style local builds. Which is taking a page out of the NYX handbook, which does everything for your entire system like this. Cabal focuses just on Haskell packages.
 >> Interesting, yeah, our co-worker Cody, he told me that I should make a Nix joke, so I'm glad you brought that into the picture.
-
 
 >> Can we nix that NYX joke?
 >> No, I can't nix it now. I have to, well, let's just move on, anyways.
@@ -141,10 +137,8 @@ Maybe you need to work out some dependencies but-
 And then you have to figure that out and that can be hard for a beginner to do.
 >> Got you, so we have a little bit of that in our code base based on our latest resolver that we have. We don't have some of our dependencies, so we had to bring in-
 
-
 >> Yeah, like Happstack.
 >> Happstack, right. And so that was kind of a, it kinda uses these extra dependencies and text kinda thing in the stack.yaml. And for a beginner, what would be just something to be aware of when trying to figure out, what do I do with this extra dependency, what does that look like?
-
 
 >> I think that Stack's documentation does a good job of explaining what these extra dependencies are, why you might need them, and how to put them into your stack.yaml file. Also, when you make a new project with Stack, it includes a Stack.yaml file that has a bunch of comments in it that say, if you need to include an extra depth, this is what it would look like, and this is why you might need it.
 
@@ -157,7 +151,6 @@ So I would say turn to Google.
 
 Volver stack in the Haskell world. We want everyone to know we love both. We just use Stack so we're more familiar with it. Why do you think necessarily this is such a hot topic?
 >> Me personally I don't feel too strongly one way or the other and we've been posing this as a Cabal versus Stack-
-
 
 >> Discussion.
 >> Flame war, discussion that we're hinting at here, but really there are other entrants in this battle. There's NYX which we've mentioned because Cabal kind of borrowed this concept of NYX style local builds. But you could use NYX to build Haskell packages and a lot of people do.

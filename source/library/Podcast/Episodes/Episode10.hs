@@ -49,17 +49,14 @@ How are you doing Taylor?
 It is Ports-And-Adapters. And what are Ports-And-Adapters? So I'll kind of talk more about Ports because that's really what I wanna do. So Ports are kind of responsible for interacting with the outside world and that could be a web app, it could be the database layer, a way to communicate with the outside world
 >> It's the thing that's making a call to the database or to some external service that you're using or even writing to the console.
 
-
 >> Exactly, yeah. And adapters are kind of everything inside, kind of handling all the business logic.
 >> Okay.
 >> Being able to kind of going hey, this is what this is.
 >> So adapters take their input from the the ports and then do some other stuff. And then what talk to another port talk to another adapter.
 
-
 >> Just depends on what the flow you know of your-
 >> So it could be either one.
 >> Right if you have an internal structure that needs to talk to another internal structure you'd be using adapters. But if you needed to call out to the database, you'd be using a port.
-
 
 >> Okay.
 >> Kind of, it kind of keeps things together, not so much, not so jumbled. It kind of keeps it clear, the boundaries between pure logic and input-output logic, right?
@@ -71,9 +68,7 @@ The interesting stuff that your business is doing, or your application is doing.
 >> Exactly.
 >> Okay, so now that we have kinda the vocabulary of this architecture, could you explain in more detail what the architecture is?
 
-
 >> Kind of the Ports-And-Adapters architecture allows us some niceties around it. So it kind of allows us to separate that input-output stream from the internal business logic. And it keeps our the ability to test internal business logic easier, cuz you're not always interacting with some input-output that could mess with the result.
-
 
 >> Yeah, it's a lot easier to test a pure function because if you have to write a test that, let's say interacts with the database. Then that means to run your test suite, you have to have your database up and running and your schema has to be up to date and you may have to have fake data populated in there.
 
@@ -87,7 +82,6 @@ Because that's what you expect from an API. You're saying the same thing to an A
 >> Right, but it does-
 >> But the unit tests on the inside, those are still really valuable.
 
-
 >> Right and the integrations are still a little more boilerplate kinda set up generally. And they're a little more, I won't say in bases, but they're definitely a little more meaty per se. So it's nice to be able to have that separation and have guarantee that the pure functions, they're gonna do what they need to do and those individual units are gonna perform as intended.
 
 But we also can create this test for the ports as well.
@@ -99,16 +93,12 @@ He uses F+ as an example. But in those languages, it can be really hard to have 
 
 What is it about Haskell that helps us write programs that are in this architecture and get these benefits from them? Yeah, the ability of purity, in types. Types systems enforces a lot of need to have type A, cross the boundary is type A still. Like it shouldn't be able to change across the boundery.
 
-
 >> Yeah, and we've mentioned purity a couple of times, and I just wanna be clear about what we're talking about specifically with regards to ASCII. It's a function that doesn't operate in I/O for our purposes at least at ITPro. That's typically what we mean by pure or not in our like application level handler.
-
 
 >> Right.
 >> Something that you give it a bunch of inputs and it gives you an output. End of story. Whereas impure code is something that has to be executed in some context, either with a database connection or with I/O or whatever. So when we're talking about pure functions, that's what we mean.
 
-
 >> Right, right, right. You know, we read through this article I'm a little bit in. It's about Ports-And-Adapters in school and stuff like that. But kind of talking about is a lot different than implementing it because in reality, Haskell kind of forces out hand this like And we don't have to really think about what the architecture really is in the grand scheme of things.
-
 
 >> Right, it forces you to do this architecture without having to be consciously aware, thinking, I'm implementing Ports-And-Adapters here.
 >> Right.
@@ -142,21 +132,17 @@ But he has a screencast where he talks about this concept of functional core imp
 >> Mm-hm.
 >> And then you have a very small layer on the outside that's responsible for collecting stuff from the outside world, passing it off to your application and then taking that result and sending it back to the outside world.
 
-
 >> Right.
 >> So it's funny how this concept of either functional core imperative shell or Ports-And-Adapters keep showing up in a guy who works with Ruby full time or Mark, I think he does a lot of F sharp, C sharp kind of the .NET world. Or even like you mentioned in computer science curriculum, which is often Java or Python or something like that.
-
 
 >> Right, very object oriented.
 >> All these language ecosystems have recognized that this is a powerful, useful architecture to set up your applications. But in Haskell It's just the way that you do things. There's it's almost harder to not follow this architecture.
 >> Right.
 >> So I see a lot of benefit and using a language that pushes you in the right direction like that.
 
-
 >> Yeah, cuz obviously if all these people are using it, it's not wrong, like it's-
 >> Probably not a bad idea.
 >> Right, like there's probably other options out there. But the fact that it allows you to protect your internal business logic from the outside world, that's important.
-
 
 >> Yeah.
 >> You don't want to be able to just come in and immediately from the outside world somehow modify some of the internal business logic and Haskell doesn't really allow it to happen.
@@ -170,7 +156,6 @@ You could be making a thousand queries in your template of all places. And templ
 >> Right.
 >> So, this architecture helps you avoid problems like that in addition to a bunch of others.
 
-
 >> Right, and it's not to say that like, like you said, it's just harder to make Haskell not be Ports-And-Adapters. I can go through code we've written when we were first starting Haskell and just, we would pass this giant contacts all around. And we're gonna find data here, here and here and always be talking to the outside world.
 
 And kind of over time you kind of realize, this just doesn't feel right. And so Haskell allows you to refactor that out too. Like we can make you make this one piece.
@@ -179,7 +164,6 @@ And kind of over time you kind of realize, this just doesn't feel right. And so 
 Haskell pulls you in, so it's, yes, keep doing that. That's the right thing.
 >> You can do it.
 >> Right, I think there's, a nice, Ports-And-Adapters allows you to kind of see that outside, you've got various aspects that are that are calling your API, your code base whatever that may be.
-
 
 >> Yeah, we talked about API's a lot cuz we do web programming. So that's kinda our bread and butter.
 >> Right.
@@ -209,7 +193,6 @@ It's easy to not do that.
 >> Right.
 >> You said that shoving all this stuff into the service didn't feel right but that was just kind of a gut feeling. There was nothing in the language or the framework telling you, maybe don't do that.
 
-
 >> Right.
 >> Whereas in Haskell, you do get, you know, I have to propagate I/O through all these functions or I'm passing in a hundred arguments. This is very clearly telling me something is wrong.
 >> Mm-hm, know for sure.
@@ -218,7 +201,6 @@ It's easy to not do that.
 Do you have anything else to add?
 >> I don't think so. I'm a little all over the place today. Just kind of coming out of the food coma a little bit and yeah. Yeah it's a little warm in here but that is what it is.
 >> It's Florida I mean.
-
 
 >> It's Florida but I also have my fair issues of sweating.
 >> At least we're not recording outside.
@@ -232,10 +214,8 @@ This is the inputs, the outputs, if you need to change something later, like Has
 >> And the type system is incredible. So that really just kind of all meshes nicely together.
 >> Yeah, well said. So thanks for chatting with me about Ports-And-Adapters, Cameron.
 
-
 >> Of course, thanks for having me.
 >> It's always great to have you on the show. And thank you for listening to the Haskell Weekly podcast. If you liked what you heard today, and want to know more about us, please check out our website at haskellweekly.news. This has been episode ten, and we'll see you next time.
-
 
 >> Adios.
 |]

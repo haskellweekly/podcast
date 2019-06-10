@@ -55,7 +55,6 @@ And that's something really valuable across a code base.
 
 Maybe there's a function that does the same thing or I don't know. It's a cat maybe. Something like that that does a very similar thing so it just says, hey, use this function instead of this function. And it kinda cleans up and minimizes the code, which is nice to have that going into each file, and having some sense of pattern, and kind of just cleanliness around the code base, right?
 
-
 >> Yeah, you could have your Haskell looking like lists, but you have hlint, then you have some assurance that it's gonna be a lot more clear, and you can focus on what the code's doing, instead of all that noise.
 >> Right, and I think it just kind of gets you back to coding efficiently, which is really nice.
 
@@ -67,7 +66,6 @@ I don't think we've really come across any of those four in our code base that I
 >> So a lot of imports, especially when you're just trying to hack something together, you can end up with that. So you leave a debug.trace or something. Hlint's gonna catch that and you can remove it.
 
 And then, like you said, for newcomers who are newer to Haskell, they might, if you're not using qualified imports, they'll be saying, where's this function to find that? If you have a ton of imports you're not using, it's going to be really hard for them to track it down.
-
 
 >> Yeah, I agree with you, Cody. I think it does help intermediate, only being in Haskell myself for a little over a year now, hlint really just kind of helped me shape my styles when I'm writing Haskell. I know you've written Haskell a lot longer than I have.
 
@@ -81,7 +79,6 @@ And they were there for a reason and they were born out of the experience that d
 
 Okay, let's see how they wrote the code to make this work. I wish it would be able to maybe look at it and say, hey, you should probably break this up or you should kind of shift things around because it's too conglomerate. There's too many-
 >> Too complex.
-
 
 >> Too complex, right. Sorry, conglomerate doesn't really make sense there. But yeah, too complex.
 >> Those functions are starting a business.
@@ -107,14 +104,12 @@ Then in this lambda, it is left to right. I think that's something that could be
 >> Does hlint have that?
 >> I don't think so, but it'd be interesting to start an issue about that and have a discussion.
 
-
 >> Yeah, it really would. Maybe we'll see if that could be put into place.
 >> Sure.
 >> No, but I think that is really awesome. Don, you were gonna say something.
 >> Yeah, yeah, I was gonna say that our specific problem, what helped make sense of it to me, is that we had that set of users and then we could easily turn that into a map.
 
 But from that map, we needed to, the map's values had another list of users and we needed to basically expand the map out. And that was what kind of made it difficult. And you might reach for a fold in that situation but something that's often times easier is making a lot of maps and unioning them together, which is where we ended up.
-
 
 >> Good old union with this. Also the map had, the key was a user ID, but the value within that was a list. And so unioning that with semi group allowed us to get exactly the result we were expecting. And it cleaned it up because, and we felt like when Jason and I wrote it we felt like, there could be a better way to do this.
 
@@ -124,7 +119,6 @@ But in this case hlint didn't necessarily save the day. But in a lot of other ca
 >> I think you're getting at a sort of unique selling proposition of Haskell, which is that you can not only sort of write the code that just works quickly.
 
 The compiler will help you do it, and then once you write it, even if you're not proud of it, you know that when you wanna go refactor it, you have a lot of guarantees. It's way easier to actually hack the code, get it out there real quick, and then have the confidence you can come back later without breaking things and improve upon it.
-
 
 >> No, and I really value that aspect of Haskell. I think it's, for us coming from a JavaScript background, most of us, we kind of dealt with, don't touch that code, you don't know what the side effects will be.
 >> It's a ball of marbles, it's a ball of marbles.

@@ -40,11 +40,9 @@ transcript :: Transcript.Transcript
 transcript = Transcript.fromString [Quasi.string|
 >> Welcome to the Haskell weekly podcast. This show is about Haskell, a purely functional programming language. I'm your guest, Jason Fry. I'm an engineer here at ITPROTV. With me today is your host Cameron Gera. He is one of our software engineers at ITProTV. Thanks for joining me today, Cameron.
 
-
 >> How's it going, Jason. I'm glad to be here.
 >> It's going really well, thank you.
 >> Yeah, well, what are we doing here? I mean I come just to hang out with you and you're like, hey, let's do a podcast. So what are we doing a podcast about?
-
 
 >> Yeah, that's how that worked. We're doing a podcast about Haskell, Cameron.
 >> Okay. There's a lot to talk about Haskell, I don't think we have all that time.
@@ -53,11 +51,9 @@ transcript = Transcript.fromString [Quasi.string|
 >> Haskell's pretty simple.
 >> Our viewers are very busy, busy, busy people.
 
-
 >> Not much to do here.
 >> No, okay. Hopefully everyone will learn Haskell.
 >> Well, so we were looking through Haskell Weekly, as we do most weeks, and found an article that you and I can talk about and maybe springboard off of called Four Tweaks to Improve Haskell.
-
 
 >> Mm-hm, yeah.
 >> So let's talk through that.
@@ -66,7 +62,6 @@ transcript = Transcript.fromString [Quasi.string|
 And they kind of seem to have some sort of idea that there's tweaks in Haskell, which every programming language has enhancements. And I think today we should kind of talk about what's good about these tweaks, maybe some of our frustrations with these tweaks. But the first one they mentioned is pretty interesting, something I'm on board with because I'm a lover of Elm.
 
 They call it the new colon convention. Which is quite funny because as you know, type declarations for functions in Haskell are double colon. And they make the joke that Haskell would be a much faster language if we just took out that double colon, made it a single colon.
-
 
 >> Yeah.
 >> Like our language of Elm.
@@ -101,7 +96,6 @@ So he's smarter than me. So either they didn't make a good enough case for this,
 
 So it's longer, and to me it doesn't enclose the record. I like the curly brackets enclosing the record. But this is one of those things that people can have holy wars over what is essentially completely unimportant. But those are my two opinions. It's longer to type and it doesn't visually enclose the record, which I've come to appreciate.
 
-
 >> Right, and they have some examples of little functions that, like setter functions, that doesn't really seem to help. I can see their reasoning for it, because they have a simple function that says set this value to two. And so the function calls blah with 2 equals 2 and says, okay, set this record, its field through to 2.
 
 But it just does not, it just doesn't feel right. I feel like I would rather say, at this point I would be able to just put that R that's there and then use record syntax and put in the attribute we're trying to update.
@@ -130,7 +124,6 @@ Inline function return type annotation. So pretty much what this is doing is giv
 
 And then colon the type that the function returns. Which seems kind of nice. Like it doesn't seem terrible, especially for like quick functions that you're using to, just one time use. Makes it pretty easy to say, hey, okay, let's put this, we know what this type needs to be, and it tells Haskell's compiler like, hey, this is what type this is, without needing necessarily its own line to say, this is what this type is.
 
-
 >> And I'm certain that there are languages that actually have this syntax very similar to this, and I'm trying to remember which one or ones. I'm wanting to say PureScript, TypeScript, something like that uses this syntax. And at first, yeah, I can get on board with this and it's not bad.
 
 But at first when I thought about this, yeah, I was confused. And then when I and grokked what was going on there, I thought, well, what if you have several parameters to this function, three or four parameters? And the parameter name, because you wanna be very clear with what this parameter is, it's something that's more than just one character.
@@ -154,7 +147,6 @@ Yeah, this is interesting because it lets you, it just puts together the type wi
 
 Yeah, cuz C++ has inline functions that tell you that like, inline, and then the return type, and then the function. But I don't know if that's really. I don't know. I was trying to do some research too just to kind of to see if we could figure out what it was.
 
-
 >> Yeah.
 >> But, I mean, they have a reason for it.
 >> It's more like, here's TypeScript. So you have value colon string padding colon any. And so that's. I think it's that, that it looks a lot like. But you're right, C++, Java, they do have a way of telling you what the type is in line.
@@ -164,10 +156,8 @@ But I meant the particular syntax of parameter, colon, type.
 >> Parameter, colon, type.
 >> Yeah, it does look a lot like TypeScript. That's true. Should've thought about that. We do have one repository here at ITPRO that is TypeScript for one of our internal applications. That I wish we understood the concept of functional programming when we wrote that, cuz at this point it looks like a JavaScript.
 
-
 >> It's just JavaScript. Everything is any, you know?
 >> Yeah, yeah. Every time I open it up in VS Code, VS Code will say hey, I have something to help you with this TypeScript file. And I'm confused, because I'm like, this is a JS file and I don't see any TypeScript syntax in here.
-
 
 >> Right, yeah.
 >> So there's like one thing in there or something that tells that it's a TypeScript and otherwise just JavaScript.
@@ -185,7 +175,6 @@ So their proposed solution was just instead of import qualified M, you would use
 
 I think it's a good, I think it's a noble cause. But yeah, I would be on board with this one as well if they could just do like, not export everything and just implicitly have to expose whatever you wanna use if you wanna expose everything in a module.
 
-
 >> Yeah, and I'm more okay with Haskell's way of doing things than you are. I know it's not a big deal for either one of us. But the reason I really like this Is I mean, most of these come down to the way we use the language versus somebody else.
 
 So the way we use Haskell is we import everything qualified. So Data.Aeson, for instance, when working with JSON stuff, we import qualified Data.Aeson as Aeson. And then we use it, Aeson.ToJSON or whatever. But there are some weird infix operators in there that always look really ugly whenever you qualify them.
@@ -200,7 +189,6 @@ And there's some question of, and this is silly, but software engineers, we're s
 
 That's what I want. And this would make that possible. But yeah, it's also more readable, it's closer to English, at least I should say. There's a lot of people writing Haskell that don't speak English very much or at all. So I don't know what it's like for them in their language but, certainly better for English.
 
-
 >> I would agree, yeah. There's definitely a few perks in this document, especially in this bullet point of the imports. One being readability, the other being sorting, which is a little more minor, that's not necessarily all that that big. But I do really appreciate these two authors writing this article, I think it was good food for thought.
 
 It really allowed us to kind of understand what maybe some of our opinions and solidify some of our opinions about Haskell and why we liked Haskell. And challenge some of our opinions. I mean like okay, why do you like that? I think that was really important as we an engineering team are getting more and more familiar and comfortable with Haskell.
@@ -208,7 +196,6 @@ It really allowed us to kind of understand what maybe some of our opinions and s
 That this allowed us to really form an opinion, and have a little pride about how like what we liked about Haskell. You know what I mean?
 >> Yeah, yeah, yeah, I like this article. And again, the authors Shane Fletcher and Neil Mitchell are smarter than I, or-
 >> Agreed.
-
 
 >> Or Cam, I can speak for Cam on this one.
 >> Ouch, but I agree, I do agree.
@@ -229,7 +216,6 @@ I would say I learned something from this.
 So yeah, that's a good point. Maybe OCaml, there's some similarities here with OCaml stuff or something.
 >> Yeah, no, Neil Mitchell, he seems like he's a really cool guy. He's got a PhD, definitely smarter than I am.
 >> Yeah, we use HLint and ghcid all the time in Google.
-
 
 >> Yeah, so obviously, the guy knows what he's doing. Well, Jason, I just wanna thank you for being on the show today with me.
 >> It's my pleasure.

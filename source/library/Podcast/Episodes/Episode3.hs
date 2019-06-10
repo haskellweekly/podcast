@@ -42,7 +42,6 @@ transcript = Transcript.fromString [Quasi.string|
 >> Hello.
 >> And he's the lead engineer at ITProTV. With him today is me, Jason Fry. I'm one of the engineers here like a pro as well, thanks for me joining you today.
 
-
 >> Thanks for joining me Jayson and for introducing yourself.
 >> Yeah, we think it's fun for the host not to introduce himself, so what are we talking about today?
 >> Well, I know that last week you were asking me a little about the languages that we use everyday here at ITPro and kind of why we chose them.
@@ -54,7 +53,6 @@ So I guess the question I asked you was, if we were to make this decision again 
 
 Would we still use Haskell and Elm? Would we use Haskell and PureScript or just go back to JavaScript.
 >> I'm pretty sure we wouldn't go back to JavaScript. Everybody seems to like working with Haskell and Elm around here, so I don't wanna subject them to the horrors of JavaScript.
-
 
 >> It's true, it's true.
 >> If we made the decision again today, I think we would end up with the same choices, Haskell on the back-end and Elm on the front-end. But I wasn't here when we made the decision in the first place. So I'm not entirely sure if we were still using JavaScript and we had to reintroduce some new languages.
@@ -85,7 +83,6 @@ Whereas ELM I think typically is under one megabyte pretty comfortably.
 >> And the number in my head for Elm is for a small app you're talking about kilobytes.
 >> Yeah.
 >> So that is a pretty big difference. Okay, that makes sense.
-
 
 >> And to touch on that for a second, one of the reasons that Elm produces a somewhat large JavaScript bundle is that it has its own run time to handle all the message passing and serializing to and from JSON and all that stuff. But it tries really hard to match the semantics of JavaScript whenever possible, so it's strict and it's single threaded.
 
@@ -124,13 +121,11 @@ Versus when something goes wrong in Elm that's almost literally what the Elm com
 And it's a strange syntax, and it's a different compiler. All of these things changed, it's really nice to have that helpful compiler there at your side.
 >> Absolutely. It's one of the things that we really like, and with Elm 19, it's an even friendlier compiler. Took me out to dinner last night.
 
-
 >> Complete gentlemen. But for when we started Elm a year and a half ago, it was really helpful to get those that sort of helpful feedback. But we still were pretty new and even with it being a friendly compiler, we still were stumped much more often. But now we have some more people in our company that are coming in and learning Elm.
 
 More of our design team is starting to learn Elm and that highlights it even more for us, is that they have repeatedly said my goodness this compiler is so helpful. So that is really cool to hear them say that and for us to be reminded. Cuz we begin to take it for granted and especially because we compare it to the Haskell compiler.
 
 Which just today had some issue that I thought when we compiled it was going to complain because a parens was in the wrong spot and it gave some really gnarly output. I was like I don't know what you were saying, put a parens there and my kinda gut just tells that's what is is, sure enough that's what it was.
-
 
 >> Yeah.
 >> But if I had not already suspected I was gonna have a parens issue I don't know long I would've looked at that output not knowing what to do.
@@ -141,7 +136,6 @@ Usually I'm like, well, I probably know what it is already.
 >> Thanks for letting me know Haskell.
 >> Yeah, so we love Elm's compiler. Purescripts' compiler just isn't quite as friendly, it sort of as a couple tattoos, smokes or something.
 >> Not nearly as friendly. In fact, when you compare Elm to Haskell, and you see how much better Elam is, I feel that when you compare Haskell to Purescript, you see how much better Haskell is.
-
 
 >> So that bad? Yeah, granted, my perspective of the Purescript compiler is woefully out of date. I used it maybe two or three years ago, and I I am confident that in the meantime things have gotten better. But it feels a lot like it technically tells you what the problem is.
 
@@ -157,7 +151,6 @@ But if Haskell wasn't an option for us for some reason, does that make more sens
 
 I may end up choosing something even more niche. Actually, I don't know that would be more niche but something like OCaml or ReasonML, all of which can compile to JavaScript. So for instance, if I had a mandate that said you have to run Node JS on the back end, I would say, okay, I'll do Purescript.
 
-
 >> I would say why, why do I have this mandate.
 >> Who's making these mandates. In those situations I would choose something like Purescript or OCaml or ReasonML over GFCJS. There's plenty of languages that compile to JavaScript. I think that Purescript in a lot of ways is better than Haskell.
 
@@ -166,7 +159,6 @@ It addresses a lot of the problems with Haskell that come from it being a very o
 Versus in Purescript you can just create one as easily as you create a tuple or a list or whatever.
 >> Nice. Similarly, strings in Haskell are notoriously a linked list of characters, which is one of the worst representations you could come up with.
 >> I feel like I could come up with a worst one, but sure.
-
 
 >> Whereas in Purescript, they're basically the same as JavaScript strings. Which, given how ubiquitous JavaScript is, we have to assume are at least somewhat acceptable.
 >> Yeah, yeah. Okay, so Purescript does the anonymous records, which reduces a lot of boiler plate. So if you have a user record with a name and an age and an occupation, and blood type or whatever, sure, and you want a subset of that record for some other purpose, so you have your master record.
@@ -177,7 +169,6 @@ And then you have well here, I just want these three fields, but there, I want t
 Not blood type, we don't capture that about our users.
 >> Yet.
 >> But we also have a minimal user, which is useful when we're writing tests, or when we want to add a new user, and we don't have all of their information yet. And we don't care, we don't have their address or their billing information, or any of that stuff.
-
 
 >> Their shirt size.
 >> Their shirt size, exactly. With Haskell we have to explicitly make a user, a minimal user, a slightly more minimal user, a slightly less minimal user, user with a bunch of other fields tacked on. And in Purescript you can make all of those a little more implicitly, a little more off the cuff.
@@ -191,7 +182,6 @@ Because if you have a user and you have a user with two different fields, they'r
 >> User prime prime.
 >> Please don't do that.
 >> User prime prime prime.
-
 
 >> We don't allow primes here.
 >> No primes.
@@ -221,7 +211,6 @@ So you publish work to the queue and then have something else, some entirely sep
 Because a lot of what a back end is going to do at some point, maybe not a lot of what it does, but frequently you're going to be doing something like that, where you're wanting to handle something asynchronously send off an email.
 >> Yeah, almost all the time.
 
-
 >> Yeah. Always sending emails. So that makes a lot of sense. Purescript sounds great. But if you can do, if you can use Haskell, it sounds like you should.
 >> You should.
 >> Of course, that's our opinion because that's literally what we're doing. But I start to see that a little bit better now.
@@ -246,7 +235,6 @@ And it's nice to not have to think about that or worry about that, it's just the
 >> The tooling's really good. It's an opinionated formatter, so you don't have formatting wars or arguments. So, those are some of the reasons that you mentioned and then I just threw on top of that of Elm over Purescript.
 
 It's like Purescript seems really good, but Haskell might just be a little better than it in a lot of cases on the back end and Elm might be just a little better than it In a lot of the cases in the front end. But I just need to use it recreational like you used to.
-
 
 >> Is what I need to do.
 >> Thanks for being on the show with me today, Jason.

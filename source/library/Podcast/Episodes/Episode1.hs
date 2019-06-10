@@ -50,10 +50,8 @@ We know them from other languages that we've worked with, other imperative langu
 
 And it turns out, after you try that, you'll see that coming up with the exception hierarchies, making models that make sense is really difficult. Whenever you want to add another exception, for instance, you have to type that out, account for it somewhere else. It becomes quite becomes quite laborious.
 
-
 >> Yeah, and let's back up a minute and make this concrete. You mentioned that the real world, unfortunately, has imperfections, unlike our pure, crystalline world of Haskell. What are some of those things that we could talk about, just to have a concrete example to play with?
 >> If you just take integer division, for instance, something that could go wrong is a user passing a zero and a divide by zero happening.
-
 
 >> Yeah and then the whole app blows up, which may be what we want, maybe not. Let's say that somebody divides by zero, one way that we could model that is with an exception. I think a lot of languages, like Python, do that. Haskell may even do that.
 
@@ -68,28 +66,22 @@ Maybe I'll listen to this later and see I was wrong here. But-
 Or if we got the result and it wasn't a zero, just that value.
 >> And since we only have one kind of exception case to deal with here, it's pretty easy to decide. Yeah, we should probably use maybe instead of either. But if we had a lot of cases, wouldn't we wanna use either rather than maybe?
 
-
 >> Yeah, typically you'd wanna use either. When you when you first learn about that, say from real world Haskell or some more updated materials, you'll use either string some value. And you will use that to essentially plan out what that string value is. But that's remarkably similar to just using exceptions.
 
-
 >> Yeah, the only difference really is that we've captured it in the type and we can work with it as a value. Either string something isn't super useful cuz the only thing you can do with that string is maybe print it out. Or maybe poke out it if you're really wanna try to determine, does it have zero in there somewhere?
-
 
 >> Right.
 >> Which isn't very satisfying. But let's say, we had integer division by zero, which returns a maybe. We have some more complicated thing that returns a neither. Isn't it kinda difficult to smoosh those values together and work with both of them in one context?
 >> How do you mean exactly?
-
 
 >> So if we have integer division that returns a maybe integer. And so, we have to deal with just some value or nothing. And then we have some other computation, I can't think of one off the top my head. But it returns in either, let's say, string integer.
 
 And we wanna, if the maybe is a just integer, and the either is a right integer, add those things together. Don't we have to do a lot of pattern matching or something?
 >> Yeah, we have to do pattern matching. There's no good way to use any F mapping or short-circuiting between maybes and eithers, cuz they have a different number of parameters.
 
-
 >> Yeah, and they're just different types. Whereas, if everything was a maybe or everything was an either, even with the same error type, then we could work with those values really easily.
 >> Right.
 >> And right, I guess a problem there would be that that error type, if we were using either, would start to get really big, right?
-
 
 >> Yeah, so let's say you replace that string with your own my custom error type. You make it a sum type. You enumerate out all the things that could go wrong. Sure, with simple problems that would not be too bad, and it may even be the preferred option in simple cases.
 
@@ -106,7 +98,6 @@ But I also have to handle file does exist error and control c and all this other
 >> Right and that's something that just doesn't make sense. And it's something that your definitely not gonna have time for.
 
 I think that might be a reason that, for instance, programmers who don't know as much about Haskell or the benefits if it, will see it as not a real-world language. They don't wanna be caught up in all of those concerns. But the good news is, they don't have to be.
-
 
 >> Yeah exactly, it is a real-word language. And it can be used the same way as every other language, because you can just throw an exception. And in a way, during an exception is a lot like you're in this either some giant error case. Except that you don't have to explicitly handle all these cases that you know aren't gonna happen.
 
@@ -139,14 +130,12 @@ Pure code doesn't necessarily have a guarantee of the order, for instance, addit
 We don't necessarily know which one of those will be evaluated first.
 >> Right, so it could be we'd run that and we'd get one printed out to our console as the error. Or we'd get two, and there's just no way to know ahead of time which one it's gonna be.
 
-
 >> Exactly.
 >> So since that's the case, we can only catch errors in IO, is that right?
 >> Correct.
 >> That means that we can throw errors anywhere we want, and then at the top level of our program, which has to be IO, right?
 >> Mm-hm.
 >> That's where we handle everything and do the typical IO stuff of just log it out and crash the program.
-
 
 >> Correct, correct.
 >> Thanks for being on the show, Cody.
