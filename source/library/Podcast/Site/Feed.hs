@@ -3,6 +3,7 @@ module Podcast.Site.Feed
   )
 where
 
+import qualified Podcast.Type.Article as Article
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -15,6 +16,7 @@ import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
+import qualified Podcast.Xml.Render as Render
 
 rss :: Url.Url -> [Episode.Episode] -> Xml.Element
 rss root episodes = Xml.element
@@ -127,7 +129,23 @@ itemDescription :: Episode.Episode -> Xml.Node
 itemDescription episode = Xml.node
   "description"
   []
-  [Xml.text (Description.toString (Episode.description episode))]
+  [ Xml.text
+      (Render.nodes
+        [ Xml.node
+          "p"
+          []
+          [Xml.text (Description.toString (Episode.description episode))]
+        , Xml.node
+          "p"
+          []
+          [ Xml.node
+              "a"
+              [("href", Article.toString (Episode.article episode))]
+              [Xml.text (Article.toString (Episode.article episode))]
+          ]
+        ]
+      )
+  ]
 
 itemDuration :: Episode.Episode -> Xml.Node
 itemDuration episode = Xml.node

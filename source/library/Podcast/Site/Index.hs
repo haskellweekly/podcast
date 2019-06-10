@@ -70,15 +70,7 @@ item root episode = Html.node
           , Html.node
             "p"
             [("class", "card-text")]
-            [ Html.text
-                (concat
-                  (take
-                    1
-                    (lines (Description.toString (Episode.description episode))
-                    )
-                  )
-                )
-            ]
+            [Html.text (Description.toString (Episode.description episode))]
           , Html.node
             "a"
             [ ("class", "card-link")

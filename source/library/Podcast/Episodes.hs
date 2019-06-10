@@ -21,8 +21,7 @@ episodes =
     <*> Date.fromGregorian 2019 6 3
     <*> Description.fromString
           "Dustin Segers and Cody Goodman talk about formatting Haskell \
-          \source code with automated tools like Ormolu.\n\n\
-          \https://www.tweag.io/posts/2019-05-27-ormolu.html"
+          \source code with automated tools like Ormolu."
     <*> Seconds.fromTimestamp 16 37
     <*> Guid.fromString "f166f89f-1a16-49f1-915a-d54505c301a0"
     <*> Media.fromString
@@ -35,8 +34,7 @@ episodes =
     <*> Date.fromGregorian 2019 5 27
     <*> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about improving the \
-          \performance of Haskell programs by profiling them.\n\n\
-          \https://blog.jez.io/profiling-in-haskell/"
+          \performance of Haskell programs by profiling them."
     <*> Seconds.fromTimestamp 19 12
     <*> Guid.fromString "3ec1dc79-7a9c-46c3-b919-61471e876708"
     <*> Media.fromString
@@ -50,8 +48,7 @@ episodes =
     <*> Date.fromGregorian 2019 5 20
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how Haskell encourages \
-          \you to use the ports and adapters architecture.\n\n\
-          \https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
+          \you to use the ports and adapters architecture."
     <*> Seconds.fromTimestamp 16 37
     <*> Guid.fromString "32fd3459-b349-4c99-9150-5073fedab6bf"
     <*> Media.fromString
@@ -65,8 +62,7 @@ episodes =
     <*> Date.fromGregorian 2019 5 6
     <*> Description.fromString
           "Jason Fry and Cameron Gera talk about four small ways to improve \
-          \Haskell as a language.\n\n\
-          \https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
+          \Haskell as a language."
     <*> Seconds.fromTimestamp 21 52
     <*> Guid.fromString "de704aad-e6a1-41a6-976f-bd3f2ef34ad2"
     <*> Media.fromString
@@ -80,8 +76,7 @@ episodes =
     <*> Date.fromGregorian 2019 4 29
     <*> Description.fromString
           "Cameron Gera and Cody Goodman talk about enforcing best practices \
-          \with HLint and refactoring.\n\n\
-          \https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
+          \with HLint and refactoring."
     <*> Seconds.fromTimestamp 14 20
     <*> Guid.fromString "53bbcaeb-6e6f-4e1f-9806-f24032ac7a9f"
     <*> Media.fromString
@@ -95,8 +90,7 @@ episodes =
     <*> Date.fromGregorian 2019 4 22
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how regular expressions \
-          \compare to parser combinators in Haskell.\n\n\
-          \https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
+          \compare to parser combinators in Haskell."
     <*> Seconds.fromTimestamp 17 29
     <*> Guid.fromString "287a197e-e9fd-47b6-9506-2f39be002af7"
     <*> Media.fromString
@@ -110,8 +104,7 @@ episodes =
     <*> Date.fromGregorian 2019 4 15
     <*> Description.fromString
           "Jason Fry and Taylor Fausak talk about getting fast feedback when \
-          \developing Haskell by using ghcid.\n\n\
-          \https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
+          \developing Haskell by using ghcid."
     <*> Seconds.fromTimestamp 18 38
     <*> Guid.fromString "7ed15199-bcd3-461e-af62-d504ae8a4a01"
     <*> Media.fromString
@@ -125,8 +118,7 @@ episodes =
     <*> Date.fromGregorian 2019 4 8
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about build tools in Haskell, \
-          \including Stack and Cabal.\n\n\
-          \https://sakshamsharma.com/2018/03/haskell-proj-struct/"
+          \including Stack and Cabal."
     <*> Seconds.fromTimestamp 15 15
     <*> Guid.fromString "25b43cdb-e278-42da-97dc-3c6d353ec8c8"
     <*> Media.fromString
@@ -140,8 +132,7 @@ episodes =
     <*> Date.fromGregorian 2019 4 1
     <*> Description.fromString
           "Dustin Segers and Taylor Fausak talk about avoiding boolean \
-          \blindness by using custom types.\n\n\
-          \https://runtimeverification.com/blog/code-smell-boolean-blindness/"
+          \blindness by using custom types."
     <*> Seconds.fromTimestamp 15 57
     <*> Guid.fromString "aea8101c-b126-4cb5-be14-00200d3f6c27"
     <*> Media.fromString
@@ -155,8 +146,7 @@ episodes =
     <*> Date.fromGregorian 2019 3 25
     <*> Description.fromString
           "Jason Fry and Taylor Fausak compare frontend and backend \
-          \languages, including PureScript and Elm.\n\n\
-          \https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
+          \languages, including PureScript and Elm."
     <*> Seconds.fromTimestamp 23 47
     <*> Guid.fromString "069964f7-2457-479f-8bab-9cb4f3abec9c"
     <*> Media.fromString
@@ -170,8 +160,7 @@ episodes =
     <*> Date.fromGregorian 2019 3 18
     <*> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about the good and bad of \
-          \upgrading from Elm 0.18 to 0.19.\n\n\
-          \https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
+          \upgrading from Elm 0.18 to 0.19."
     <*> Seconds.fromTimestamp 14 59
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
     <*> Media.fromString
@@ -184,8 +173,7 @@ episodes =
     <*> Date.fromGregorian 2019 3 11
     <*> Description.fromString
           "Cody Goodman and Taylor Fausak talk about handling errors in \
-          \Haskell by using exceptions.\n\n\
-          \https://markkarpov.com/tutorial/exceptions.html"
+          \Haskell by using exceptions."
     <*> Seconds.fromTimestamp 9 43
     <*> Guid.fromString "6fe12dba-e0c3-4af5-b9fc-844bc2396ae7"
     <*> Media.fromString
