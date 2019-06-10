@@ -3,6 +3,7 @@ module Podcast.Type.Episode
   )
 where
 
+import qualified Podcast.Type.Article as Article
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,4 +22,5 @@ data Episode = Episode
   , number :: Number.Number
   , size :: Bytes.Bytes
   , title :: Title.Title
+  , article :: Article.Article
   } deriving (Eq, Ord, Show)

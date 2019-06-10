@@ -3,6 +3,7 @@ module Podcast.Episodes
   )
 where
 
+import qualified Podcast.Type.Article as Article
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -28,6 +29,7 @@ episodes =
     <*> Number.fromNatural 12
     <*> pure (Bytes.fromNatural 23912963)
     <*> Title.fromString "Formatting code"
+    <*> Article.fromString "https://www.tweag.io/posts/2019-05-27-ormolu.html"
   , Episode.Episode
     <$> Date.fromGregorian 2019 5 27
     <*> Description.fromString
@@ -41,6 +43,7 @@ episodes =
     <*> Number.fromNatural 11
     <*> pure (Bytes.fromNatural 27690623)
     <*> Title.fromString "Profiling performance"
+    <*> Article.fromString "https://blog.jez.io/profiling-in-haskell/"
   , Episode.Episode
     <$> Date.fromGregorian 2019 5 20
     <*> Description.fromString
@@ -54,6 +57,8 @@ episodes =
     <*> Number.fromNatural 10
     <*> pure (Bytes.fromNatural 23942886)
     <*> Title.fromString "Functional architecture"
+    <*> Article.fromString
+          "https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
   , Episode.Episode
     <$> Date.fromGregorian 2019 5 6
     <*> Description.fromString
@@ -67,6 +72,8 @@ episodes =
     <*> Number.fromNatural 9
     <*> pure (Bytes.fromNatural 31507647)
     <*> Title.fromString "Improving Haskell"
+    <*> Article.fromString
+          "https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 29
     <*> Description.fromString
@@ -80,6 +87,8 @@ episodes =
     <*> Number.fromNatural 8
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
+    <*> Article.fromString
+          "https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 22
     <*> Description.fromString
@@ -93,6 +102,8 @@ episodes =
     <*> Number.fromNatural 7
     <*> pure (Bytes.fromNatural 25296111)
     <*> Title.fromString "Parser combinators"
+    <*> Article.fromString
+          "https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 15
     <*> Description.fromString
@@ -106,6 +117,8 @@ episodes =
     <*> Number.fromNatural 6
     <*> pure (Bytes.fromNatural 26845627)
     <*> Title.fromString "Fast feedback"
+    <*> Article.fromString
+          "https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 8
     <*> Description.fromString
@@ -119,6 +132,8 @@ episodes =
     <*> Number.fromNatural 5
     <*> pure (Bytes.fromNatural 21977225)
     <*> Title.fromString "Build tools"
+    <*> Article.fromString
+          "https://sakshamsharma.com/2018/03/haskell-proj-struct/"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 1
     <*> Description.fromString
@@ -132,6 +147,8 @@ episodes =
     <*> Number.fromNatural 4
     <*> pure (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
+    <*> Article.fromString
+          "https://runtimeverification.com/blog/code-smell-boolean-blindness/"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 25
     <*> Description.fromString
@@ -145,6 +162,8 @@ episodes =
     <*> Number.fromNatural 3
     <*> pure (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
+    <*> Article.fromString
+          "https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 18
     <*> Description.fromString
@@ -157,6 +176,8 @@ episodes =
     <*> Number.fromNatural 2
     <*> pure (Bytes.fromNatural 21580339)
     <*> Title.fromString "Upgrading Elm"
+    <*> Article.fromString
+          "https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 11
     <*> Description.fromString
@@ -170,4 +191,5 @@ episodes =
     <*> Number.fromNatural 1
     <*> pure (Bytes.fromNatural 13999481)
     <*> Title.fromString "Handling exceptions"
+    <*> Article.fromString "https://markkarpov.com/tutorial/exceptions.html"
   ]
