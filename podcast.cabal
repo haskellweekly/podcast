@@ -52,6 +52,7 @@ library
     Podcast.Type.Seconds
     Podcast.Type.Source
     Podcast.Type.Title
+    Podcast.Type.Transcript
     Podcast.Type.Url
     Podcast.Type.Xml.Attribute
     Podcast.Type.Xml.Element
