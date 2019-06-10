@@ -59,7 +59,7 @@ html root episode = Template.html
             [("class", "card")]
             [ Html.node
                 "div"
-                [("class", "card-body"), ("style", "white-space: pre-wrap;")]
+                [("class", "card-body")]
                 [ Html.node
                   "p"
                   []
@@ -84,16 +84,23 @@ html root episode = Template.html
       [ Html.node
           "div"
           [("class", "col")]
-          [ Html.node "h3" [] [Html.text "Transcript"]
-          , case Episode.transcript episode of
-            Nothing -> Html.node
-              "p"
-              []
-              [Html.text "No transcript is available for this episode."]
-            Just transcript -> Html.node
-              "p"
-              [("style", "white-space: pre-wrap;")]
-              [Html.text (Transcript.toString transcript)]
+          [ Html.node
+              "div"
+              [("class", "card mt-3")]
+              [ Html.node
+                "div"
+                [("class", "card-header")]
+                [Html.text "Transcript"]
+              , Html.node
+                "div"
+                [("class", "card-body"), ("style", "white-space: pre-line;")]
+                [ case Episode.transcript episode of
+                    Nothing ->
+                      Html.text "No transcript is available for this episode."
+                    Just transcript ->
+                      Html.text (Transcript.toString transcript)
+                ]
+              ]
           ]
       ]
     ]
