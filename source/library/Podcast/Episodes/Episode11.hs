@@ -27,6 +27,6 @@ episode11 =
     <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-27-episode-11.mp3"
     <*> Number.fromNatural 11
-    <*> pure (Bytes.fromNatural 27690623)
+    <*> Right (Bytes.fromNatural 27690623)
     <*> Title.fromString "Profiling performance"
     <*> Right Nothing

@@ -28,6 +28,6 @@ episode8 =
     <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-29-episode-8.mp3"
     <*> Number.fromNatural 8
-    <*> pure (Bytes.fromNatural 20714874)
+    <*> Right (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
     <*> Right Nothing

@@ -28,6 +28,6 @@ episode4 =
     <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-01-episode-4.mp3"
     <*> Number.fromNatural 4
-    <*> pure (Bytes.fromNatural 23002958)
+    <*> Right (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
     <*> Right Nothing

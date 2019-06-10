@@ -28,6 +28,6 @@ episode3 =
     <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-25-episode-3.mp3"
     <*> Number.fromNatural 3
-    <*> pure (Bytes.fromNatural 34265398)
+    <*> Right (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
     <*> Right Nothing
