@@ -79,7 +79,7 @@ And so he kind of-
 
 So just keeps getting passed along to successive calls. Which is of interesting the way they do things and makes sense for Haskell because it's pure. So you have to have something that's sort of implements that randomness, but it's still kind of strange even to me after programming it for a while to see that explicitly passed in as an argument.
 
-So then he gets into kind of the performance characteristics, and this is where he talks about how slow it is. And again, it´s crazy to me that's under a second, and he's like it's just too slow.
+So then he gets into kind of the performance characteristics, and this is where he talks about how slow it is. And again, it's crazy to me that's under a second, and he's like it's just too slow.
 >> Yeah, I found that very hilarious, because I started reading it and he was like, yeah 738 milliseconds and Im like, what in the world?
 
 How is that slow?

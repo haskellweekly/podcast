@@ -236,7 +236,7 @@ I don't have to worry about it, if I don't care about it in the moment, it's rea
 >> Another nice thing that GHCID does, in relation to test suites, is that if your test suite is running, and then you make another change in your editor and save it, it'll stop that run of your test suite, and rebuild it, and rerun it.
 
 So you don't have to sit there, like you do with the Stack Build, and wait for the tests to succeed or fail in order to start another build for the change you just made.
->> Yeah, that´s nice. So, you mentioned you can run some arbitrary something with the exec command.
+>> Yeah, that's nice. So, you mentioned you can run some arbitrary something with the exec command.
 
 Is that what it is, you use exec command?
 >> Or I think in GHC idea it's called test.

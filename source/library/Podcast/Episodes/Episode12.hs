@@ -46,7 +46,7 @@ transcript = Transcript.fromString [Quasi.string|
 >> Nice.
 
 
->> An 18th century guilding technique for applying finely ground, high-carat gold–mercury amalgam.
+>> An 18th century guilding technique for applying finely ground, high-carat gold-mercury amalgam.
 >> Wow,
 >> That's a mouthful.
 >> Yep, yeah, I had no idea, so I figured I'd probably butcher the name, but thanks for letting me know. Yeah, so the author, Mark Karpov, excuse me if I mispronounced the last name, has got a pretty good train of thought here.
