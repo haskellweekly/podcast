@@ -34,6 +34,16 @@ library
   hs-source-dirs: source/library
   other-modules:
     Podcast.Episodes
+    Podcast.Episodes.Episode1
+    Podcast.Episodes.Episode2
+    Podcast.Episodes.Episode3
+    Podcast.Episodes.Episode4
+    Podcast.Episodes.Episode5
+    Podcast.Episodes.Episode6
+    Podcast.Episodes.Episode7
+    Podcast.Episodes.Episode8
+    Podcast.Episodes.Episode9
+    Podcast.Episodes.Episode10
     Podcast.Episodes.Episode11
     Podcast.Episodes.Episode12
     Podcast.Html
