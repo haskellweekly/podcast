@@ -40,11 +40,13 @@ library
     Podcast.Site.Index
     Podcast.Site.Logo
     Podcast.Site.Template
+    Podcast.Type.Article
     Podcast.Type.Bytes
     Podcast.Type.Date
     Podcast.Type.Description
     Podcast.Type.Episode
     Podcast.Type.Guid
+    Podcast.Type.Media
     Podcast.Type.Number
     Podcast.Type.Route
     Podcast.Type.Seconds

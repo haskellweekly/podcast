@@ -3,17 +3,20 @@ module Podcast.Site.Feed
   )
 where
 
+import qualified Podcast.Type.Article as Article
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Guid as Guid
+import qualified Podcast.Type.Media as Media
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
 import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 import qualified Podcast.Xml as Xml
+import qualified Podcast.Xml.Render as Render
 
 rss :: Url.Url -> [Episode.Episode] -> Xml.Element
 rss root episodes = Xml.element
@@ -126,7 +129,23 @@ itemDescription :: Episode.Episode -> Xml.Node
 itemDescription episode = Xml.node
   "description"
   []
-  [Xml.text (Description.toString (Episode.description episode))]
+  [ Xml.text
+      (Render.nodes
+        [ Xml.node
+          "p"
+          []
+          [Xml.text (Description.toString (Episode.description episode))]
+        , Xml.node
+          "p"
+          []
+          [ Xml.node
+              "a"
+              [("href", Article.toString (Episode.article episode))]
+              [Xml.text (Article.toString (Episode.article episode))]
+          ]
+        ]
+      )
+  ]
 
 itemDuration :: Episode.Episode -> Xml.Node
 itemDuration episode = Xml.node
@@ -139,7 +158,7 @@ itemEnclosure episode = Xml.node
   "enclosure"
   [ ("type", "audio/mpeg")
   , ("length", Bytes.toString (Episode.size episode))
-  , ("url", Url.toString (Episode.url episode))
+  , ("url", Media.toString (Episode.media episode))
   ]
   []
 
@@ -173,7 +192,5 @@ itemPubDate episode =
   Xml.node "pubDate" [] [Xml.text (Date.toRfc822 (Episode.date episode))]
 
 itemTitle :: Episode.Episode -> Xml.Node
-itemTitle episode = Xml.node
-  "title"
-  []
-  [Xml.text (Title.toString (Episode.title episode))]
+itemTitle episode =
+  Xml.node "title" [] [Xml.text (Title.toString (Episode.title episode))]
