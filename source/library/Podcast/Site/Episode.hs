@@ -12,6 +12,7 @@ import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Media as Media
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Title as Title
+import qualified Podcast.Type.Transcript as Transcript
 import qualified Podcast.Type.Url as Url
 
 html :: Url.Url -> Episode.Episode -> Html.Element
@@ -76,6 +77,24 @@ html root episode = Template.html
                 ]
             ]
         ]
+      ]
+    , Html.node
+      "div"
+      [("class", "row")]
+      [ Html.node
+          "div"
+          [("class", "col")]
+          [ Html.node "h3" [] [Html.text "Transcript"]
+          , case Episode.transcript episode of
+            Nothing -> Html.node
+              "p"
+              []
+              [Html.text "No transcript is available for this episode."]
+            Just transcript -> Html.node
+              "p"
+              [("style", "white-space: pre-wrap;")]
+              [Html.text (Transcript.toString transcript)]
+          ]
       ]
     ]
   )
