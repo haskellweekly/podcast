@@ -17,7 +17,8 @@ import qualified Podcast.Type.Title as Title
 episodes :: [Either String Episode.Episode]
 episodes =
   [ Episode.Episode
-    <$> Date.fromGregorian 2019 6 3
+    <$> Article.fromString "https://www.tweag.io/posts/2019-05-27-ormolu.html"
+    <*> Date.fromGregorian 2019 6 3
     <*> Description.fromString
           "Dustin Segers and Cody Goodman talk about formatting Haskell \
           \source code with automated tools like Ormolu.\n\n\
@@ -29,9 +30,9 @@ episodes =
     <*> Number.fromNatural 12
     <*> pure (Bytes.fromNatural 23912963)
     <*> Title.fromString "Formatting code"
-    <*> Article.fromString "https://www.tweag.io/posts/2019-05-27-ormolu.html"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 5 27
+    <$> Article.fromString "https://blog.jez.io/profiling-in-haskell/"
+    <*> Date.fromGregorian 2019 5 27
     <*> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about improving the \
           \performance of Haskell programs by profiling them.\n\n\
@@ -43,9 +44,10 @@ episodes =
     <*> Number.fromNatural 11
     <*> pure (Bytes.fromNatural 27690623)
     <*> Title.fromString "Profiling performance"
-    <*> Article.fromString "https://blog.jez.io/profiling-in-haskell/"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 5 20
+    <$> Article.fromString
+          "https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
+    <*> Date.fromGregorian 2019 5 20
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how Haskell encourages \
           \you to use the ports and adapters architecture.\n\n\
@@ -57,10 +59,10 @@ episodes =
     <*> Number.fromNatural 10
     <*> pure (Bytes.fromNatural 23942886)
     <*> Title.fromString "Functional architecture"
-    <*> Article.fromString
-          "https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 5 6
+    <$> Article.fromString
+          "https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
+    <*> Date.fromGregorian 2019 5 6
     <*> Description.fromString
           "Jason Fry and Cameron Gera talk about four small ways to improve \
           \Haskell as a language.\n\n\
@@ -72,10 +74,10 @@ episodes =
     <*> Number.fromNatural 9
     <*> pure (Bytes.fromNatural 31507647)
     <*> Title.fromString "Improving Haskell"
-    <*> Article.fromString
-          "https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 4 29
+    <$> Article.fromString
+          "https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
+    <*> Date.fromGregorian 2019 4 29
     <*> Description.fromString
           "Cameron Gera and Cody Goodman talk about enforcing best practices \
           \with HLint and refactoring.\n\n\
@@ -87,10 +89,10 @@ episodes =
     <*> Number.fromNatural 8
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
-    <*> Article.fromString
-          "https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 4 22
+    <$> Article.fromString
+          "https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
+    <*> Date.fromGregorian 2019 4 22
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how regular expressions \
           \compare to parser combinators in Haskell.\n\n\
@@ -102,10 +104,10 @@ episodes =
     <*> Number.fromNatural 7
     <*> pure (Bytes.fromNatural 25296111)
     <*> Title.fromString "Parser combinators"
-    <*> Article.fromString
-          "https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 4 15
+    <$> Article.fromString
+          "https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
+    <*> Date.fromGregorian 2019 4 15
     <*> Description.fromString
           "Jason Fry and Taylor Fausak talk about getting fast feedback when \
           \developing Haskell by using ghcid.\n\n\
@@ -117,10 +119,10 @@ episodes =
     <*> Number.fromNatural 6
     <*> pure (Bytes.fromNatural 26845627)
     <*> Title.fromString "Fast feedback"
-    <*> Article.fromString
-          "https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 4 8
+    <$> Article.fromString
+          "https://sakshamsharma.com/2018/03/haskell-proj-struct/"
+    <*> Date.fromGregorian 2019 4 8
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about build tools in Haskell, \
           \including Stack and Cabal.\n\n\
@@ -132,10 +134,10 @@ episodes =
     <*> Number.fromNatural 5
     <*> pure (Bytes.fromNatural 21977225)
     <*> Title.fromString "Build tools"
-    <*> Article.fromString
-          "https://sakshamsharma.com/2018/03/haskell-proj-struct/"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 4 1
+    <$> Article.fromString
+          "https://runtimeverification.com/blog/code-smell-boolean-blindness/"
+    <*> Date.fromGregorian 2019 4 1
     <*> Description.fromString
           "Dustin Segers and Taylor Fausak talk about avoiding boolean \
           \blindness by using custom types.\n\n\
@@ -147,10 +149,10 @@ episodes =
     <*> Number.fromNatural 4
     <*> pure (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
-    <*> Article.fromString
-          "https://runtimeverification.com/blog/code-smell-boolean-blindness/"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 3 25
+    <$> Article.fromString
+          "https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
+    <*> Date.fromGregorian 2019 3 25
     <*> Description.fromString
           "Jason Fry and Taylor Fausak compare frontend and backend \
           \languages, including PureScript and Elm.\n\n\
@@ -162,10 +164,10 @@ episodes =
     <*> Number.fromNatural 3
     <*> pure (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
-    <*> Article.fromString
-          "https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 3 18
+    <$> Article.fromString
+          "https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
+    <*> Date.fromGregorian 2019 3 18
     <*> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about the good and bad of \ \upgrading from Elm 0.18 to 0.19.\n\n\
           \https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
@@ -176,10 +178,9 @@ episodes =
     <*> Number.fromNatural 2
     <*> pure (Bytes.fromNatural 21580339)
     <*> Title.fromString "Upgrading Elm"
-    <*> Article.fromString
-          "https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
   , Episode.Episode
-    <$> Date.fromGregorian 2019 3 11
+    <$> Article.fromString "https://markkarpov.com/tutorial/exceptions.html"
+    <*> Date.fromGregorian 2019 3 11
     <*> Description.fromString
           "Cody Goodman and Taylor Fausak talk about handling errors in \
           \Haskell by using exceptions.\n\n\
@@ -191,5 +192,4 @@ episodes =
     <*> Number.fromNatural 1
     <*> pure (Bytes.fromNatural 13999481)
     <*> Title.fromString "Handling exceptions"
-    <*> Article.fromString "https://markkarpov.com/tutorial/exceptions.html"
   ]

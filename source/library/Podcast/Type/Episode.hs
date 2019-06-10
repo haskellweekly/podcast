@@ -14,7 +14,8 @@ import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Title as Title
 
 data Episode = Episode
-  { date :: Date.Date
+  { article :: Article.Article
+  , date :: Date.Date
   , description :: Description.Description
   , duration :: Seconds.Seconds
   , guid :: Guid.Guid
@@ -22,5 +23,4 @@ data Episode = Episode
   , number :: Number.Number
   , size :: Bytes.Bytes
   , title :: Title.Title
-  , article :: Article.Article
   } deriving (Eq, Ord, Show)
