@@ -3,6 +3,7 @@ module Podcast.Episodes
   )
 where
 
+import qualified Podcast.Episodes.Episode11 as Episodes
 import qualified Podcast.Episodes.Episode12 as Episodes
 import qualified Podcast.Type.Article as Article
 import qualified Podcast.Type.Bytes as Bytes
@@ -18,7 +19,7 @@ import qualified Podcast.Type.Title as Title
 episodes :: [Either String Episode.Episode]
 episodes =
   [ Episodes.episode12
-  , episode11
+  , Episodes.episode11
   , episode10
   , episode9
   , episode8
@@ -30,23 +31,6 @@ episodes =
   , episode2
   , episode1
   ]
-
-episode11 :: Either String Episode.Episode
-episode11 =
-  Episode.Episode
-    <$> Article.fromString "https://blog.jez.io/profiling-in-haskell/"
-    <*> Date.fromGregorian 2019 5 27
-    <*> Description.fromString
-          "Sara Lichtenstein and Taylor Fausak talk about improving the \
-          \performance of Haskell programs by profiling them."
-    <*> Seconds.fromTimestamp 19 12
-    <*> Guid.fromString "3ec1dc79-7a9c-46c3-b919-61471e876708"
-    <*> Media.fromString
-          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-27-episode-11.mp3"
-    <*> Number.fromNatural 11
-    <*> pure (Bytes.fromNatural 27690623)
-    <*> Title.fromString "Profiling performance"
-    <*> pure Nothing
 
 episode10 :: Either String Episode.Episode
 episode10 =
