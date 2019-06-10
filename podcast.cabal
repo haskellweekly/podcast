@@ -40,6 +40,7 @@ library
     Podcast.Site.Index
     Podcast.Site.Logo
     Podcast.Site.Template
+    Podcast.Type.Article
     Podcast.Type.Bytes
     Podcast.Type.Date
     Podcast.Type.Description
