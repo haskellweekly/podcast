@@ -140,7 +140,7 @@ itemEnclosure episode = Xml.node
   "enclosure"
   [ ("type", "audio/mpeg")
   , ("length", Bytes.toString (Episode.size episode))
-  , ("url", Media.toString (Episode.url episode))
+  , ("url", Media.toString (Episode.media episode))
   ]
   []
 

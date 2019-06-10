@@ -20,5 +20,5 @@ data Episode = Episode
   , number :: Number.Number
   , size :: Bytes.Bytes
   , title :: Title.Title
-  , url :: Media.Media
+  , media :: Media.Media
   } deriving (Eq, Ord, Show)

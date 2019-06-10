@@ -45,7 +45,7 @@ html root episode = Template.html
             [ ("class", "d-block w-100")
             , ("controls", "controls")
             , ("preload", "metadata")
-            , ("src", Media.toString (Episode.url episode))
+            , ("src", Media.toString (Episode.media episode))
             ]
             [Html.text ""]
         ]
