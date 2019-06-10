@@ -29,6 +29,7 @@ episodes =
     <*> Number.fromNatural 12
     <*> pure (Bytes.fromNatural 23912963)
     <*> Title.fromString "Formatting code"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString "https://blog.jez.io/profiling-in-haskell/"
     <*> Date.fromGregorian 2019 5 27
@@ -42,6 +43,7 @@ episodes =
     <*> Number.fromNatural 11
     <*> pure (Bytes.fromNatural 27690623)
     <*> Title.fromString "Profiling performance"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
@@ -56,6 +58,7 @@ episodes =
     <*> Number.fromNatural 10
     <*> pure (Bytes.fromNatural 23942886)
     <*> Title.fromString "Functional architecture"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
@@ -70,6 +73,7 @@ episodes =
     <*> Number.fromNatural 9
     <*> pure (Bytes.fromNatural 31507647)
     <*> Title.fromString "Improving Haskell"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
@@ -84,6 +88,7 @@ episodes =
     <*> Number.fromNatural 8
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
@@ -98,6 +103,7 @@ episodes =
     <*> Number.fromNatural 7
     <*> pure (Bytes.fromNatural 25296111)
     <*> Title.fromString "Parser combinators"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
@@ -112,6 +118,7 @@ episodes =
     <*> Number.fromNatural 6
     <*> pure (Bytes.fromNatural 26845627)
     <*> Title.fromString "Fast feedback"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://sakshamsharma.com/2018/03/haskell-proj-struct/"
@@ -126,6 +133,7 @@ episodes =
     <*> Number.fromNatural 5
     <*> pure (Bytes.fromNatural 21977225)
     <*> Title.fromString "Build tools"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://runtimeverification.com/blog/code-smell-boolean-blindness/"
@@ -140,6 +148,7 @@ episodes =
     <*> Number.fromNatural 4
     <*> pure (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
@@ -154,6 +163,7 @@ episodes =
     <*> Number.fromNatural 3
     <*> pure (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString
           "https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
@@ -168,6 +178,7 @@ episodes =
     <*> Number.fromNatural 2
     <*> pure (Bytes.fromNatural 21580339)
     <*> Title.fromString "Upgrading Elm"
+    <*> pure Nothing
   , Episode.Episode
     <$> Article.fromString "https://markkarpov.com/tutorial/exceptions.html"
     <*> Date.fromGregorian 2019 3 11
@@ -181,4 +192,5 @@ episodes =
     <*> Number.fromNatural 1
     <*> pure (Bytes.fromNatural 13999481)
     <*> Title.fromString "Handling exceptions"
+    <*> pure Nothing
   ]

@@ -12,6 +12,7 @@ import qualified Podcast.Type.Media as Media
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Title as Title
+import qualified Podcast.Type.Transcript as Transcript
 
 data Episode = Episode
   { article :: Article.Article
@@ -23,4 +24,5 @@ data Episode = Episode
   , number :: Number.Number
   , size :: Bytes.Bytes
   , title :: Title.Title
+  , transcript :: Maybe Transcript.Transcript
   } deriving (Eq, Ord, Show)
