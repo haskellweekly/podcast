@@ -16,7 +16,22 @@ import qualified Podcast.Type.Title as Title
 
 episodes :: [Either String Episode.Episode]
 episodes =
-  [ Episode.Episode
+  [ episode12
+  , episode11
+  , episode10
+  , episode9
+  , episode8
+  , episode7
+  , episode6
+  , episode5
+  , episode4
+  , episode3
+  , episode2
+  , episode1
+  ]
+
+episode12 :: Either String Episode.Episode
+episode12 = Episode.Episode
     <$> Article.fromString "https://www.tweag.io/posts/2019-05-27-ormolu.html"
     <*> Date.fromGregorian 2019 6 3
     <*> Description.fromString
@@ -30,7 +45,9 @@ episodes =
     <*> pure (Bytes.fromNatural 23912963)
     <*> Title.fromString "Formatting code"
     <*> pure Nothing
-  , Episode.Episode
+
+episode11 :: Either String Episode.Episode
+episode11 = Episode.Episode
     <$> Article.fromString "https://blog.jez.io/profiling-in-haskell/"
     <*> Date.fromGregorian 2019 5 27
     <*> Description.fromString
@@ -44,7 +61,9 @@ episodes =
     <*> pure (Bytes.fromNatural 27690623)
     <*> Title.fromString "Profiling performance"
     <*> pure Nothing
-  , Episode.Episode
+
+episode10 :: Either String Episode.Episode
+episode10 = Episode.Episode
     <$> Article.fromString
           "https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
     <*> Date.fromGregorian 2019 5 20
@@ -59,7 +78,9 @@ episodes =
     <*> pure (Bytes.fromNatural 23942886)
     <*> Title.fromString "Functional architecture"
     <*> pure Nothing
-  , Episode.Episode
+
+episode9 :: Either String Episode.Episode
+episode9 = Episode.Episode
     <$> Article.fromString
           "https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
     <*> Date.fromGregorian 2019 5 6
@@ -74,7 +95,9 @@ episodes =
     <*> pure (Bytes.fromNatural 31507647)
     <*> Title.fromString "Improving Haskell"
     <*> pure Nothing
-  , Episode.Episode
+
+episode8 :: Either String Episode.Episode
+episode8 = Episode.Episode
     <$> Article.fromString
           "https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
     <*> Date.fromGregorian 2019 4 29
@@ -89,7 +112,9 @@ episodes =
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
     <*> pure Nothing
-  , Episode.Episode
+
+episode7 :: Either String Episode.Episode
+episode7 = Episode.Episode
     <$> Article.fromString
           "https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
     <*> Date.fromGregorian 2019 4 22
@@ -104,7 +129,9 @@ episodes =
     <*> pure (Bytes.fromNatural 25296111)
     <*> Title.fromString "Parser combinators"
     <*> pure Nothing
-  , Episode.Episode
+
+episode6 :: Either String Episode.Episode
+episode6 = Episode.Episode
     <$> Article.fromString
           "https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
     <*> Date.fromGregorian 2019 4 15
@@ -119,7 +146,9 @@ episodes =
     <*> pure (Bytes.fromNatural 26845627)
     <*> Title.fromString "Fast feedback"
     <*> pure Nothing
-  , Episode.Episode
+
+episode5 :: Either String Episode.Episode
+episode5 = Episode.Episode
     <$> Article.fromString
           "https://sakshamsharma.com/2018/03/haskell-proj-struct/"
     <*> Date.fromGregorian 2019 4 8
@@ -134,7 +163,9 @@ episodes =
     <*> pure (Bytes.fromNatural 21977225)
     <*> Title.fromString "Build tools"
     <*> pure Nothing
-  , Episode.Episode
+
+episode4 :: Either String Episode.Episode
+episode4 = Episode.Episode
     <$> Article.fromString
           "https://runtimeverification.com/blog/code-smell-boolean-blindness/"
     <*> Date.fromGregorian 2019 4 1
@@ -149,7 +180,9 @@ episodes =
     <*> pure (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
     <*> pure Nothing
-  , Episode.Episode
+
+episode3 :: Either String Episode.Episode
+episode3 = Episode.Episode
     <$> Article.fromString
           "https://www.parsonsmatt.org/2015/10/03/elm_vs_purescript.html"
     <*> Date.fromGregorian 2019 3 25
@@ -164,7 +197,9 @@ episodes =
     <*> pure (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
     <*> pure Nothing
-  , Episode.Episode
+
+episode2 :: Either String Episode.Episode
+episode2 = Episode.Episode
     <$> Article.fromString
           "https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
     <*> Date.fromGregorian 2019 3 18
@@ -179,7 +214,9 @@ episodes =
     <*> pure (Bytes.fromNatural 21580339)
     <*> Title.fromString "Upgrading Elm"
     <*> pure Nothing
-  , Episode.Episode
+
+episode1 :: Either String Episode.Episode
+episode1 = Episode.Episode
     <$> Article.fromString "https://markkarpov.com/tutorial/exceptions.html"
     <*> Date.fromGregorian 2019 3 11
     <*> Description.fromString
@@ -193,4 +230,3 @@ episodes =
     <*> pure (Bytes.fromNatural 13999481)
     <*> Title.fromString "Handling exceptions"
     <*> pure Nothing
-  ]
