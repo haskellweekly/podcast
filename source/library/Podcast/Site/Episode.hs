@@ -71,7 +71,9 @@ html root episode = Template.html
                   []
                   [ Html.node
                       "a"
-                      [("href", Article.toString (Episode.article episode))]
+                      [ ("href", Article.toString (Episode.article episode))
+                      , ("style", "word-break: break-all;")
+                      ]
                       [Html.text (Article.toString (Episode.article episode))]
                   ]
                 ]
