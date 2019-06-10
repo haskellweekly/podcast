@@ -29,4 +29,4 @@ episode12 =
     <*> Number.fromNatural 12
     <*> pure (Bytes.fromNatural 23912963)
     <*> Title.fromString "Formatting code"
-    <*> pure Nothing
+    <*> Right Nothing

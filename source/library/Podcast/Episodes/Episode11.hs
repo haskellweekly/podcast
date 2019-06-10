@@ -29,4 +29,4 @@ episode11 =
     <*> Number.fromNatural 11
     <*> pure (Bytes.fromNatural 27690623)
     <*> Title.fromString "Profiling performance"
-    <*> pure Nothing
+    <*> Right Nothing

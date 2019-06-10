@@ -30,4 +30,4 @@ episode9 =
     <*> Number.fromNatural 9
     <*> pure (Bytes.fromNatural 31507647)
     <*> Title.fromString "Improving Haskell"
-    <*> pure Nothing
+    <*> Right Nothing

@@ -30,4 +30,4 @@ episode7 =
     <*> Number.fromNatural 7
     <*> pure (Bytes.fromNatural 25296111)
     <*> Title.fromString "Parser combinators"
-    <*> pure Nothing
+    <*> Right Nothing

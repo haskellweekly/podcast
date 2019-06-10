@@ -30,4 +30,4 @@ episode3 =
     <*> Number.fromNatural 3
     <*> pure (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
-    <*> pure Nothing
+    <*> Right Nothing

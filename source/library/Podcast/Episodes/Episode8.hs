@@ -30,4 +30,4 @@ episode8 =
     <*> Number.fromNatural 8
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
-    <*> pure Nothing
+    <*> Right Nothing

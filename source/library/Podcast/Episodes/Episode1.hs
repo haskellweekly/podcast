@@ -29,4 +29,4 @@ episode1 =
     <*> Number.fromNatural 1
     <*> pure (Bytes.fromNatural 13999481)
     <*> Title.fromString "Handling exceptions"
-    <*> pure Nothing
+    <*> Right Nothing

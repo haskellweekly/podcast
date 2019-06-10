@@ -30,4 +30,4 @@ episode10 =
     <*> Number.fromNatural 10
     <*> pure (Bytes.fromNatural 23942886)
     <*> Title.fromString "Functional architecture"
-    <*> pure Nothing
+    <*> Right Nothing

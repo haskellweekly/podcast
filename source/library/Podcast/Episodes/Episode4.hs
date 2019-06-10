@@ -30,4 +30,4 @@ episode4 =
     <*> Number.fromNatural 4
     <*> pure (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
-    <*> pure Nothing
+    <*> Right Nothing

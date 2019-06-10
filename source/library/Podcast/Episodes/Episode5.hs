@@ -30,4 +30,4 @@ episode5 =
     <*> Number.fromNatural 5
     <*> pure (Bytes.fromNatural 21977225)
     <*> Title.fromString "Build tools"
-    <*> pure Nothing
+    <*> Right Nothing

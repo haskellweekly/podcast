@@ -30,4 +30,4 @@ episode6 =
     <*> Number.fromNatural 6
     <*> pure (Bytes.fromNatural 26845627)
     <*> Title.fromString "Fast feedback"
-    <*> pure Nothing
+    <*> Right Nothing
