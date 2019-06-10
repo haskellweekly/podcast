@@ -3,6 +3,7 @@ module Podcast.Episodes
   )
 where
 
+import qualified Podcast.Episodes.Episode12 as Episodes
 import qualified Podcast.Type.Article as Article
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
@@ -16,7 +17,7 @@ import qualified Podcast.Type.Title as Title
 
 episodes :: [Either String Episode.Episode]
 episodes =
-  [ episode12
+  [ Episodes.episode12
   , episode11
   , episode10
   , episode9
@@ -29,23 +30,6 @@ episodes =
   , episode2
   , episode1
   ]
-
-episode12 :: Either String Episode.Episode
-episode12 =
-  Episode.Episode
-    <$> Article.fromString "https://www.tweag.io/posts/2019-05-27-ormolu.html"
-    <*> Date.fromGregorian 2019 6 3
-    <*> Description.fromString
-          "Dustin Segers and Cody Goodman talk about formatting Haskell \
-          \source code with automated tools like Ormolu."
-    <*> Seconds.fromTimestamp 16 37
-    <*> Guid.fromString "f166f89f-1a16-49f1-915a-d54505c301a0"
-    <*> Media.fromString
-          "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-03-episode-12.mp3"
-    <*> Number.fromNatural 12
-    <*> pure (Bytes.fromNatural 23912963)
-    <*> Title.fromString "Formatting code"
-    <*> pure Nothing
 
 episode11 :: Either String Episode.Episode
 episode11 =
