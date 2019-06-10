@@ -32,11 +32,7 @@ attributes attributes_ =
 
 attribute :: Attribute.Attribute -> String
 attribute attribute_ = concat
-  [ Attribute.name attribute_
-  , "='"
-  , text (Attribute.value attribute_)
-  , "'"
-  ]
+  [Attribute.name attribute_, "='", text (Attribute.value attribute_), "'"]
 
 nodes :: [Element.Node] -> String
 nodes = concatMap node

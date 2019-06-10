@@ -83,7 +83,10 @@ body root content = Html.node
             , Html.text ". You can subscribe to the "
             , Html.node
               "a"
-              [("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))]
+              [ ( "href"
+                , Url.toString (Url.combine root (Route.toUrl Route.Feed))
+                )
+              ]
               [Html.text "RSS feed"]
             , Html.text "."
             ]

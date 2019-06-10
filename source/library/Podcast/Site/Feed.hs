@@ -192,7 +192,5 @@ itemPubDate episode =
   Xml.node "pubDate" [] [Xml.text (Date.toRfc822 (Episode.date episode))]
 
 itemTitle :: Episode.Episode -> Xml.Node
-itemTitle episode = Xml.node
-  "title"
-  []
-  [Xml.text (Title.toString (Episode.title episode))]
+itemTitle episode =
+  Xml.node "title" [] [Xml.text (Title.toString (Episode.title episode))]
