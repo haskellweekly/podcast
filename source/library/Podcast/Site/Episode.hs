@@ -8,6 +8,7 @@ import qualified Podcast.Site.Template as Template
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
+import qualified Podcast.Type.Media as Media
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
@@ -44,7 +45,7 @@ html root episode = Template.html
             [ ("class", "d-block w-100")
             , ("controls", "controls")
             , ("preload", "metadata")
-            , ("src", Url.toString (Episode.url episode))
+            , ("src", Media.toString (Episode.url episode))
             ]
             [Html.text ""]
         ]

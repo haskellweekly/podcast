@@ -10,7 +10,7 @@ import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Title as Title
-import qualified Podcast.Type.Url as Url
+import qualified Podcast.Type.Media as Media
 
 data Episode = Episode
   { date :: Date.Date
@@ -20,5 +20,5 @@ data Episode = Episode
   , number :: Number.Number
   , size :: Bytes.Bytes
   , title :: Title.Title
-  , url :: Url.Url
+  , url :: Media.Media
   } deriving (Eq, Ord, Show)

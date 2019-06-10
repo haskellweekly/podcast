@@ -11,7 +11,7 @@ import qualified Podcast.Type.Guid as Guid
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Title as Title
-import qualified Podcast.Type.Url as Url
+import qualified Podcast.Type.Media as Media
 
 episodes :: [Either String Episode.Episode]
 episodes =
@@ -26,7 +26,7 @@ episodes =
     <*> Number.fromNatural 12
     <*> pure (Bytes.fromNatural 23912963)
     <*> Title.fromString "Formatting code"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-03-episode-12.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 5 27
@@ -39,7 +39,7 @@ episodes =
     <*> Number.fromNatural 11
     <*> pure (Bytes.fromNatural 27690623)
     <*> Title.fromString "Profiling performance"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-27-episode-11.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 5 20
@@ -52,7 +52,7 @@ episodes =
     <*> Number.fromNatural 10
     <*> pure (Bytes.fromNatural 23942886)
     <*> Title.fromString "Functional architecture"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-20-episode-10.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 5 6
@@ -65,7 +65,7 @@ episodes =
     <*> Number.fromNatural 9
     <*> pure (Bytes.fromNatural 31507647)
     <*> Title.fromString "Improving Haskell"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-06-episode-9.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 29
@@ -78,7 +78,7 @@ episodes =
     <*> Number.fromNatural 8
     <*> pure (Bytes.fromNatural 20714874)
     <*> Title.fromString "Best practices"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-29-episode-8.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 22
@@ -91,7 +91,7 @@ episodes =
     <*> Number.fromNatural 7
     <*> pure (Bytes.fromNatural 25296111)
     <*> Title.fromString "Parser combinators"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-22-episode-7.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 15
@@ -104,7 +104,7 @@ episodes =
     <*> Number.fromNatural 6
     <*> pure (Bytes.fromNatural 26845627)
     <*> Title.fromString "Fast feedback"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-15-episode-6.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 8
@@ -117,7 +117,7 @@ episodes =
     <*> Number.fromNatural 5
     <*> pure (Bytes.fromNatural 21977225)
     <*> Title.fromString "Build tools"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-08-episode-5.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 4 1
@@ -130,7 +130,7 @@ episodes =
     <*> Number.fromNatural 4
     <*> pure (Bytes.fromNatural 23002958)
     <*> Title.fromString "Boolean blindness"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-01-episode-4.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 25
@@ -143,7 +143,7 @@ episodes =
     <*> Number.fromNatural 3
     <*> pure (Bytes.fromNatural 34265398)
     <*> Title.fromString "Frontend languages"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-25-episode-3.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 18
@@ -155,7 +155,7 @@ episodes =
     <*> Number.fromNatural 2
     <*> pure (Bytes.fromNatural 21580339)
     <*> Title.fromString "Upgrading Elm"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-18-episode-2.mp3"
   , Episode.Episode
     <$> Date.fromGregorian 2019 3 11
@@ -168,6 +168,6 @@ episodes =
     <*> Number.fromNatural 1
     <*> pure (Bytes.fromNatural 13999481)
     <*> Title.fromString "Handling exceptions"
-    <*> Url.fromString
+    <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-11-episode-1.mp3"
   ]

@@ -8,6 +8,7 @@ import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Guid as Guid
+import qualified Podcast.Type.Media as Media
 import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Route as Route
 import qualified Podcast.Type.Seconds as Seconds
@@ -139,7 +140,7 @@ itemEnclosure episode = Xml.node
   "enclosure"
   [ ("type", "audio/mpeg")
   , ("length", Bytes.toString (Episode.size episode))
-  , ("url", Url.toString (Episode.url episode))
+  , ("url", Media.toString (Episode.url episode))
   ]
   []
 
