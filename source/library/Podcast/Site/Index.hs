@@ -38,8 +38,22 @@ body root episodes = Html.node
     , Html.node
       "div"
       [("class", "text-center")]
-      [ Html.node "span" [("class", "d-inline-block p-1")] [appleBadge root]
-      , Html.node "span" [("class", "d-inline-block p-1")] [googleBadge root]
+      [ Html.node
+        "div"
+        []
+        [ Html.node "span" [("class", "d-inline-block p-1")] [appleBadge root]
+        , Html.node "span" [("class", "d-inline-block p-1")] [googleBadge root]
+        ]
+      , Html.node
+        "div"
+        [("class", "mt-3")]
+        [ Html.text "Or subscribe to the "
+        , Html.node
+          "a"
+          [("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))]
+          [Html.text "RSS feed"]
+        , Html.text "."
+        ]
       ]
     ]
   , Html.node "div" [("class", "row")] (map (item root) episodes)
