@@ -1,4 +1,5 @@
 - extensions:
   - default: false
+  - name: QuasiQuotes
 - flags:
   - default: false
