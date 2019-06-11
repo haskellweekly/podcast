@@ -18,12 +18,12 @@ blocks:
             - checkout
             - cabal v2-update
             - cabal v2-freeze
-            - cache restore "cabal-$( checksum cabal.project.freeze )"
-            - cache restore "dist-$( checksum podcast.cabal )"
+            - cabal restore "cabal-$( checksum cabal.project.freeze )"
+            - cabal restore "dist-$( checksum podcast.cabal )"
             - cabal v2-build
             - cabal v2-run
             - cache store "cabal-$( checksum cabal.project.freeze )" .cabal
-            - cache store "dist-$( checksum podcast.cabal )" dist-newstyle
+            - cabal store "dist-$( checksum podcast.cabal )" dist-newstyle
             - cache store "output-$SEMAPHORE_GIT_SHA" output
 promotions:
   - name: Deploy promotion
