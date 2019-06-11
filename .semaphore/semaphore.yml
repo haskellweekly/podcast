@@ -14,11 +14,11 @@ blocks:
           commands:
             - checkout
             - cache restore "stack-root-$( checksum stack.yaml )"
-            - cache restore "stack-work-$( checksum podcast.cabal )"
+            - cache restore "stack-work-$( checksum package.yaml )"
             - stack build
             - env ROOT_URL=https://haskellweekly.news/podcast/ stack exec podcast
             - cache store "stack-root-$( checksum stack.yaml )" /root/.stack
-            - cache store "stack-work-$( checksum podcast.cabal )" .stack-work
+            - cache store "stack-work-$( checksum package.yaml )" .stack-work
             - cache store "output-$SEMAPHORE_GIT_SHA" output
 promotions:
   - name: Deploy promotion
