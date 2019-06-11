@@ -1,30 +1,24 @@
 version: v1.0
-name: Build
+name: Build pipeline
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu1804
+  containers:
+    - name: main
+      image: semaphoreci/haskell:8.6.5
 blocks:
-  - name: Block
+  - name: Build block
     task:
       jobs:
-        - name: Job
+        - name: Build job
           commands:
             - checkout
-            - docker run
-              --env ROOT_URL=https://haskellweekly.news/podcast/
-              --rm
-              --volume "$(pwd):/root/podcast"
-              --workdir /root/podcast
-              alpine:3.9.2 sh -c '
-                apk add --no-cache cabal ghc musl-dev wget &&
-                cabal new-update &&
-                cabal new-build &&
-                cabal new-exec podcast'
-            - sudo chown -R "$USER" output
+            - cabal new-update
+            - cabal new-build
+            - env ROOT_URL=https://haskellweekly.news/podcast/ cabal new-exec podcast
             - cache store "output-$SEMAPHORE_GIT_SHA" output
 promotions:
-  - name: Deploy
+  - name: Deploy promotion
     pipeline_file: deploy.yml
     auto_promote_on:
       - result: passed

@@ -1,16 +1,16 @@
 version: v1.0
-name: Deploy
+name: Deploy pipeline
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Block
+  - name: Deploy block
     task:
       secrets:
         - name: github
       jobs:
-        - name: Job
+        - name: Deploy job
           commands:
             - cache restore "output-$SEMAPHORE_GIT_SHA"
             - cd output
