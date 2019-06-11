@@ -13,12 +13,9 @@ blocks:
         - name: Build job
           commands:
             - checkout
-            - cache restore "stack-root-$( checksum stack.yaml )"
-            - cache restore "stack-work-$( checksum podcast.cabal )"
-            - stack build
-            - env ROOT_URL=https://haskellweekly.news/podcast/ stack exec podcast
-            - cache store "stack-root-$( checksum stack.yaml )" /root/.stack
-            - cache store "stack-work-$( checksum podcast.cabal )" .stack-work
+            - cabal new-update
+            - cabal new-build
+            - env ROOT_URL=https://haskellweekly.news/podcast/ cabal new-exec podcast
             - cache store "output-$SEMAPHORE_GIT_SHA" output
 promotions:
   - name: Deploy promotion
