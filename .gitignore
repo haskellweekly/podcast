@@ -1,3 +1,4 @@
+/.ghc.environment*
 /.stack-work/
-/*.cabal
+/dist-newstyle/
 /output/
