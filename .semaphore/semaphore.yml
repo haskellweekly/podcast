@@ -13,9 +13,9 @@ blocks:
         - name: Build job
           commands:
             - checkout
-            - cabal new-update
-            - cabal new-build
-            - env ROOT_URL=https://haskellweekly.news/podcast/ cabal new-exec podcast
+            - cabal v2-update
+            - cabal v2-build
+            - env ROOT_URL=https://haskellweekly.news/podcast/ cabal v2-exec podcast
             - cache store "output-$SEMAPHORE_GIT_SHA" output
 promotions:
   - name: Deploy promotion
