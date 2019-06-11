@@ -10,7 +10,7 @@ blocks:
   - name: Build block
     task:
       env_vars:
-        - { name: CABAL_DIR, value: /root/podcast/.cabal }
+        - { name: CABAL_DIR, value: .cabal }
         - { name: ROOT_URL, value: https://haskellweekly.news/podcast/ }
       jobs:
         - name: Build job
