@@ -9,21 +9,13 @@ agent:
 blocks:
   - name: Build block
     task:
-      env_vars:
-        - { name: CABAL_DIR, value: .cabal }
-        - { name: ROOT_URL, value: https://haskellweekly.news/podcast/ }
       jobs:
         - name: Build job
           commands:
             - checkout
             - cabal v2-update
-            - cabal v2-freeze
-            - cabal restore "cabal-$( checksum cabal.project.freeze )"
-            - cabal restore "dist-$( checksum podcast.cabal )"
             - cabal v2-build
-            - cabal v2-run
-            - cache store "cabal-$( checksum cabal.project.freeze )" .cabal
-            - cabal store "dist-$( checksum podcast.cabal )" dist-newstyle
+            - env ROOT_URL=https://haskellweekly.news/podcast/ cabal v2-exec podcast
             - cache store "output-$SEMAPHORE_GIT_SHA" output
 promotions:
   - name: Deploy promotion

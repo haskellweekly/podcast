@@ -1,6 +1,4 @@
-/.cabal/
 /.ghc.environment*
 /.stack-work/
-/*.freeze
 /dist-newstyle/
 /output/
