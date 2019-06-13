@@ -49,7 +49,10 @@ channelAuthor :: Xml.Node
 channelAuthor = Xml.node "itunes:author" [] [Xml.text "Taylor Fausak"]
 
 channelCategory :: Xml.Node
-channelCategory = Xml.node "itunes:category" [("text", "Technology")] []
+channelCategory = Xml.node
+  "itunes:category"
+  [("text", "Technology")]
+  [Xml.node "itunes:category" [("text", "Tech News")] []]
 
 channelCopyright :: Xml.Node
 channelCopyright =
