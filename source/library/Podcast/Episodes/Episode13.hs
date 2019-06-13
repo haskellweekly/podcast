@@ -23,11 +23,11 @@ episode13 =
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about why the Semantic team at \
           \GitHub decided to use Haskell."
-    <*> Seconds.fromTimestamp 25 11
+    <*> Seconds.fromTimestamp 25 8
     <*> Guid.fromString "fb192c3c-02a5-4413-ab53-1346677940ec"
     <*> Media.fromString
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-10-episode-13.mp3"
     <*> Number.fromNatural 13
-    <*> Right (Bytes.fromNatural 36275457)
+    <*> Right (Bytes.fromNatural 26111814)
     <*> Title.fromString "Why Haskell?"
     <*> Right Nothing
