@@ -38,7 +38,7 @@ episode10 =
 
 transcript :: Transcript.Transcript
 transcript = Transcript.fromString [Quasi.string|
->> Hello and welcome to the Haskell Weekly Podcast, a podcast about Haskell. Haskell is a functional programming language that we use here at ITProTV, and we're just super excited about this episode. I'm your host Cameron, and with me today we have Taylor Fossack, our lead engineer here at ITProTV.
+>> Hello and welcome to the Haskell Weekly Podcast, a podcast about Haskell. Haskell is a functional programming language that we use here at ITProTV, and we're just super excited about this episode. I'm your host Cameron, and with me today we have Taylor Fausak, our lead engineer here at ITProTV.
 
 How are you doing Taylor?
 >> I'm doing well, thanks. How are you Cam?

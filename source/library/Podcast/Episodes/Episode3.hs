@@ -42,7 +42,7 @@ transcript = Transcript.fromString [Quasi.string|
 >> Hello.
 >> And he's the lead engineer at ITProTV. With him today is me, Jason Fry. I'm one of the engineers here like a pro as well, thanks for me joining you today.
 
->> Thanks for joining me Jayson and for introducing yourself.
+>> Thanks for joining me Jason and for introducing yourself.
 >> Yeah, we think it's fun for the host not to introduce himself, so what are we talking about today?
 >> Well, I know that last week you were asking me a little about the languages that we use everyday here at ITPro and kind of why we chose them.
 

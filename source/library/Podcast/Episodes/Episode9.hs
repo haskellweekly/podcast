@@ -38,7 +38,7 @@ episode9 =
 
 transcript :: Transcript.Transcript
 transcript = Transcript.fromString [Quasi.string|
->> Welcome to the Haskell weekly podcast. This show is about Haskell, a purely functional programming language. I'm your guest, Jason Fry. I'm an engineer here at ITPROTV. With me today is your host Cameron Gera. He is one of our software engineers at ITProTV. Thanks for joining me today, Cameron.
+>> Welcome to the Haskell weekly podcast. This show is about Haskell, a purely functional programming language. I'm your guest, Jason Fry. I'm an engineer here at ITProTV. With me today is your host Cameron Gera. He is one of our software engineers at ITProTV. Thanks for joining me today, Cameron.
 
 >> How's it going, Jason. I'm glad to be here.
 >> It's going really well, thank you.

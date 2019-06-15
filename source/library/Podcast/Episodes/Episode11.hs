@@ -37,7 +37,7 @@ episode11 =
 
 transcript :: Transcript.Transcript
 transcript = Transcript.fromString [Quasi.string|
->> Hello and welcome to the Haskell weekly podcast. This is a podcast about Haskell a purely functional programming language. I'm your host Taylor Fausak, I'm the lead engineer here at ITProTV. And with me today is Sarah Liechtenstein, one of the engineers on my team. Thanks for joining me, Sarah.
+>> Hello and welcome to the Haskell weekly podcast. This is a podcast about Haskell a purely functional programming language. I'm your host Taylor Fausak, I'm the lead engineer here at ITProTV. And with me today is Sara Lichtenstein, one of the engineers on my team. Thanks for joining me, Sara.
 
 >> Thanks for having me, Taylor.
 >> It's good to have you here and today we're gonna be talking about profiling in Haskell. And in particular, this article by Jake Zimmerman, where he talks about speeding up one of his programs by ten times. So pretty pretty significant improvement.
@@ -59,7 +59,7 @@ Because with, I think yeah with 36 slots on the board, you could represent that 
 >> Right.
 >> And his assumption was that if you can use one integer then it will probably be faster cuz you're not gonna have as many things floating around in memory.
 
-But it's also I think, somewhat of a strange choice. So Sarah for the pro or for the programs that we right here at work, we don't do a lot of this really cramming, getting the most performance possible out of stuff. So I was wondering, did this look weird to you or you're like okay, yeah, I kind of get what's going on here.
+But it's also I think, somewhat of a strange choice. So Sara for the pro or for the programs that we right here at work, we don't do a lot of this really cramming, getting the most performance possible out of stuff. So I was wondering, did this look weird to you or you're like okay, yeah, I kind of get what's going on here.
 
 >> The idea in general just using one inter just seems very odd
 >> Yeah
@@ -85,7 +85,7 @@ How is that slow?
 
 >> That would make sense.
 >> Yeah, I'm just guessing, I don't know. Hopefully Jake can can tell us or we could probably read and find out who knows.
->> So then it gets into really the meat of what we're doing here. And I guess Sarah, do you wanna kinda explain the process that he goes through to profile this code and figure out what's going on with it.
+>> So then it gets into really the meat of what we're doing here. And I guess Sara, do you wanna kinda explain the process that he goes through to profile this code and figure out what's going on with it.
 
 >> So profiling and Haskell is actually extremely simple because you can literally just run stack build dash dash profile to build it with that and then add a dash p to exec And that's it, it prints you you out this like really nice profile, tells you everything you need to know.
 
@@ -125,7 +125,7 @@ But I may not have envisioned usage like this if I wrote this library in the fir
 
 So then he gets into talking about how he after he identified this random number generation as the slow part of his program, how he fixed it. And we don't wanna get too far off into the weeds of that, but it's impressive, to me at least, that he imported this C program into Haskell.
 
-It's been a long time since I've had reason to look at C code and I think that's true for you too right Sarah?
+It's been a long time since I've had reason to look at C code and I think that's true for you too right Sara?
 >> Yes, absolutely. Not since I think maybe junior year of college.
 >> Yeah, so it's been a while. I don't think I'd do as well as him, but it looks like it paid off.
 
@@ -226,7 +226,7 @@ But it's definitely a good practice and that's something I've noticed in my pers
 >> And when you look at the performance of other languages that are as expressive as Haskell, it's hard to find one that can get to be that quick. So the fact that Haskell gives us the best of both worlds when we need it is awesome, I love that about it.
 
 >> Is there anything you don't love about Haskell though?
->> Good question, no, Haskell is the perfect language. All right, well, thanks for joining me today Sarah to talk about profiling and Haskell. It's nice to have you on the show again.
+>> Good question, no, Haskell is the perfect language. All right, well, thanks for joining me today Sara to talk about profiling and Haskell. It's nice to have you on the show again.
 >> Absolutely, it was nice to be here.
 
 >> And thank you for listening to the Haskell Weekly podcast. If you liked what you heard here today please go find out more at haskellweekly.news. This has been episode 11, and please be sure to join in next week, see you.

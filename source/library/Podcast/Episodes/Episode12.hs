@@ -37,15 +37,15 @@ episode12 =
 
 transcript :: Transcript.Transcript
 transcript = Transcript.fromString [Quasi.string|
->> Welcome to the Haskell weekly podcast, this show is about Haskell, a purely functional programming language. I'm your guest, Justin Seger, I'm an engineer at ITProTV. With me today is your host, Cody Goodman, he is a senior engineer here at ITProTV, thanks for joining me today.
->> No problem, Justin, I'm glad to be here and talk about some Haskell.
+>> Welcome to the Haskell weekly podcast, this show is about Haskell, a purely functional programming language. I'm your guest, Dustin Segers, I'm an engineer at ITProTV. With me today is your host, Cody Goodman, he is a senior engineer here at ITProTV, thanks for joining me today.
+>> No problem, Dustin, I'm glad to be here and talk about some Haskell.
 
 >> So today I think we are going to talk about Ormolu? Looks like a format, Haskell code like never before stylizing dealio. At least that's the tagline at the top.
 >> Right, yeah, I actually Googled that, I was like, how do you pronounce that? It's apparently Ormolu.
 >> Nice.
 
 >> An 18th century guilding technique for applying finely ground, high-carat gold-mercury amalgam.
->> Wow,
+>> Wow!
 >> That's a mouthful.
 >> Yep, yeah, I had no idea, so I figured I'd probably butcher the name, but thanks for letting me know. Yeah, so the author, Mark Karpov, excuse me if I mispronounced the last name, has got a pretty good train of thought here.
 
@@ -155,7 +155,7 @@ And I believe they also have Cassandra bondings off somewhere. So some good code
 It's really, you know.
 >> I guess one of the, every once in a while with Brittany we'll think a line is too long or something and, man, I wish a format like this with that. So if they can give us the best of both worlds, I think we could probably switch, but only time will tell.
 
->> Thanks for being on the show with me today, Cody, and thank you for listening to the Haskell weekly podcast. This has been Episode 12. If you liked our show, find out more at our website Haskellweekly.news. Thanks again for listening. I've been your guest, Justin Seger.
+>> Thanks for being on the show with me today, Cody, and thank you for listening to the Haskell weekly podcast. This has been Episode 12. If you liked our show, find out more at our website Haskellweekly.news. Thanks again for listening. I've been your guest, Dustin Segers.
 >> I've been your host, Cody Goodman.
 
 >> And we'll see you again next week.

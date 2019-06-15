@@ -38,7 +38,7 @@ episode4 =
 
 transcript :: Transcript.Transcript
 transcript = Transcript.fromString [Quasi.string|
->> Hi, welcome to the Haskell weekly podcast. This show is about Haskell, a purely functional programming language. I'm Dustin Sievers, a software engineer here at ITProTV. And I'm with the lead engineer here, and he is the host for today.
+>> Hi, welcome to the Haskell weekly podcast. This show is about Haskell, a purely functional programming language. I'm Dustin Segers, a software engineer here at ITProTV. And I'm with the lead engineer here, and he is the host for today.
 >> Hey, Dustin. It's good to be here with you in studio.
 
 >> It's good to be here with you too, man.
