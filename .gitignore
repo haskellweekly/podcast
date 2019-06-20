@@ -2,3 +2,4 @@
 /.stack-work/
 /dist-newstyle/
 /output/
+/stack.yaml.lock
