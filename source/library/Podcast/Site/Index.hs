@@ -14,8 +14,37 @@ import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Url as Url
 
 html :: Url.Url -> [Episode.Episode] -> Html.Element
-html root episodes =
-  Template.html root "Haskell Weekly podcast" [] (body root episodes)
+html root episodes = Template.html
+  root
+  "Haskell Weekly podcast"
+  [ Html.node
+    "meta"
+    [("property", "og:title"), ("content", "Haskell Weekly podcast")]
+    []
+  , Html.node
+    "meta"
+    [ ("property", "og:image")
+    , ("content", Url.toString (Url.combine root (Route.toUrl Route.Logo)))
+    ]
+    []
+  , Html.node
+    "meta"
+    [ ("property", "og:url")
+    , ("content", Url.toString (Url.combine root (Route.toUrl Route.Index)))
+    ]
+    []
+  , Html.node
+    "meta"
+    [ ("property", "og:description")
+    , ( "content"
+      , "Listen to professional software developers discuss using functional \
+        \programming to solve real-world business problems. Each episode uses \
+        \a conversational two-host format and runs for about 15 minutes."
+      )
+    ]
+    []
+  ]
+  (body root episodes)
 
 body :: Url.Url -> [Episode.Episode] -> Html.Node
 body root episodes = Html.node
