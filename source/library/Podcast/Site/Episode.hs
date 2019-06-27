@@ -62,6 +62,11 @@ html root episode = Template.html
     "meta"
     [("property", "og:site_name"), ("content", "Haskell Weekly podcast")]
     []
+  , Html.node "meta" [("name", "twitter:card"), ("content", "summary")] []
+  , Html.node
+    "meta"
+    [("name", "twitter:site"), ("content", "@haskellweekly")]
+    []
   ]
   (Html.node
     "div"

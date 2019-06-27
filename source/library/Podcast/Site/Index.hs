@@ -43,6 +43,11 @@ html root episodes = Template.html
       )
     ]
     []
+  , Html.node "meta" [("name", "twitter:card"), ("content", "summary")] []
+  , Html.node
+    "meta"
+    [("name", "twitter:site"), ("content", "@haskellweekly")]
+    []
   ]
   (body root episodes)
 
