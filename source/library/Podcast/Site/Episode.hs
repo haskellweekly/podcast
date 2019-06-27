@@ -11,6 +11,7 @@ import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
 import qualified Podcast.Type.Media as Media
 import qualified Podcast.Type.Number as Number
+import qualified Podcast.Type.Route as Route
 import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Transcript as Transcript
 import qualified Podcast.Type.Url as Url
@@ -21,6 +22,47 @@ html root episode = Template.html
   ("Haskell Weekly podcast episode "
   ++ Number.toString (Episode.number episode)
   )
+  [ Html.node
+    "meta"
+    [ ("property", "og:title")
+    , ("content", Title.toString (Episode.title episode))
+    ]
+    []
+  , Html.node
+    "meta"
+    [ ("property", "og:image")
+    , ("content", Url.toString (Url.combine root (Route.toUrl Route.Logo)))
+    ]
+    []
+  , Html.node
+    "meta"
+    [ ("property", "og:url")
+    , ( "content"
+      , Url.toString
+        (Url.combine
+          root
+          (Route.toUrl (Route.Episode (Episode.number episode)))
+        )
+      )
+    ]
+    []
+  , Html.node
+    "meta"
+    [ ("property", "og:audio")
+    , ("content", Media.toString (Episode.media episode))
+    ]
+    []
+  , Html.node
+    "meta"
+    [ ("property", "og:description")
+    , ("content", Description.toString (Episode.description episode))
+    ]
+    []
+  , Html.node
+    "meta"
+    [("property", "og:site_name"), ("content", "Haskell Weekly podcast")]
+    []
+  ]
   (Html.node
     "div"
     []

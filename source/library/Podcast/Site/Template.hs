@@ -8,37 +8,39 @@ import qualified Podcast.Site.Logo as Logo
 import qualified Podcast.Type.Route as Route
 import qualified Podcast.Type.Url as Url
 
-html :: Url.Url -> String -> Html.Node -> Html.Element
-html root title content =
-  Html.element "html" [] [head_ root title, body root content]
+html :: Url.Url -> String -> [Html.Node] -> Html.Node -> Html.Element
+html root title metas content =
+  Html.element "html" [] [head_ root title metas, body root content]
 
-head_ :: Url.Url -> String -> Html.Node
-head_ root title = Html.node
+head_ :: Url.Url -> String -> [Html.Node] -> Html.Node
+head_ root title metas = Html.node
   "head"
   []
-  [ Html.node "meta" [("charset", "utf-8")] []
-  , Html.node
-    "meta"
-    [ ("content", "initial-scale = 1, width = device-width")
-    , ("name", "viewport")
-    ]
-    []
-  , Html.node "title" [] [Html.text title]
-  , Html.node
-    "link"
-    [ ("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))
-    , ("rel", "alternate")
-    , ("title", "Haskell Weekly podcast")
-    , ("type", "application/rss+xml")
-    ]
-    []
-  , Html.node
-    "link"
-    [ ("href", Url.toString (Url.combine root (Route.toUrl Route.Bootstrap)))
-    , ("rel", "stylesheet")
-    ]
-    []
-  ]
+  ([ Html.node "meta" [("charset", "utf-8")] []
+   , Html.node
+     "meta"
+     [ ("content", "initial-scale = 1, width = device-width")
+     , ("name", "viewport")
+     ]
+     []
+   , Html.node "title" [] [Html.text title]
+   , Html.node
+     "link"
+     [ ("href", Url.toString (Url.combine root (Route.toUrl Route.Feed)))
+     , ("rel", "alternate")
+     , ("title", "Haskell Weekly podcast")
+     , ("type", "application/rss+xml")
+     ]
+     []
+   , Html.node
+     "link"
+     [ ("href", Url.toString (Url.combine root (Route.toUrl Route.Bootstrap)))
+     , ("rel", "stylesheet")
+     ]
+     []
+   ]
+  ++ metas
+  )
 
 body :: Url.Url -> Html.Node -> Html.Node
 body root content = Html.node
