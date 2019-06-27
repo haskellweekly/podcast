@@ -21,6 +21,7 @@ html root episode = Template.html
   ("Haskell Weekly podcast episode "
   ++ Number.toString (Episode.number episode)
   )
+  []
   (Html.node
     "div"
     []

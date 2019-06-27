@@ -15,7 +15,7 @@ import qualified Podcast.Type.Url as Url
 
 html :: Url.Url -> [Episode.Episode] -> Html.Element
 html root episodes =
-  Template.html root "Haskell Weekly podcast" (body root episodes)
+  Template.html root "Haskell Weekly podcast" [] (body root episodes)
 
 body :: Url.Url -> [Episode.Episode] -> Html.Node
 body root episodes = Html.node
