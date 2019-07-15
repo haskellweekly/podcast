@@ -25,8 +25,8 @@ episode13 =
           "https://github.com/github/semantic/blob/eaf13783838861fe5eb6cd46d59354774a8eb88d/docs/why-haskell.md"
     <*> Date.fromGregorian 2019 6 10
     <*> Description.fromString
-          "Cameron Gera and Taylor Fausak talk about why the Semantic team at \
-          \GitHub decided to use Haskell."
+          "Cameron Gera and Taylor Fausak talk about why the Semantic team \
+          \at GitHub decided to use Haskell."
     <*> Seconds.fromTimestamp 25 8
     <*> Guid.fromString "fb192c3c-02a5-4413-ab53-1346677940ec"
     <*> Media.fromString

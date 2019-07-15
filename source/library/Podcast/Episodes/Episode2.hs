@@ -25,8 +25,8 @@ episode2 =
           "https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/"
     <*> Date.fromGregorian 2019 3 18
     <*> Description.fromString
-          "Sara Lichtenstein and Taylor Fausak talk about the good and bad of \
-          \upgrading from Elm 0.18 to 0.19."
+          "Sara Lichtenstein and Taylor Fausak talk about the good and bad \
+          \of upgrading from Elm 0.18 to 0.19."
     <*> Seconds.fromTimestamp 14 59
     <*> Guid.fromString "00900298-5aa6-4301-a207-619d38cdc81a"
     <*> Media.fromString
