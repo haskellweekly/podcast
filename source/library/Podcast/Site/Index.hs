@@ -38,8 +38,8 @@ html root episodes = Template.html
     [ ("property", "og:description")
     , ( "content"
       , "Listen to professional software developers discuss using functional \
-        \programming to solve real-world business problems. Each episode uses \
-        \a conversational two-host format and runs for about 15 minutes."
+        \programming to solve real-world business problems. Each episode \
+        \uses a conversational two-host format and runs for about 15 minutes."
       )
     ]
     []
@@ -64,10 +64,10 @@ body root episodes = Html.node
       [("class", "lead")]
       [ Html.text
           "Haskell Weekly is a podcast covering the Haskell programming \
-          \language. Listen to professional software developers discuss using \
-          \functional programming to solve real-world business problems. Each \
-          \episode uses a conversational two-host format and runs for about \
-          \15 minutes."
+          \language. Listen to professional software developers discuss \
+          \using functional programming to solve real-world business \
+          \problems. Each episode uses a conversational two-host format and \
+          \runs for about 15 minutes."
       ]
     , Html.node
       "div"
