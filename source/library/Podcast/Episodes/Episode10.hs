@@ -33,7 +33,7 @@ episode10 =
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-20-episode-10.mp3"
     <*> Number.fromNatural 10
     <*> Right (Bytes.fromNatural 23942886)
-    <*> Title.fromString "Functional architecture"
+    <*> Title.fromString "Functional Architecture"
     <*> Right (Just transcript)
 
 transcript :: Transcript.Transcript

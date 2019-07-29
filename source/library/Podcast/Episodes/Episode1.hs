@@ -32,7 +32,7 @@ episode1 =
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-11-episode-1.mp3"
     <*> Number.fromNatural 1
     <*> Right (Bytes.fromNatural 13999481)
-    <*> Title.fromString "Handling exceptions"
+    <*> Title.fromString "Handling Exceptions"
     <*> Right (Just transcript)
 
 transcript :: Transcript.Transcript

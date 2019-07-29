@@ -33,7 +33,7 @@ episode5 =
           "https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-08-episode-5.mp3"
     <*> Number.fromNatural 5
     <*> Right (Bytes.fromNatural 21977225)
-    <*> Title.fromString "Build tools"
+    <*> Title.fromString "Build Tools"
     <*> Right (Just transcript)
 
 transcript :: Transcript.Transcript
