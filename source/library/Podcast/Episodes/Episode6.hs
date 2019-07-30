@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode6
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,8 @@ import qualified Podcast.Type.Transcript as Transcript
 episode6 :: Either String Episode.Episode
 episode6 =
   Episode.Episode
-    <$> Article.fromString
-          "https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"
+    <$> Articles.fromStrings
+          ["https://functor.tokyo/blog/2019-04-07-ghcid-for-web-app-dev"]
     <*> Date.fromGregorian 2019 4 15
     <*> Description.fromString
           "Jason Fry and Taylor Fausak talk about getting fast feedback when \

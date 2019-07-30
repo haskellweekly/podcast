@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode11
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,7 +21,7 @@ import qualified Podcast.Type.Transcript as Transcript
 episode11 :: Either String Episode.Episode
 episode11 =
   Episode.Episode
-    <$> Article.fromString "https://blog.jez.io/profiling-in-haskell/"
+    <$> Articles.fromStrings ["https://blog.jez.io/profiling-in-haskell/"]
     <*> Date.fromGregorian 2019 5 27
     <*> Description.fromString
           "Sara Lichtenstein and Taylor Fausak talk about improving the \

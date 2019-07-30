@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode9
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,9 @@ import qualified Podcast.Type.Transcript as Transcript
 episode9 :: Either String Episode.Episode
 episode9 =
   Episode.Episode
-    <$> Article.fromString
-          "https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
+    <$> Articles.fromStrings
+          [ "https://medium.com/daml-driven/four-tweaks-to-improve-haskell-b1de9c87f816"
+          ]
     <*> Date.fromGregorian 2019 5 6
     <*> Description.fromString
           "Jason Fry and Cameron Gera talk about four small ways to improve \

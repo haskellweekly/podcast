@@ -5,7 +5,7 @@ where
 
 import qualified Podcast.Html as Html
 import qualified Podcast.Site.Template as Template
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
 import qualified Podcast.Type.Episode as Episode
@@ -114,15 +114,22 @@ html root episode = Template.html
                       (Description.toString (Episode.description episode))
                   ]
                 , Html.node
-                  "p"
+                  "ul"
                   []
-                  [ Html.node
-                      "a"
-                      [ ("href", Article.toString (Episode.article episode))
-                      , ("style", "word-break: break-all;")
+                  (fmap
+                    (\article -> Html.node
+                      "li"
+                      []
+                      [ Html.node
+                          "a"
+                          [ ("href", article)
+                          , ("style", "word-break: break-all;")
+                          ]
+                          [Html.text article]
                       ]
-                      [Html.text (Article.toString (Episode.article episode))]
-                  ]
+                    )
+                    (Articles.toStrings (Episode.articles episode))
+                  )
                 ]
             ]
         ]

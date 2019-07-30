@@ -3,7 +3,7 @@ module Podcast.Type.Episode
   )
 where
 
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -15,7 +15,7 @@ import qualified Podcast.Type.Title as Title
 import qualified Podcast.Type.Transcript as Transcript
 
 data Episode = Episode
-  { article :: Article.Article
+  { articles :: Articles.Articles
   , date :: Date.Date
   , description :: Description.Description
   , duration :: Seconds.Seconds

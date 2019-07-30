@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode7
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,9 @@ import qualified Podcast.Type.Transcript as Transcript
 episode7 :: Either String Episode.Episode
 episode7 =
   Episode.Episode
-    <$> Article.fromString
-          "https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
+    <$> Articles.fromStrings
+          [ "https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html"
+          ]
     <*> Date.fromGregorian 2019 4 22
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how regular expressions \

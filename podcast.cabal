@@ -59,6 +59,7 @@ library
     Podcast.Site.Logo
     Podcast.Site.Template
     Podcast.Type.Article
+    Podcast.Type.Articles
     Podcast.Type.Bytes
     Podcast.Type.Date
     Podcast.Type.Description

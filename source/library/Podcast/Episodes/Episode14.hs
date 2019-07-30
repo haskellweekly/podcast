@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode14
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,9 @@ import qualified Podcast.Type.Transcript as Transcript
 episode14 :: Either String Episode.Episode
 episode14 =
   Episode.Episode
-    <$> Article.fromString
-          "https://danieljharvey.github.io/posts/2019-07-05-refined-types.html"
+    <$> Articles.fromStrings
+          [ "https://danieljharvey.github.io/posts/2019-07-05-refined-types.html"
+          ]
     <*> Date.fromGregorian 2019 7 16
     <*> Description.fromString
           "Andres Schmois and Cody Goodman talk about using the Refined \

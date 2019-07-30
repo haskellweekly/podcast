@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode1
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,7 +21,8 @@ import qualified Podcast.Type.Transcript as Transcript
 episode1 :: Either String Episode.Episode
 episode1 =
   Episode.Episode
-    <$> Article.fromString "https://markkarpov.com/tutorial/exceptions.html"
+    <$> Articles.fromStrings
+          ["https://markkarpov.com/tutorial/exceptions.html"]
     <*> Date.fromGregorian 2019 3 11
     <*> Description.fromString
           "Cody Goodman and Taylor Fausak talk about handling errors in \

@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode13
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,9 @@ import qualified Podcast.Type.Transcript as Transcript
 episode13 :: Either String Episode.Episode
 episode13 =
   Episode.Episode
-    <$> Article.fromString
-          "https://github.com/github/semantic/blob/eaf13783838861fe5eb6cd46d59354774a8eb88d/docs/why-haskell.md"
+    <$> Articles.fromStrings
+          [ "https://github.com/github/semantic/blob/eaf13783838861fe5eb6cd46d59354774a8eb88d/docs/why-haskell.md"
+          ]
     <*> Date.fromGregorian 2019 6 10
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about why the Semantic team \

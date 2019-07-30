@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode5
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,8 @@ import qualified Podcast.Type.Transcript as Transcript
 episode5 :: Either String Episode.Episode
 episode5 =
   Episode.Episode
-    <$> Article.fromString
-          "https://sakshamsharma.com/2018/03/haskell-proj-struct/"
+    <$> Articles.fromStrings
+          ["https://sakshamsharma.com/2018/03/haskell-proj-struct/"]
     <*> Date.fromGregorian 2019 4 8
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about build tools in Haskell, \

@@ -3,7 +3,7 @@ module Podcast.Site.Feed
   )
 where
 
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -136,13 +136,16 @@ itemDescription episode = Xml.node
           []
           [Xml.text (Description.toString (Episode.description episode))]
         , Xml.node
-          "p"
+          "ul"
           []
-          [ Xml.node
-              "a"
-              [("href", Article.toString (Episode.article episode))]
-              [Xml.text (Article.toString (Episode.article episode))]
-          ]
+          (fmap
+            (\article -> Xml.node
+              "li"
+              [("href", article)]
+              [Xml.node "a" [] [Xml.text article]]
+            )
+            (Articles.toStrings (Episode.articles episode))
+          )
         ]
       )
   ]

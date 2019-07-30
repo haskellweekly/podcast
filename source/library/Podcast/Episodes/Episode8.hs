@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode8
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,9 @@ import qualified Podcast.Type.Transcript as Transcript
 episode8 :: Either String Episode.Episode
 episode8 =
   Episode.Episode
-    <$> Article.fromString
-          "https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
+    <$> Articles.fromStrings
+          [ "https://medium.com/co-star-engineering/continuous-improvement-with-hlint-code-smells-e490886558a1"
+          ]
     <*> Date.fromGregorian 2019 4 29
     <*> Description.fromString
           "Cameron Gera and Cody Goodman talk about enforcing best practices \

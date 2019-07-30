@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode10
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,9 @@ import qualified Podcast.Type.Transcript as Transcript
 episode10 :: Either String Episode.Episode
 episode10 =
   Episode.Episode
-    <$> Article.fromString
-          "https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
+    <$> Articles.fromStrings
+          [ "https://blog.ploeh.dk/2016/03/18/functional-architecture-is-ports-and-adapters/"
+          ]
     <*> Date.fromGregorian 2019 5 20
     <*> Description.fromString
           "Cameron Gera and Taylor Fausak talk about how Haskell encourages \

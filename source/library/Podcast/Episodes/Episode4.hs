@@ -6,7 +6,7 @@ module Podcast.Episodes.Episode4
 where
 
 import qualified Podcast.Quasi as Quasi
-import qualified Podcast.Type.Article as Article
+import qualified Podcast.Type.Articles as Articles
 import qualified Podcast.Type.Bytes as Bytes
 import qualified Podcast.Type.Date as Date
 import qualified Podcast.Type.Description as Description
@@ -21,8 +21,9 @@ import qualified Podcast.Type.Transcript as Transcript
 episode4 :: Either String Episode.Episode
 episode4 =
   Episode.Episode
-    <$> Article.fromString
-          "https://runtimeverification.com/blog/code-smell-boolean-blindness/"
+    <$> Articles.fromStrings
+          [ "https://runtimeverification.com/blog/code-smell-boolean-blindness/"
+          ]
     <*> Date.fromGregorian 2019 4 1
     <*> Description.fromString
           "Dustin Segers and Taylor Fausak talk about avoiding boolean \
