@@ -22,7 +22,25 @@ episode16 :: Either String Episode.Episode
 episode16 =
   Episode.Episode
     <$> Articles.fromStrings
-          ["https://treszkai.github.io/2019/07/13/haskell-eval"]
+          [ "https://linearity.itch.io/peoplemon"
+          , "http://jxv.io/blog/2018-02-28-A-Game-in-Haskell.html"
+          , "https://www.indiedb.com/games/nikki-and-the-robots/downloads"
+          , "https://github.com/FailWhaleBrigade/water-wars"
+          , "https://www.allureofthestars.com/"
+          , "https://np.reddit.com/r/haskellgamedev"
+          , "https://mmhaskell.com/blog/2019/3/25/making-a-glossy-game-part-1"
+          , "https://ocharles.org.uk/posts/2013-12-10-24-days-of-hackage-gloss.html"
+          , "http://andrew.gibiansky.com/blog/haskell/haskell-gloss/"
+          , "https://fumieval.github.io/rhythm-game-tutorial/"
+          , "https://cdry.wordpress.com/2016/10/11/tetris-in-haskell-in-a-weekend/"
+          , "https://blog.aas.sh/posts/2018-09-10-Making-A-Game-With-Haskell-And-Apecs/"
+          , "http://keera.co.uk/blog/2013/03/19/creating-board-games-in-haskell/"
+          , "https://www.youtube.com/watch?v=1MNTerD8IuI"
+          , "https://jshaskell.blogspot.com"
+          , "https://ocharles.org.uk/blog/posts/2013-08-18-asteroids-in-netwire.html"
+          , "https://prog21.dadgum.com/23.html"
+          , "https://github.com/meteficha/Hipmunk"
+          ]
     <*> Date.fromGregorian 2019 7 30
     <*> Description.fromString
           "Dustin Segers and Cody Goodman talk about developing video games \
