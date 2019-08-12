@@ -22,8 +22,7 @@ episode17 :: Either String Episode.Episode
 episode17 =
   Episode.Episode
     <$> Articles.fromStrings
-          [ "https://typeclasses.com/news/2019-07-phrasebook"
-          ]
+          ["https://typeclasses.com/news/2019-07-phrasebook"]
     <*> Date.fromGregorian 2019 8 6
     <*> Description.fromString
           "Sara Lichtenstein and Andres Schmois discuss quickly learning \
