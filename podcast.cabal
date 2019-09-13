@@ -54,6 +54,7 @@ library
     Podcast.Episodes.Episode17
     Podcast.Episodes.Episode18
     Podcast.Episodes.Episode19
+    Podcast.Episodes.Episode20
     Podcast.Html
     Podcast.Quasi
     Podcast.Site.Episode
