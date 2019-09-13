@@ -14,8 +14,8 @@ import qualified Podcast.Type.Number as Number
 import qualified Podcast.Type.Seconds as Seconds
 import qualified Podcast.Type.Title as Title
 
-episode19 :: Either String Episode.Episode
-episode19 =
+episode20 :: Either String Episode.Episode
+episode20 =
   Episode.Episode
     <$> Articles.fromStrings
           ["https://typeclasses.com/featured/rounding"]
