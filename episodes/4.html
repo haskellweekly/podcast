@@ -1,0 +1,202 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 4</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Boolean Blindness' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/4.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-01-episode-4.mp3' /><meta property='og:description' content='Dustin Segers and Taylor Fausak talk about avoiding boolean blindness by using custom types.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#4: Boolean Blindness</h2><h3 class='text-muted'>2019-04-01</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-01-episode-4.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Dustin Segers and Taylor Fausak talk about avoiding boolean blindness by using custom types.</p><ul><li><a href='https://runtimeverification.com/blog/code-smell-boolean-blindness/' style='word-break: break-all;'>https://runtimeverification.com/blog/code-smell-boolean-blindness/</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hi, welcome to the Haskell weekly podcast. This show is about Haskell, a purely functional programming language. I&apos;m Dustin Segers, a software engineer here at ITProTV. And I&apos;m with the lead engineer here, and he is the host for today.
+&gt;&gt; Hey, Dustin. It&apos;s good to be here with you in studio.
+
+&gt;&gt; It&apos;s good to be here with you too, man.
+&gt;&gt; Thanks for joining me. My name&apos;s Taylor, as Dustin mentioned, I am the lead developer at ITPro, I also publish the Haskell weekly podcast. And today we&apos;re gonna be talking about a story that was in one of the older issues about Boolean Blindness.
+
+&gt;&gt; Mm-hm.
+&gt;&gt; Dustin, could you explain to me what Boolean Blindness is?
+&gt;&gt; So Boolean Blindness is basically, where you are using a bool in place of maybe, something that could be expressed a little bit. More or less generically?
+&gt;&gt; So, with a bool we have, it&apos;s either true or it&apos;s false.
+
+&gt;&gt; Yes.
+&gt;&gt; And that doesn&apos;t encode any interesting information there. Lots of things could be represented as bools.
+&gt;&gt; Correct.
+&gt;&gt; A light switch could be a bool, but Boolean blindness is saying that, maybe we&apos;re better off encoding that as Light Switch, is a special data type that could either be on or off instead of true or false.
+
+Is that what you&apos;re saying?
+&gt;&gt; Yes, pretty much, yeah.
+&gt;&gt; So, what are the benefits of modeling one of these things as a data type rather than reusing bools.
+&gt;&gt; It&apos;s more expressive. So, let&apos;s use your light switch for example. On or off is better than just saying true or false.
+
+&gt;&gt; Right, cuz what does true mean?
+&gt;&gt; Exactly. So we could have a data type that would be light switch, and we could pass it in to a function. And, it could be either on or off versus true or false, which gives a bit more meaning to what you have.
+
+&gt;&gt; Exactly. That&apos;s really nice when you&apos;re calling the function because instead of saying some function true, It&apos;ll say, some function light switch on or light switch off.
+&gt;&gt; Correct.
+&gt;&gt; That dream of self-documenting code.
+&gt;&gt; Yes, yes.
+&gt;&gt; And addition to the code being self-documenting when you call it, the function, the documentation that is generated for that function or, if you&apos;re just reading through the code, that&apos;s gonna be much nicer as well.
+
+Because it&apos;s not gonna say, some function takes five Booleans and returns something. It&apos;ll take a light switch state and a door state, and all these different things that it needs. One function that we use very frequently in our code bases here is filter. And filter says, give me some predicate, some function that returns true or false.
+
+And give me a list and I&apos;ll give you back a smaller list that fulfills that predicate. But for me, every time I use filter, I have to think, is this function the thing that keeps things in or the thing that keeps things out? And I can never remember, and the type signature doesn&apos;t really help me.
+
+&gt;&gt; Right.
+&gt;&gt; Could you tell me how Boolean blindness might help there, or not suffering from Boolean blindness might help?
+&gt;&gt; You could say, so how much a filter this list of users based on whether or not they are part of a team, and your data type if you will, could be on team or off team, instead of just a regular old Boolean.
+
+And you could use your filter to say, I want to filter only these users who are off the team, and then in that case, your filter will only take the users who are not on the team and you can do whatever you want to there.
+&gt;&gt; Right, so that&apos;s a lot clearer than saying, where team membership is true or team membership is false, it&apos;s self-documenting just on the name of the value.
+
+&gt;&gt; Correct.
+&gt;&gt; But that filter function itself is still a little confusing because, we have to get the concept we&apos;re interested in, which is are they on the team or aren&apos;t they into a Boolean? So we have to say, some equality check their, wouldn&apos;t it be nice if we could have a filter where instead of the filter function itself taking a Boolean, it would take some other thing, like keep this thing, or discard this thing.
+
+&gt;&gt; Right, yes.
+&gt;&gt; Instead of converting from this user is on the team, or this user is off the team into a Boolean, we would convert it into a, they should be kept as part of this filter operation, or they should be removed. Doesn&apos;t that clean things up a little bit?
+
+&gt;&gt; Yes.
+&gt;&gt; Would you prefer to use a function like that, or would you prefer to keep using the original filter that just has bools all over the place?
+&gt;&gt; I&apos;d probably prefer, yeah, the one that does not use bools all over the place.
+&gt;&gt; Why is that?
+
+What makes it better?
+&gt;&gt; Well, it&apos;s more intuitive, it&apos;s more expressive, so it&apos;s easier to understand. The ax murderer who comes in later, six months down the road, and it&apos;s like, who wrote this code? Won&apos;t come to find me.
+&gt;&gt; It happens all the time.
+&gt;&gt; Yes, exactly.
+
+He&apos;ll be a bit more docile I would think, so yeah.
+&gt;&gt; He might put his ax away and take out something else instead like a feather duster.
+&gt;&gt; Yeah, or a burger. Yeah.
+&gt;&gt; Burger.
+&gt;&gt; As a gift for the person, the earth is a wonderful code.
+&gt;&gt; Yes,
+&gt;&gt; That&apos;s one way we might clean up this filter function and avoid Boolean blindness.
+
+There are other ways too and this blog post mentions a few of them. One example they give is changing the name of the function. Because, for me like I said the problem I have with filter is that, I can never remember does it filter things in or does it filter them out?
+
+I don&apos;t know which way it goes?
+&gt;&gt; Mm-hm.
+&gt;&gt; So maybe a better name would be better? Is there some other name we could use for filter that might be good?
+&gt;&gt; Filtering in or filter out would be nice.
+&gt;&gt; It&apos;s a step in the right direction for sure.
+
+Let&apos;s say that we did change the name of the filter to. Filter in but it still took a Boolean.
+&gt;&gt; Okay.
+&gt;&gt; Is there any, like what&apos;s the upshot of doing it that way versus the way we were talking about before about using a different type.
+&gt;&gt; So, filter in that would take me maybe a keep.
+
+&gt;&gt; Mm-hm, okay.
+&gt;&gt; The upshot there is when you&apos;re not confused about what&apos;s going on, and the self documenting code dealio. And yeah, it&apos;s just more expressive again, and it seems like it would be better to upkeep, well to help with upkeep in the future as well, so.
+
+&gt;&gt; Yeah, cuz imagine that, bringing it back to our light switch example.
+&gt;&gt; Mm-hm.
+&gt;&gt; We currently have a very simple light switch that is either on or off. But what if we upgrade our lights and suddenly we have dimmers. And we want to filter out for all the lights that are on.
+
+Well, how do we decide if a light is on or not, to keep it in this filter or to rule it out? Maybe we wanna say well, at 50% brightness, or once the dimmer switch hits halfway up, then it counts as on. And in coding that I think, is a lot clearer, because we would have a function that takes a light switch state and gives us back a, do you keep it or do you rule it out?
+
+Versus something that just returns a Boolean, right? And then you&apos;re thinking, well what is this Boolean used for later on?
+&gt;&gt; Right.
+&gt;&gt; Yeah, and it can be really challenging as you said, six months down the line, when that ax wielding psychopath looks at your code. They&apos;re thinking, well I can sort of understand the dis function returns true, when the light switch if more than 50% on, but what does that mean?
+
+&gt;&gt; Right.
+&gt;&gt; Yes.
+&gt;&gt; So we&apos;ve talked about two methods for changing filter to make it more intention-revealing. Either, changing the type of the function that it takes to return some better thing, like keep or discard instead of a Boolean. We&apos;ve also talked about renaming it. So instead of just filter, you have filter in or filter out.
+
+&gt;&gt; Mm-hm.
+&gt;&gt; The third option presented in this blog post is to make the type, return the thing that you wanna end up with. So instead of saying, I&apos;m only selecting things to keep or discard, instead you&apos;re kind of mapping as you&apos;re going along and producing new values.
+
+But you&apos;re wrapping those values in maybe, and you&apos;re only keeping the ones that are just some value and discarding all the ones that are nothings. That feels to me like it&apos;s very clear about which ones to keep. Because obviously, if you have a nothing, there isn&apos;t anything to keep there and you can go ahead and throw that one out.
+
+&gt;&gt; Right.
+&gt;&gt; And when there&apos;s a jest, you can hang on to that thing. But, it&apos;s unfortunate I think, that the two operations are getting balled together, where you have mapping and like changing the values in this collection, at the same time as mapping over them and filtering some of them out?
+
+&gt;&gt; Yeah.
+&gt;&gt; What do you think about that? Is that a good trade off or is that weird?
+&gt;&gt; So, my gut feeling says, I don&apos;t like it, and mainly because, it&apos;s been drilled into my head that mutation is evil.
+&gt;&gt; So it-
+&gt;&gt; It looks a little like mutation.
+
+&gt;&gt; Yeah, yeah, it does. Even if it&apos;s not explicitly mutation, it does feel like we&apos;re changing, Some essential piece of this. It seems like side effects are happening here. So, I know we need those, but just initially, I don&apos;t like that much?
+&gt;&gt; Don&apos;t like it?
+&gt;&gt; Yeah.
+
+&gt;&gt; Yeah, I don&apos;t like it either, and for the reason you mentioned, but also when I look at the type like so. If we had this weird filter function that returned a maybe instead of returning either yes or no, or keep it or don&apos;t keep it, or Boolean, whatever.
+
+It&apos;s not clear from the type signature if the thing you&apos;re interested in doing is changing the shape of these values in their collection. Or removing things from the collection.
+&gt;&gt; Right.
+&gt;&gt; And when we have the two separate functions, map and filter, that does each of those things very specifically.
+
+It can be clear to me as a reader that this function, it&apos;s gonna keep all the elements in there. They may change a little bit, and hopefully they do otherwise we&apos;re not doing anything interesting.
+&gt;&gt; Right.
+&gt;&gt; Or, when if I see a filter I can think okay, this isn&apos;t gonna change any of them.
+
+It&apos;s only gonna remove some of them.
+&gt;&gt; And I like having that assurance because, when I&apos;m trying to step through code and think of all the states it could be in, it&apos;s very useful for me to say. Well, I know this operation is gonna keep all the elements that I&apos;m dealing with or this one is not gonna change them.
+
+&gt;&gt; Right, yes.
+&gt;&gt; That makes debugging maintenance a lot easier, so that&apos;s one of the reasons why I don&apos;t like the other method of doing this filter functions.
+&gt;&gt; Gotcha, yep I have to concur with those.
+&gt;&gt; Taking it a step further, another suggestion this blog post has for a way to implement the same thing in yet another way.
+
+It seems like there is an endless number of ways to implement this really simple function.
+&gt;&gt; Yes.
+&gt;&gt; What they suggest is, instead of returning a maybe, so either you have something, or you don&apos;t. You could return a list that says, either you have nothing or you have exactly one thing, or you have two or three or thousand or infinity of them.
+
+Which is starting to look to me not at all like a filter operation,
+&gt;&gt; Right
+&gt;&gt; And I&apos;m having a hard time thinking of a filter where, like, okay, I want to filter out light switches that are on or off. But, every time I look at a light switch, I produce two light switches.
+
+&gt;&gt; Yeah, yeah.
+&gt;&gt; That doesn&apos;t make any sense.
+&gt;&gt; They&apos;re multiplying.
+&gt;&gt; I just wanted to find all the light switches are on and now I have twice as many light switches in here.
+&gt;&gt; If only I could do that with money that&apos;d be nice.
+&gt;&gt; I think that&apos;s coming in the next version of Haskell.
+
+&gt;&gt; Nice, print money, yes.
+&gt;&gt; Okay so, I think we&apos;ve covered a lot of interesting ways to tackle this one very simple problem of how do we filter things out of collections, is there anything else you wanted to say about this topic?
+&gt;&gt; No not really, other than that, I feel like we encountered this a lot in ELM.
+
+&gt;&gt; Yeah.
+&gt;&gt; And I see that we are using it, but we&apos;re trying to avoid Boolean blindness by implementing types that, convey what true or false may mean specific to that function, so.
+&gt;&gt; Yeah, and I&apos;m trying to think of a concrete example that we&apos;ve had recently, can you think of one from our own front end?
+
+&gt;&gt; It&apos;s been a bit, but I think it is this user assigned or not?
+&gt;&gt; Mm-hm.
+&gt;&gt; That might have been one of them.
+&gt;&gt; I know that we have a lot of, I think they&apos;re called accordions in our UI.
+&gt;&gt; Yes, yeah.
+&gt;&gt; Where, we have three steps, but only one step can be open at a time.
+
+&gt;&gt; Mm-hm.
+&gt;&gt; And I think, it&apos;s kind of natural to reach for a Boolean in that case and say, is this one open or not? True or false? And I think we try to represent that as an actual type that says-
+&gt;&gt; Yeah.
+&gt;&gt; This is accordion open or accordion closed.
+
+&gt;&gt; Yeah, collapsed and uncollapsed, I believe we did.
+&gt;&gt; And does that make the code easier to read? Easier to maintain, is it,
+&gt;&gt; Yeah, I would say definitely, even if it&apos;s just like small things, you get the cognitive overhead. it&apos;s reduced just because you don&apos;t have to think much about it.
+
+Like I said, it&apos;s just expressive.
+&gt;&gt; Yeah..
+&gt;&gt; It&apos;s nice.
+&gt;&gt; You don&apos;t have to think that&apos;s true mean this or that.
+&gt;&gt; Yeah,
+&gt;&gt; And I know I stumble all the time when we have a value or a function that itself is negated, so it says like not turned on.
+
+&gt;&gt; Mm-hm.
+&gt;&gt; Or turned off. And turned off equal true and I think well okay, so that means that it&apos;s off, which means, turned on would be false. And with this specific type, you don&apos;t have to jump through those hoops every time you are analyzing one of these things.
+
+&gt;&gt; Right, and even the, let&apos;s say I remember in that article he had a function of the type signature that had a bunch of bools. The bools were then replaced with more meaningful, types, you can just look at the function and determine a lot more just from that alone as well.
+
+&gt;&gt; Exactly, do you feel like writing functions like that, or writing code that uses those functions is harder than writing the similar versions that use Boolean&apos;s?
+&gt;&gt; I don&apos;t feel like they&apos;re harder. I feel like they&apos;re a lot easier to use.
+&gt;&gt; Mm-hm.
+&gt;&gt; So there may be a little bit of, okay, I just need to suss out what true and false means here, for this particular thing.
+
+And then name it which is one of the hardest things to do. But, after I get done with that, yeah, I think it&apos;s really nice to have.
+&gt;&gt; So you&apos;re talking about the kind of mechanics of refactoring a function to use a specific type rather than Boolean, right?
+
+&gt;&gt; Right, yeah, I&apos;m sorry.
+&gt;&gt; No that&apos;s okay, that&apos;s good insight. I meant to ask about, just day to day using one when you have to write a new function and you got to use one of these that needs a specific type, is it annoying to have to import that type and wonder why didn&apos;t they just use a Boolean here?
+
+&gt;&gt; I think after you realize how useful it is to have an expressive type like this. Yeah, I think you get over that pretty quickly if you have any sorts of doubts or yeah, negative feelings towards it.
+&gt;&gt; I agree.
+&gt;&gt; I&apos;ve grown to dislike Boolean so much, when I see one in the code I think there&apos;s a type lurking here.
+
+I need to write it down somewhere.
+&gt;&gt; We&apos;ve been talking about Boolean Blindness, and how you can avoid it by using more expressive types. With me today, has been Dustin, once of the engineers here at ITPro. Thanks, Dustin for joining me.
+&gt;&gt; And thank you for having me.
+
+&gt;&gt; And thank you, for listening to the Haskell weekly podcast. This has been episode four. If you liked our show, find out more at our website HaskellWeekly.news. Thanks again for listening. I&apos;ve been your host, Taylor Fausak, and we&apos;ll see you next week.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

@@ -1,0 +1,137 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 5</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Build Tools' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/5.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-08-episode-5.mp3' /><meta property='og:description' content='Cameron Gera and Taylor Fausak talk about build tools in Haskell, including Stack and Cabal.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#5: Build Tools</h2><h3 class='text-muted'>2019-04-08</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-04-08-episode-5.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Cameron Gera and Taylor Fausak talk about build tools in Haskell, including Stack and Cabal.</p><ul><li><a href='https://sakshamsharma.com/2018/03/haskell-proj-struct/' style='word-break: break-all;'>https://sakshamsharma.com/2018/03/haskell-proj-struct/</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hi, welcome to the Haskell weekly podcast. This show is about Haskell, a purely functional programming language. I&apos;m your host, Cameron Gera, and with me today we have our wizard expert here at ITProTV for Haskell, Taylor How are you doing Taylor?
+&gt;&gt; I&apos;m doing well Cam. How are you?
+
+I&apos;m doing pretty good. I&apos;m pretty excited about today.
+&gt;&gt; Me too. I would be more excited if I knew, what are we talking about?
+&gt;&gt; Well, I was just gonna let you figure that out.
+&gt;&gt; But I will bring it up because I think a very important subject in the Haskell world is stack vs ball.
+
+So I just wanna talk about kind of stack a little bit more, and maybe some of the build tools and how that&apos;s helpful for us. I was reading an article about kind of how stack can give you this project structure out of the box, and how that&apos;s helpful for keeping all Haskell projects in the same format.
+
+&gt;&gt; We use Stack here at ITProTV to manage our Haskell projects. We only have one big project, and it&apos;s got a lot of smaller projects tucked inside of it. And Stack does a great job of keeping those things all in sync, along with all the dependencies that we use.
+
+Cabal is kind of the other contender in this area and we don&apos;t have any experience as a team here using Cabal directly. But Zach uses Cabal for a lot of things behind the scenes and in a lot of ways you could think of it as a smooth veneer on top of the foundation that Cabal provides.
+
+&gt;&gt; So it&apos;s like a shiny little outer coating.
+&gt;&gt; Exactly.
+&gt;&gt; Underneath is the real meat of it, which is Cabal.
+&gt;&gt; Yeah, I don&apos;t know why you have a shiny coating on top of your meat, but whatever floats your boat.
+&gt;&gt; I was gonna go with like a piece of candy.
+
+Kinda like the M&amp;M, like the shiny green outer and then Cabal is like the chocolate center.
+&gt;&gt; That&apos;s delicious.
+&gt;&gt; The chocolate center of Haskell project development.
+&gt;&gt; Yeah, well, I&apos;ve heard a lot of things, being relatively new to Haskell. Stack made it kind of easy to understand, this is how I make something new.
+
+I&apos;ve worked with Stack, trying to make a Hakyll blog and other stuff like that. And it seems to be fairly useful, when I&apos;m trying to figure out what I need to use, what dependencies I have, I just kinda tell it hey, install this. Then it&apos;s there. There&apos;s no jumping through any hoops.
+
+And why is that? I know we have this thing called Stackage. Kinda how does that help us? So Stackage is a set of Haskell packages that are known to all work together. So you mentioned Hakyll. Hakyll as part of its, one of Hakyll&apos;s dependencies is Pan Doc which is a thing that lets you convert document formats from one to the other.
+
+So if you have a markdown file and you want to produce HTML, which is extremely common when writing a blog. Pan Doc is a tool that will let you do that and about a thousand other things. Pan Doc requires a lot of dependencies and it can be hard to find versions of all of those things that work well together.
+
+So if you want to start a blog and you want to use Hakyll to produce it, it can be challenging to find all the dependencies you need and all the versions of those dependencies that all work togethe. Stackage has done all that work for you. So when you tell stack hey install Hakyll stack already knows, yeah, I can install these dependencies together and they&apos;re just going to work.
+
+That&apos;s in comparison to something like Cabal, at least older versions of Cabal. I don&apos;t know how things have changed recently. But Cabal works by resolving dependencies. So each dependency has a version constraint that says I work with this broad range of packages. And Cabal tries to pick a specific version of each one that the package claims it will work with.
+
+This is basically working on the honor system. So there&apos;s no guarantee that package A will actually work with package B even though it says it will. With Stackage that work is done ahead of time and the maintainers are notified when something doesn&apos;t actually work. But with Cabal, it&apos;s possible to get into a situation where you try to install something that says it should work and it doesn&apos;t.
+
+And you&apos;re left trying to figure out what went wrong. And this is kind of historically, in the Haskell community, called Cabal hell and this is something that stack helps you avoid.
+&gt;&gt; I see, yeah, so having a background in JavaScript to a little extent, we use some forms of NPM.
+
+There was kind of this hell of you have this one package you&apos;re specifying but it&apos;s installed a newer version of this other package. And you have all this issue they&apos;ve got package lock now on a lot of stuff. And I haven&apos;t necessarily spent enough time in JavaScript lately to really understand or appreciate that stuff, because we&apos;ve been working in Haskell.
+
+In Haskell, I&apos;ve had stack, so I haven&apos;t had to experience Cabal hell, but I have heard fun stories. And that&apos;s nothing against, well, it&apos;s just part of how they do things. And I appreciate that stack allowed us to kind of not have to worry about that kind of coming into Haskell and being a beginner, right.
+
+Like stack I feel like makes the beginner&apos;s life a lot simpler.
+&gt;&gt; I definitely agree with that. It&apos;s one less thing to worry about when you&apos;re getting started with Haskell. You don&apos;t have to wonder will these packages build together. You know that they will. It&apos;s also nice, you mentioned NPM.
+
+One of the things that NPM does that Haskell can&apos;t really do is that if you have two packages that depend on different versions of some sub package, they can just install both versions of that sub package. And say sure, whatever, package A will get this one version, package B will get this other version.
+
+In Haskell you can&apos;t do that because all of your packages have to agree with each other about every dependency that they&apos;re using. So you can&apos;t say Hackyll gonna use version one of text and pan doc is going to use version two and won&apos;t work because the types won&apos;t line up.
+
+It&apos;s also worth mentioning that another thing Stack does, that NPM also does, is that it kinda quarantines your local project&apos;s dependencies from your global installation. So anyone who&apos;s worked with a JavaScript project is familiar with the node modules folder.
+&gt;&gt; Ouch.
+&gt;&gt; Which is a giant folder with hundreds of folders in there, one for each dependency.
+
+Do we have an ouch noise. So known models is a giant folder with hundreds of dependencies in there and it&apos;s separate from your kind of global installation. And a lot of times, people will install things globally like Bower, or ESLint, some kind of tool that&apos;s just convenient to have on the command line.
+
+In the old days with Cabal, it installed most of your Haskell packages globally. So if you were working on two projects and they needed different versions of a dependency, too bad, you can&apos;t really do that. Eventually they introduced this concept of a sand box, which is a lot like the node modules thing, the folder.
+
+But the sand box augmented your global packages, it was in addition to all of the global stuff. So if you accidentally installed some global package that wasn&apos;t the one you wanted in your project, again, you&apos;re stuck. You have to go remove that global package and install it locally instead
+
+&gt;&gt; That thing is rough, because then that could cause mismatches in people&apos;s local environments to what&apos;s happening in production, too. I feel like that&apos;s super dangerous.
+&gt;&gt; Very dangerous and annoying.
+&gt;&gt; Right, and I feel like we&apos;ve kinda circumvented that because we dockerize things. So in our development locally, we dockerize everything.
+
+So all of our packages, if they were installed globally even would be books on our container that we&apos;re working in. So we hopefully would be able to avoid that said issue.
+&gt;&gt; Exactly, I don&apos;t think we would have run into this particular problem, even if we were using Cabal instead of Stack, because we&apos;re inside a Docker container.
+
+Like you said, a global package inside a Docker container is still kind of local to that Docker container.
+&gt;&gt; Right.
+&gt;&gt; Newer versions of Cabal have added this new way of building stuff, where it completely ignores your global package database, and only uses one that&apos;s sandboxed for the project.
+
+They call this NYX-style local builds. Which is taking a page out of the NYX handbook, which does everything for your entire system like this. Cabal focuses just on Haskell packages.
+&gt;&gt; Interesting, yeah, our co-worker Cody, he told me that I should make a Nix joke, so I&apos;m glad you brought that into the picture.
+
+&gt;&gt; Can we nix that NYX joke?
+&gt;&gt; No, I can&apos;t nix it now. I have to, well, let&apos;s just move on, anyways.
+&gt;&gt; I tried, I&apos;m not as funny as some of our fellow peers here at ITProTV. But I do what I can, to try and stay with it.
+
+Stack in Cabal kind of heard, kind of the underlying side of Cabal, which has been nice to kind of understand more of like, what happened and why global dependencies and stuff like that were kind of causing issues. If you&apos;re going to give advice to anyone kinda starting in Haskell, whether they have programming experience or not.
+
+What would be the best thing about Stack for them to look into? I dropped a bomb on you, now-
+&gt;&gt; It&apos;s hard for me to pick one thing. I feel like there are at least two and the first one is that stack is going to manage your compiler installation along with all of your dependencies.
+
+So Cabal doesn&apos;t install GHC for you. You have to do that yourself and then you can point Cabal at the GHC that you want to use.
+&gt;&gt; What&apos;s the nicety? This is really cool that Stack did this for me.
+&gt;&gt; Right, it&apos;s something that&apos;s gonna be invisible in that you&apos;re not going to end up in a situation where you&apos;re stuck because some dependencies don&apos;t work out.
+
+And that&apos;s a hard thing to sell too hard on because it&apos;s the lack of a problem. But the problem itself is really annoying and very difficult for a beginner to solve. Because they don&apos;t really have the tools or the expertise to figure out what happened, and how to fix it.
+
+And Stack, for the most part, just sidesteps the whole thing. Occasionally, you get into a situation where you want a package that isn&apos;t on Stackage. And that&apos;s when things get complicated, from the Stack side. With Cabal, pretty much any package, well really any package is gonna be installable with Cabal eventually.
+
+Maybe you need to work out some dependencies but-
+&gt;&gt; Anything on hackage pretty much you could find use.
+&gt;&gt; Exactly, mm hm. And that&apos;s also true with Stack, but if something isn&apos;t on Stackage, then you don&apos;t get that nicety of it just working automatically. It may work really well without any extra work, but it might not work at all.
+
+And then you have to figure that out and that can be hard for a beginner to do.
+&gt;&gt; Got you, so we have a little bit of that in our code base based on our latest resolver that we have. We don&apos;t have some of our dependencies, so we had to bring in-
+
+&gt;&gt; Yeah, like Happstack.
+&gt;&gt; Happstack, right. And so that was kind of a, it kinda uses these extra dependencies and text kinda thing in the stack.yaml. And for a beginner, what would be just something to be aware of when trying to figure out, what do I do with this extra dependency, what does that look like?
+
+&gt;&gt; I think that Stack&apos;s documentation does a good job of explaining what these extra dependencies are, why you might need them, and how to put them into your stack.yaml file. Also, when you make a new project with Stack, it includes a Stack.yaml file that has a bunch of comments in it that say, if you need to include an extra depth, this is what it would look like, and this is why you might need it.
+
+There&apos;s also a lot of good blog posts on this topic. This is something that a lot of people have run into where they&apos;re working with Stack and they&apos;re enjoying it and then they run into a package that they need to install that&apos;s not on Stackage and they tell you how to do that.
+
+So I would say turn to Google.
+&gt;&gt; Good ol Google, that&apos;s an engineer and developer&apos;s best friend.
+&gt;&gt; Sure is.
+&gt;&gt; Stack Overflow, any blog posting platform is great. They do a really good job. I know for me that&apos;s been something that&apos;s really really been helpful. It&apos;s a big topic.
+
+Volver stack in the Haskell world. We want everyone to know we love both. We just use Stack so we&apos;re more familiar with it. Why do you think necessarily this is such a hot topic?
+&gt;&gt; Me personally I don&apos;t feel too strongly one way or the other and we&apos;ve been posing this as a Cabal versus Stack-
+
+&gt;&gt; Discussion.
+&gt;&gt; Flame war, discussion that we&apos;re hinting at here, but really there are other entrants in this battle. There&apos;s NYX which we&apos;ve mentioned because Cabal kind of borrowed this concept of NYX style local builds. But you could use NYX to build Haskell packages and a lot of people do.
+
+You can also use some more Niche tools, I know that there&apos;s one called Mafia. You could also use GHC directly, which works great. If you don&apos;t have a lot of dependencies GHC has a -- make flag that makes it behave more like a build tool than a compiler.
+
+And I&apos;m sure there are many other build tools that I&apos;m not aware of, or that I&apos;m failing to mention right now. That being said, Stack and Cabal are kinda the big players. And I think Stack has done a great job of making Haskell development accessible to a wider audience, which was its goal from the get go.
+
+In a previous job I was very gung ho about using Haskell, but I worked on a team that primarily worked with Ruby code. And I didn&apos;t feel comfortable suggesting to them that we use Cabal as our build tool. Because I ran into so many of its sharp edges with failing to install a dependency, or polluting the global package database, any of those things.
+
+When Stack came out I thought, you know what, I would be okay subjecting the rest of the team to this tool.
+&gt;&gt; Right.
+&gt;&gt; Cuz it generally works pretty well. As to why it&apos;s such a contentious topic in the community, I think that a lot of people have invested time into learning Cabal and its quirks and mastering i.
+
+And when there&apos;s a new tool that doesn&apos;t require all of that expertise, it can make you feel like you either you&apos;ve wasted some of your time or that people need to learn the same things that you learned in order to get onto your level. And so this kind of undercutting their expertise However, I&apos;m not a psychologist.
+
+I couldn&apos;t tell you. I&apos;m sure there are many more reasons why.
+&gt;&gt; Well, I appreciate your time, too. I appreciate you being able to take the time to just talk to us about Atack and about Cabal and hear some of the quirks of both even and how we can, use that in our day to day even before expert or we are beginning.
+
+Because there&apos;s some niceties with Stack and if you use Cabal that&apos;s great and there&apos;s nothing no hard feelings.
+&gt;&gt; Yeah.
+&gt;&gt; All right, thanks for being with us Taylor and thank you all for listening to the Haskell weekly podcasts. This has been episode five and I&apos;ve been your host Cameron Gara.
+
+If you liked our show find out more at our website haskellweekly.news. Thanks again for listening and see you next week.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

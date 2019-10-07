@@ -1,0 +1,73 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 15</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Lazy Sharing' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/15.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-07-23-episode-15.mp3' /><meta property='og:description' content='Cameron Gera and Taylor Fausak talk about how function calls are evaluated in Haskell with regards to non-strictness.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#15: Lazy Sharing</h2><h3 class='text-muted'>2019-07-23</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-07-23-episode-15.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Cameron Gera and Taylor Fausak talk about how function calls are evaluated in Haskell with regards to non-strictness.</p><ul><li><a href='https://treszkai.github.io/2019/07/13/haskell-eval' style='word-break: break-all;'>https://treszkai.github.io/2019/07/13/haskell-eval</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hello, and welcome to the Haskell Weekly Podcast. As you might have guessed, this show is about Haskell, which is a purely functional programming language. I&apos;m your host Taylor Fausak. I&apos;m the lead engineer at ITPro.TV.
+&gt;&gt; Hey, Taylor. I&apos;m Cameron, I&apos;m also an engineer here, but I&apos;m not the lead engineer.
+
+I&apos;m just excited to be here today. I&apos;m glad we get to do a show again, it&apos;s been a little while.
+&gt;&gt; Yeah, it has been a little while.
+&gt;&gt; How are you doing, what are we talking about today?
+&gt;&gt; I&apos;m doing well, and I&apos;m really looking forward to talking about this post.
+
+It&apos;s titled Evaluation of Function Calls in Haskell, which just sounds riveting. But very exciting for me, and it&apos;s by Laszlo Tretski. Hopefully, I&apos;m pronouncing that name right, I&apos;m almost sure I&apos;m not. And we&apos;re pulling it from issue 168 of Haskell Weekly. And I&apos;m still flabbergasted that we&apos;re up into the hundreds for issue numbers, it&apos;s crazy.
+
+&gt;&gt; That&apos;s a lot of articles, which is really cool, that we&apos;ll able to kinda group all this stuff together.
+&gt;&gt; Yeah.
+&gt;&gt; But I&apos;m really excited about that article, it sounds really fascinating. Reading over it, it was a little heavy cuz it talks a lot, it&apos;s a lot nitty-gritty.
+
+And so, I think we should really start high level kind of-
+&gt;&gt; It&apos;s a good place to start.
+&gt;&gt; Good overview, right? I could go really high level and be like what is a function?
+&gt;&gt; I think we can assume everybody knows.
+&gt;&gt; Yeah, that&apos;s fair. But in this article, he talks a lot about, kinda the gist of it is coming from a chapter in Haskell Programming form First Principles by Christopher Allen and Julie Moronuki.
+
+&gt;&gt; Yeah.
+&gt;&gt; I nailed that.
+&gt;&gt; I was curious and this is something they&apos;re kind of talking about preventing sharing on purpose. So it&apos;s sharing.
+&gt;&gt; Yeah, sharing.
+&gt;&gt; Sharing.
+&gt;&gt; Yeah, that&apos;s kind of a weird concept cuz it&apos;s not something we think about usually. So much so that it&apos;s a term a lot of people probably haven&apos;t heard of.
+
+I&apos;m sure many people are familiar with the fact that Haskell is a lazy language, or non-strict. And what that means is that, when you write a function call, it doesn&apos;t evaluate that immediately. It can wait until you actually need that thing before it evaluates it. And what sharing means is that if you have the same thing used in two places, maybe it will only actually be computed once, and then it&apos;ll use the result in both of those places.
+
+Whereas in a strict language, you would be forced to compute at both times because you&apos;re using it twice. So that&apos;s a real quick introduction of what sharing is, hopefully I didn&apos;t miss anything too bad-
+&gt;&gt; And sharing is always caring, so that&apos;s good.
+&gt;&gt; Exactly.
+&gt;&gt; Well, I think we use sharing well.
+
+But this article presents a way to not share, to create a function that isn&apos;t shareable.
+&gt;&gt; Right, yeah, they have kinda two motivating examples, right? They have this this lambda, this function that takes an argument and completely ignores it and then returns something. And they use that as an example of something that doesn&apos;t share.
+
+It keeps all of its toys for itself. And then, they have another example that functionally is exactly the same, the end result is the same except that it allows sharing. And it does that by using the const helper function that&apos;s in the prelude to not have a lambda there.
+
+And that allows GHC to analyze this a little more thoroughly and do the sharing optimization.
+&gt;&gt; Yeah, which is really cool. Which the way they use the const operator, or the function, it&apos;s not an operator. Using the const function, it makes the function point free, right?
+&gt;&gt; Yeah.
+
+&gt;&gt; As opposed to point full.
+&gt;&gt; Right.
+&gt;&gt; So could you kinda talk about point free verse point full a little bit?
+&gt;&gt; Sure, point free programming is definitely something that is, when people look at Haskell, they think about that a lot. All these really dense expressions with a lot of function composition.
+
+But really, what it boils down to is that with point free programming, you don&apos;t talk about your argument names. You don&apos;t actually list them out. So what we&apos;re used to in most programming languages is that when you write a function, you have to explicitly list all of the arguments that you take in.
+
+And in Haskell, you can do that. And when you write a lambda or a top-level function declaration, that&apos;s the common way to do things. But if your function is just a series of other functions composed together, and it takes its argument, it can be a little annoying to say f of x equals this function, open parentheses, this other function, open parentheses, this other function, x.
+
+And so, point free lets you kinda rewrite that without mentioning the x at all, and just say f equals f1 composed with f2 composed with f3.
+&gt;&gt; Right.
+&gt;&gt; Which is really nice for kind of understandability and looking at it and seeing that it&apos;s just a pipeline of functions.
+
+&gt;&gt; Right.
+&gt;&gt; But specifically, with regards to this blog post, point free is interesting because it changes the semantics of how it actually runs. And we&apos;ve talked about sharing already, so it should come as no surprise that it influences sharing.
+&gt;&gt; Right, and yeah, it&apos;s behind the scenes that things are different, right?
+
+Cuz if you look at the lambda verse the const compositionally, it doesn&apos;t look that different in Haskell. But they kind of touch on something called core, right?
+&gt;&gt; Yeah, and core is something that hopefully, or maybe not hopefully, that&apos;s the wrong way to put it. Generally speaking, day-to-day, if you&apos;re writing Haskell code, you&apos;re not gonna have reason to go look at the core that it produces.
+
+But you can think of core as the first step in the compilation pipeline. And core could be, it isn&apos;t this, but essentially, you can think of it as a very minified version of Haskell that doesn&apos;t have any syntactic sugar. And because of that, it ends up having a lot of lambdas and a lot of case statements.
+
+&gt;&gt; So it&apos;s not as sweet as Haskell, is that what you&apos;re telling me?
+&gt;&gt; Yeah, it&apos;s a little sour maybe, or bitter, I&apos;m not sure which flavor it would be.
+&gt;&gt; Nonetheless, it&apos;s still part of Haskell and the compilation process.
+&gt;&gt; Right, and the reason that core kinda comes into this discussion is that when we talk about sharing, it&apos;s not apparent when you look at Haskell source code if something will be shared or not.
+
+There are some kind of heuristics that this blog post talks about, especially at the end, that tell you when you can expect something to be shared or not. But the only way to be sure is to look at the core. And you can tell GHC to output of the core so that you can look at it.
+
+And as I said, it doesn&apos;t have any syntactic sugar, so it ends up being really verbose a lot of the time. Which means it&apos;s not something you typically want to be looking at all the time.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

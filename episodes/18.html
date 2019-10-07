@@ -1,0 +1,169 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 18</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Inventing Monads' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/18.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-08-13-episode-18.mp3' /><meta property='og:description' content='Cody Goodman and Taylor Fausak walk through inventing monads from scratch in JavaScript.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#18: Inventing Monads</h2><h3 class='text-muted'>2019-08-13</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-08-13-episode-18.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Cody Goodman and Taylor Fausak walk through inventing monads from scratch in JavaScript.</p><ul><li><a href='https://blog.kabir.sh/posts/inventing-monads.html' style='word-break: break-all;'>https://blog.kabir.sh/posts/inventing-monads.html</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hello and welcome to the Haskell weekly podcast. As you might have guessed this show is about Haskell, which is a purely functional programming language. I&apos;m your host Tyler Fossick. I&apos;m the lead engineer at ITPro.TV.
+&gt;&gt; I&apos;m Cody Goodman. I&apos;m a senior engineer at ITProTV.
+&gt;&gt; Thanks for joining me today, Cody.
+
+What are we going to be talking about?
+&gt;&gt; We are going to be following a blog post called inventing monad and talking through it cool.
+&gt;&gt; I feel like I&apos;ve been programming Haskell for a while. So I&apos;m familiar with monads, but this is more of a beginner&apos;s perspective, right?
+
+&gt;&gt; Right, it tries to actually go through and start using or uses JavaScript throughout all of those examples to make it a little more approachable since that&apos;s kind of the lingua Franca.
+&gt;&gt; Yeah, for sure. JavaScript use just a little bit more than Haskell in industry, and it&apos;s nice to see that the concept of my monads can be applied in other languages.
+
+It&apos;s not something that is specific to Haskell.
+&gt;&gt; Right.
+&gt;&gt; So you mentioned that he does this in JavaScript. So how does he start off, because I know that Haskell and JavaScript represent things a lot differently. So it&apos;s kind of weird to see that as a starting point.
+
+&gt;&gt; Right, he just starts with a normal kind of JavaScript block of a function of how you would get a middle name. You have a function and two constants in it. A function call and two constants in it. Then he does this sort of pointless looking transformation where he introduces an apply function and he uses that apply function to get the middle name, and then he calls the get user function on that, and then the apply above that as well.
+
+And finally, calling get ID with all of those things and the subsequent plies on it.
+&gt;&gt; Got you, so he has this kind of straightforward JavaScript function and he transforms it. Throwing a seemingly unnecessary amount of abstraction in there, but I have to assume it&apos;ll come in handy later.
+
+&gt;&gt; Right, he calls it a dense representation. It totally looks pointless and it&apos;s like God, why would you do this? Yeah, well, hopefully he&apos;ll tell us. And it&apos;s interesting here that JavaScript and Haskell again are such different languages, but he manages to make a function called syntax that ends up looking pretty close to Haskell.
+
+So if you kind of squint your eyes a little bit, you could imagine this JavaScript is actually Haskell which is nice for me.
+&gt;&gt; Yeah, great.
+&gt;&gt; So now that we&apos;ve thrown all this extra syntax and boilerplate in front of ourselves, what do we actually get out of it?
+
+What&apos;s the first thing that he does with this stuff? Well, the first thing is he poses the question. What if I ID, middle name, user if any of those things could be null?
+&gt;&gt; Which is super common, right?
+&gt;&gt; Right, right, anything fails, you&apos;ll get a null, especially in JavaScript.
+
+He gives a code snippet where the get ID and get user functions are now checking for null, same for get middle name.
+&gt;&gt; Right, so I showing you kind of the more typical JavaScript way of approaching this problem, right?
+&gt;&gt; Correct and showing how all of them have to handle the null values and the possibility of returning it.
+
+
+&gt;&gt; Right, every single place.
+&gt;&gt; And then he pivots and says, what if we check for it automatically?
+&gt;&gt; Right and how do we how can we do that automatically? Does it use that apply function we had earlier.
+&gt;&gt; Right, so the secret to all of this is in that you change how these functions are interpreted instead of changing those functions themselves.
+
+
+&gt;&gt; That&apos;s pretty cool. So earlier, you said that apply, it takes an argument in a function and then it applies that function to that argument exactly like you might expect, but what does it do now that null has entered the picture?
+&gt;&gt; That&apos;s actually where he gets to updating the applied function where if x is equal to null, so given apply xf.
+
+If x is equal to null, you just return null. Otherwise, you apply f2x.
+&gt;&gt; That&apos;s pretty cool. I like to think of that as short circuiting where once you encounter a null, everything stops happening and you just get null from that point out. And I see that happening a lot in JavaScript functions where you say, right at the top of some handler, you say, if some condition is met, then return null or error or whatever it is and then carry on.
+
+So this is pretty similar to that in my mind.
+&gt;&gt; Yeah, there&apos;s just a lot of times we&apos;re within a function, you&apos;d have to do a lot of nested if checks or something where you could have used short circuiting.
+&gt;&gt; Yeah, it cleans things up a lot, I think.
+
+So now that he&apos;s got this new apply implementation that supports null checking, what does he do with it?
+&gt;&gt; He uses it to show how he can get the middle name function exactly the same way as he did in the previous iterations.
+&gt;&gt; And that&apos;s pretty cool, right, that the same code can behave differently, depending on if you need to handle nulls or not.
+
+
+&gt;&gt; Right.
+&gt;&gt; It&apos;s starting to look a little bit like something, but I don&apos;t know. We don&apos;t wanna give it a name yet. I don&apos;t wanna scare anybody off.
+&gt;&gt; So after he shows this example of dealing with null, he kind of pivots and walks back to the original example and then adds another, I&apos;ll call it an effect, but another thing.
+
+So instead of checking for null, he does something else which is kind of logging things as they happen, right? So that if you were needing to debug this function, cuz you unexpectedly got a middle name of popcorn and that doesn&apos;t make sense and you wanna figure out how you got there.
+
+So these this logging would help you figure that out, right?
+&gt;&gt; Right, not being able to log and functions like this if we tell people coming to Haskell like yeah, you can&apos;t log. That&apos;s not going to work right kind of eased.
+&gt;&gt; You you need to be practical, you got to debug stuff.
+
+And so how do they approach logging, given that they&apos;re trying to implement these things as quote, unquote, pure functions?
+&gt;&gt; So the first thing you do is in functional languages avoid global variables to keep track of all those messages. So the first pass that, that is modifying utility functions to handle arrays.
+
+
+&gt;&gt; And when you say arrays, what do you mean? What&apos;s in those arrays?
+&gt;&gt; The result, as well as the log message.
+&gt;&gt; Right, so you get back an array where the first thing in it is the answer and everything else is kind of stuff that happened along the way that you might be interested in and you might throw away.
+
+
+&gt;&gt; Right, the the trouble is that then your functions have to know how to handle that.
+&gt;&gt; Yeah, every single function you call would need to like d structure or lookup or whatever. But fortunately, we have functions that we&apos;ve thrown in our own way here, right, that we can change yet again to do what we need here.
+
+
+&gt;&gt; Right, that pointless seeming function from it first apply which made things look all horrible.
+&gt;&gt; Now it&apos;s like we can just go back and modify this now to distructure that and show us what the logs, the results of.
+&gt;&gt; Yeah, previously, we were using the supply function to check for null.
+
+But now we&apos;re saying, grab that first thing out of it and append all can cat together all the other stuff. So we&apos;re accumulating these log messages as we go through, but still producing the result that we wanted in the first place.
+&gt;&gt; Yeah and that&apos;s that&apos;s really cool to be able to just modify that apply again to handle all our needs.
+
+
+&gt;&gt; Exactly, pretty nice. Again, you end up with the same shape at the top level. It still looks exactly the same. But underneath the covers, the implement, excuse me, the implementation details are kind of switched out from underneath you. So instead of handling nulls, now we&apos;re doing logging.
+
+
+&gt;&gt; And that&apos;s why this blog post does a really good job of motivating why word we&apos;re not saying is useful.
+&gt;&gt; Maybe at this point we can start talking about it is in the title after. So-
+&gt;&gt; Yeah. So far, these have been two examples of monads and this is showing you that yeah, they are useful for real life situations that you&apos;re gonna come across as you&apos;re writing programs.
+
+It&apos;s not just advanced math Ivory Tower stuff.
+&gt;&gt; For sure, there&apos;s a lot of it a lot of real world advantages that you get from monads and he&apos;s worse good examples already.
+&gt;&gt; And they&apos;re going to give a few more, so let&apos;s kind of get through those. They talk about global environment which when I read that makes me shudder a little bit, because I don&apos;t like global environments.
+
+I like things to be as local as possible, but I think they don&apos;t really mean global. They mean something else, don&apos;t they? It&apos;s kind of like scoped to the function or something like that.
+&gt;&gt; Right, they mean for a given function, you can provide an environment that can be modified within that scope.
+
+
+&gt;&gt; Right, so the way that I like to think about this and I think this actually came up in our code base recently here at work where we had a series of functions that all needed some config and we were passing that config from function A to function B, B2 C, C to D.
+
+And that&apos;s a lot of boilerplate, cuz you have to thread that thing all the way through and I think we came out of that not having to thread it through. Can you tell us how we got there?
+&gt;&gt; Right, so we started using a monad transformer which the important thing is that it had a reader monad in it.
+
+
+&gt;&gt; And that reader monad is what?
+&gt;&gt; That just means that you can simply use a function called ask and whatever you initiated that reader on Ed with whatever value it was initiated with, you&apos;ll get that back. In our case, it was convicted. Got you, so we had all these functions that were operating in this monad.
+
+And instead of passing an argument through to everything in the single place where we needed it, all we had to do was ask for it and it was suddenly available.
+&gt;&gt; Right and actually at one point, we had both the new monad and we were still passing in fig.
+
+
+&gt;&gt; It headed twice just to make sure get it from one place, get it from the other and make sure they&apos;re the same and then move on.
+&gt;&gt; Right.
+&gt;&gt; So in this blog posts, he shows this global environment example and kind of walked you through the reader monad is what it would be in Haskell and provides motivation for this example that we just ran into.
+
+Passing all these arguments is annoying. And if you can put it in your context and then ask for it when you need it, it&apos;s pretty nice. And once again, as you might be able to guess, you change apply and your actual business logic ends up looking the same and all the stuff underneath the covers kind of changes out from underneath which sounds scary, but promise isn&apos;t as long as you follow a few rules exactly.
+
+They&apos;re important rules as we call them laws, but I don&apos;t think you get arrested if you don&apos;t follow them. It&apos;s just very, very frowned upon. So now that we&apos;ve gone through dealing with nulls accumulating a bunch of state in this case logs as we go through stuff and having a kind of read-only environment that&apos;s available to our functions.
+
+We land on the final example which is state which is something that gets passed to every function, but also can be updated along the way. Can you tell us a little more about this example and kind of how it differs from the previous ones?
+&gt;&gt; It&apos;s really similar like you&apos;re saying, I think to the reader mpnad.
+
+The only difference is that that initial state that was passed in. You can update it and you can you can get it again do whatever you want with it.
+&gt;&gt; And I think the example they use as kind of innovation has to deal with random numbers. Because if you wanna generate a bunch of random numbers in a pure fashion without reading from like slash dev random or something like that.
+
+Typically, you&apos;re gonna need a random number seed and those are deterministic. So if you give something the same seed, you get back the same answer which works fine if you only need one random number. You could throw that in your reader context and pull out the seed, and generate a random number.
+
+But if you wanna generate to, you would generate the same number both times, because you couldn&apos;t change that reader context. So you need something like the state where you can ask for to get it and then do whatever operation you want with, and then put something back into the state change it.
+
+I actually remember I remember having a bug with random numbers before where I might have been using a reader monads just threading that same seed through. And after I figured it out, it just reminded me of the xkcd comic, it&apos;s like turn 42.
+&gt;&gt; Yeah, guaranteed random. We rolled some dice and figured out this is a very random number.
+
+We&apos;re just gonna keep giving it to you. Yeah, so we don&apos;t want to implement random number generators like that and you don&apos;t have to. The monad abstraction is powerful enough to give you this ability to consistently take something in into your environment and use it, and modify it, and then return that back out along with your answer.
+
+So once again, we end up with changing the apply function and using the same business logic over and over and over again. So that gets us through all of the motivating examples that this guy gave for monads and he managed to make it through this post without using monads we didn&apos;t quite think we made it halfway through.
+
+
+&gt;&gt; But this is something that happens a lot in the Haskell community, right, beginners kind of finally grokking monads. Have you seen this come up before?
+&gt;&gt; Yeah a ton. I personally started writing Haskell just by making functions of the five ten fifteen arguments. Yeah, to pass the state through and then I finally got annoyed and I was like I&apos;m going to learn what monads are about and I came across a billion tutorials.
+
+
+&gt;&gt; Monads are burritos. What else are they?
+&gt;&gt; They&apos;re all kinds of things. I keep thinking the straws, but I think that&apos;s lenses are straws. Monads are burritos. Their boxes, their containers. I don&apos;t know, any number of things.
+&gt;&gt; That&apos;s why I really like tutorials like this which focus on some real examples, because you&apos;re not gonna get very far with metaphors as much as you will with using these things and seeing why those laws that are seemingly pointless.
+
+Why there is applied functions through seemingly pointless help you.
+&gt;&gt; Yeah, I agree. I much prefer seeing a motivating example rather than here&apos;s the type signature and here&apos;s the laws and it&apos;s important and good luck.
+&gt;&gt; Walking through stuff like this really helps me or would have helped me when I was learning Haskell see why do I care about this?
+
+What do I get out of it?
+&gt;&gt; Exactly.
+&gt;&gt; And like you, I&apos;ve seen so many of these tutorials through the years that it&apos;s feels a little bit like a rite of passage for new Haskellers. Like yeah, you got to learn what mountains are and then you got to write blog posts that says you what they are.
+
+
+&gt;&gt; And that&apos;s exactly what&apos;s happened. Yeah, somehow I think neither you, nor I have written this blog post, but maybe that just means we haven&apos;t truly understood monads yet.
+&gt;&gt; Well, I hope we do. We&apos;re making a podcast about them.
+&gt;&gt; Yeah, it does this count as a blog post probably.
+
+Anyway, I think that about wraps it up for us today. Thanks for being with me on the show today, Cody.
+&gt;&gt; Thanks for having me, Tyler. It was a lot of fun.
+&gt;&gt; It was a lot of fun. It&apos;s always good and good having you on here, and thank you for listening to the Haskell weekly podcast.
+
+If you like what you heard, please find out more at our website, haskellweekly.news. And if you did like our show, again, please go rate and review us on iTunes. It helps a lot. Haskell weekly is brought to you every week by ITPro.TV, the tech skills development platform for IT professionals who also happens to be our employer.
+
+So please send your sysadmins and network admins to www.itpro.tv for other learning needs and they can let you know what they think of the people who develop it which is us. So thanks again, Cody and we&apos;ll see you all next week.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

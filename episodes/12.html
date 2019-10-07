@@ -1,0 +1,122 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 12</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Formatting Code' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/12.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-03-episode-12.mp3' /><meta property='og:description' content='Dustin Segers and Cody Goodman talk about formatting Haskell source code with automated tools like Ormolu.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#12: Formatting Code</h2><h3 class='text-muted'>2019-06-03</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-03-episode-12.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Dustin Segers and Cody Goodman talk about formatting Haskell source code with automated tools like Ormolu.</p><ul><li><a href='https://www.tweag.io/posts/2019-05-27-ormolu.html' style='word-break: break-all;'>https://www.tweag.io/posts/2019-05-27-ormolu.html</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Welcome to the Haskell weekly podcast, this show is about Haskell, a purely functional programming language. I&apos;m your guest, Dustin Segers, I&apos;m an engineer at ITProTV. With me today is your host, Cody Goodman, he is a senior engineer here at ITProTV, thanks for joining me today.
+&gt;&gt; No problem, Dustin, I&apos;m glad to be here and talk about some Haskell.
+
+&gt;&gt; So today I think we are going to talk about Ormolu? Looks like a format, Haskell code like never before stylizing dealio. At least that&apos;s the tagline at the top.
+&gt;&gt; Right, yeah, I actually Googled that, I was like, how do you pronounce that? It&apos;s apparently Ormolu.
+&gt;&gt; Nice.
+
+&gt;&gt; An 18th century guilding technique for applying finely ground, high-carat gold-mercury amalgam.
+&gt;&gt; Wow!
+&gt;&gt; That&apos;s a mouthful.
+&gt;&gt; Yep, yeah, I had no idea, so I figured I&apos;d probably butcher the name, but thanks for letting me know. Yeah, so the author, Mark Karpov, excuse me if I mispronounced the last name, has got a pretty good train of thought here.
+
+Did you happen to see anything interesting, Cody, as you read over this article?
+&gt;&gt; Yeah, I think kind of building on the name Ormolu, they kinda start out talking about the principals, which is something you&apos;ll find common with high schoolers. And I think that&apos;s not just because of some of the kind of academic roots, but also because Haskell&apos;s type system is more amenable to allowing you to kind of, at a high-level state with the principles of your program should be, and limit the space of what makes sense.
+
+&gt;&gt; All right, so any of these particular principles that, I guess, Ormolu is laying out for us, any of them catch your eye in particular?
+&gt;&gt; Yeah, I like they how they kinda start out by motivating what it&apos;s for, what exactly is a code formatter, what does it do?
+
+Do we want there to be multiple styles? Do we want there to be a single style? I&apos;m very happy they ended up on a single style, cuz as a programmer I just want a formatting tool to kind of get out of my way
+&gt;&gt; Yes, I can can agree with that.
+
+&gt;&gt; Now there are some cases where it, it does something that looks a little insane and can affect readability. I see they also address that though, with a rule of, if you make a new line, it will line based on that new one. Now, that allows for some differences and it kinda goes against the uniformity, so I&apos;m a little worried about the implementation of that, but I could see it being a positive.
+
+&gt;&gt; Yeah,I also see he mentions Hindent and Brittany, both of which we have used here at ITProTV, Hindent I think the lesser of the two.
+&gt;&gt; No, I wasn&apos;t here when you guys were using Hindent, how was that?
+&gt;&gt; Well, at the time we were using Hindent I was just a little Haskell novice, which I&apos;m still not much more than that now, but.
+
+I would say it was nice coming from things like ESLint and stuff like that, it was just nice to have something, help us format our code. And we were in dire need of it, especially whenever we were just starting out learning Haskell, and we didn&apos;t really know Ralph the bad, how I should format certain things.
+
+So it was a good kinda entry into formatting Haskell
+&gt;&gt; You know, that&apos;s a good point. I didn&apos;t really think about how that could lower the barrier of entry for Haskell, something to automatically format code.
+&gt;&gt; Mm-hm, yeah, but I do see that they also mention Brittany as well, which we still use.
+
+I&apos;m enjoying Brittany, although I&apos;m probably the least opinionated whenever it comes to stylizing stuff. Mainly because I just like it to look good, and if it looks decent enough, I&apos;m okay with it. But I know that some people are extremely particular whenever it comes to formatting. Which of those camps do you fall into?
+
+Are you?
+&gt;&gt; I used to be a little more opinionated, things like align everything based on comma, well, I guess I still do that. I think your opinion sums it up pretty good for me. Just as long as it looks all right, as long as it&apos;s not inscrutable, I&apos;m okay with it.
+
+Because I used to only use EMAx alone, and they had this, God. The Haskell mode for that had three different tab cycling modes, one that was intelligent, one that just cycled through them. I wasted so much time with that, where I could have been writing code.
+&gt;&gt; And that&apos;s actually a good a segue into another thing that Mike is talking about here with the, how could formatters also good to take away some of the tedium of writing code in the first place.
+
+And if your formatter&apos;s getting in the way of that, or actually doing the opposite of what you&apos;re saying, then yeah, it&apos;s probably time to either pick up something new or maybe the tool just isn&apos;t doing its job correctly.
+&gt;&gt; Yeah, I totally agree with taking away the tedium, it&apos;s not just because we&apos;re lazy, but also because we don&apos;t wanna get knocked out of that flow state.
+
+We wanna just be able to focus on the problem at hand.
+&gt;&gt; Correct.
+&gt;&gt; And have all those things, ideally have imports taking care of automatically, specially since we use qualified imports, sort them if you wish. That would be great.
+&gt;&gt; All right, well, looking at an example of Ormolu&apos;s approach.
+
+How do you feel about the formatted code that is displayed here?
+&gt;&gt; Yeah, their example, I think is pretty good, it seems like a pretty sane decision, they&apos;re not doing anything too complicated, just going by line, with the looks like and. I am concerned about the possible exponential blowups they talk about when formatting deeply nested expressions.
+
+On the one hand, that shouldn&apos;t happen too often, but it would be pretty annoying for your formatter to freeze your editor, if you&apos;re unlucky enough to have a synchronous editor like EMAx.
+&gt;&gt; Yes. So one of the things I&apos;m noticing is that, it does look like, it looks very similar to how our code is formatted right now using Brittany, and I like that.
+
+I mean, it&apos;s nothing too crazy, I see that thing later on, or maybe a little bit before, I may have missed it. I thought I read that Ormolu is supposed to allow you to have a little bit of an opinion, but still retain a consistent style throughout everything.
+
+Yes, and actually I see that now, it&apos;s a little bit below the formatted code example here, but. But yes, I like how it&apos;s nothing too different and too insane from what I&apos;m used to myself. So, I&apos;m kinda biased in that regard, that I already like what I see because it&apos;s similar to what I use everyday.
+
+How do you feel about that? Feel about the same way?
+&gt;&gt; Yeah, I mean, the first saying when I saw this announcement was, why another formatter? Why isn&apos;t Brittany good enough? I think that the simplicity of implementation looks like one reason. Maybe they think long term it would be easier to use this architecture and maintain it, and then also maybe that sort of ease overriding, things by new line instead of having config files.
+
+&gt;&gt; Yeah.
+&gt;&gt; And I think it&apos;s just trying to get closer to something like GOFormat where, not the biggest fan of GO, but one great thing from GO, and is never having to worry about formatting, and then always being able to read things in the same format.
+&gt;&gt; Yes, that&apos;s definitely very handy.
+
+Continuing on, other features he says are worth mentioning are, formatting already formatted code is a nola.
+&gt;&gt; Yeah, I think if that wasn&apos;t the case, then that sort of defeats the whole purpose of having a formatter, it wouldn&apos;t be consistent, so we gotta have that.
+&gt;&gt; Says, project aims to implement one true formatting style.
+
+I think we just touched on this a little bit.
+&gt;&gt; Right, basically, just avoiding the need for a configuration, lowering that barrier of entry so that everyone can pick it up and use it.
+&gt;&gt; Yep, everybody is using, this styler will be on the same page, which should be very nice.
+
+Then it looks like they&apos;re aiming to reduce the diff sizes, which is.
+&gt;&gt; Right.
+&gt;&gt; Which is super awesome to us, because we have just single commits just dedicated to running Brittany and formatting things accordingly, and then pushing those up and then seeing those in Git later. The diffs are just quite large, and they can get a little confusing, especially if you&apos;re new and you don&apos;t know exactly what to look for in the beginning.
+
+&gt;&gt; Yeah, I agree with that. Maybe we&apos;ll have to do a test and take all of our old diffs of Brittany, something and compare it to Ormolu.
+&gt;&gt; I actually like that, yeah, I think that&apos;d be pretty cool.
+&gt;&gt; So they use the THC coarser like Brittany does, which means that they don&apos;t have to worry about incompatibilities.
+
+I believe it&apos;s type THC dev tools that provides the alternative AST that&apos;s easier to use than the GHTAPI. As nice as that is to use, you&apos;ve gotta worry about supporting all these language extensions, and it&apos;s more of a headache than it&apos;s worth.
+&gt;&gt; Looks like the code of the actual formatter itself is written, so it&apos;s easy to modify and maintain.
+
+&gt;&gt; That&apos;ll be really important. They go on to mention that only parts of the GHC AST, abstract syntax tree for anyone that doesn&apos;t know it, is implemented, but there&apos;s a lot left. So having something that&apos;s easy to extend with, when you&apos;re trying to have as many different behaviors defined as you&apos;ll need for the GHC AST is really important.
+
+&gt;&gt; Yeah and I see, final thing is, they&apos;re saying that the codebase is hacking friendly, so that&apos;s pretty cool too.
+&gt;&gt; Yeah, if we can get the community involved in something, then they&apos;re gonna be more likely to use it. If everyone can kinda standardize on one of these, that&apos;ll be great.
+
+I&apos;m personally undecided, we&apos;ve been using Brittany, and it&apos;s been working out pretty well for us.
+&gt;&gt; Right.
+&gt;&gt; Let me see. We had a few things missing, I think quasi-quotes aren&apos;t formatted, typeclass instances were not formatted, I think that got added recently though.
+&gt;&gt; I believe you&apos;re correct, if not recently, then sometime, yeah.
+
+&gt;&gt; So it&apos;ll be interesting to see if Ormolu has some sort of challenges implementing those things, or if the development will kinda play out the same.
+&gt;&gt; Looks like they have a testing scheme in place, I mean, it&apos;s less bugs, which is always good.
+&gt;&gt; Mm-hm, I guess the pressing question for me is, is this going to let us remove our Brittany config file for instance?
+
+&gt;&gt; Yeah.
+&gt;&gt; That, I guess the greatest, when in complexity, is being able to remove that config file, but still be able to preserve a same style. Of course as they say, right now this is vaporware, so we can&apos;t see if that&apos;s true yet.
+&gt;&gt; Yeah, no, I agree, and especially only having seen the config file recently for Brittany.
+
+You know, if you were trying to use this in the workplace that you, let&apos;s say you just got hired for a Haskell job and they use the Brittany config file, and you just happen to be hired as a noob. It&apos;d be pretty nice to not have to worry about that down the road, say if you&apos;re given some project or something that may have required you to tinker with it.
+
+Which I think that tinkering is great for learning and stuff, but maybe not in that point in time. Something&apos;s needed, right, if it&apos;s pressing, there&apos;s urgency to the matter or something.
+&gt;&gt; Funnily enough, my first job title was actually noob.
+&gt;&gt; Not really, I just really wanted to make that joke.
+
+&gt;&gt; Yeah, and it looks like they&apos;re saying that the project is open through the fork. Actively maintains, those are all pluses. Twig is maintaining it, yeah.
+&gt;&gt; And that gives some confidence too, cuz they came out with quite a few really good code bases, and Haskell community like in line JS, Lori, if anyone&apos;s familiar with Nick&apos;s OS.
+
+And I believe they also have Cassandra bondings off somewhere. So some good code basis coming out there.
+&gt;&gt; Yeah, that&apos;s actually pretty good to hear. I&apos;m already all for it, but like he said, and like this article said, it&apos;s vaporware, but looks pretty cool and seems exciting. If it delivers on the features and principles, and stuff like that, then it could very well be a replacement for us here, although we&apos;re perfectly happy with Brittany at the moment.
+
+It&apos;s really, you know.
+&gt;&gt; I guess one of the, every once in a while with Brittany we&apos;ll think a line is too long or something and, man, I wish a format like this with that. So if they can give us the best of both worlds, I think we could probably switch, but only time will tell.
+
+&gt;&gt; Thanks for being on the show with me today, Cody, and thank you for listening to the Haskell weekly podcast. This has been Episode 12. If you liked our show, find out more at our website Haskellweekly.news. Thanks again for listening. I&apos;ve been your guest, Dustin Segers.
+&gt;&gt; I&apos;ve been your host, Cody Goodman.
+
+&gt;&gt; And we&apos;ll see you again next week.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

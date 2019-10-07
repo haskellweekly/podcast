@@ -1,0 +1,262 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 2</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Upgrading Elm' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/2.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-18-episode-2.mp3' /><meta property='og:description' content='Sara Lichtenstein and Taylor Fausak talk about the good and bad of upgrading from Elm 0.18 to 0.19.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#2: Upgrading Elm</h2><h3 class='text-muted'>2019-03-18</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-18-episode-2.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Sara Lichtenstein and Taylor Fausak talk about the good and bad of upgrading from Elm 0.18 to 0.19.</p><ul><li><a href='https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/' style='word-break: break-all;'>https://engineering.itpro.tv/2019/03/01/upgrading-elm-to-v19/</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hi, welcome to the Haskell Weekly podcast. This is a show about Haskell, a purely functional programming language. I am your guest, Sara Lichtenstein, and I&apos;m an engineer at ITProTV. And this your host, Taylor Fausak.
+&gt;&gt; Hi, I&apos;m the lead developer at ITProTV. Today, we&apos;re going to be talking about Elm.
+
+In particular, upgrading Elm from 0.18 to 0.19 which we recently did here at ITPro. Sara was a big part of that upgrade process, and she wrote a blog post about it. And so we&apos;re gonna be kinda digging into that blog post and talking more about it. Sara, do you wanna tell us a little about Elm and get us started on the upgrade path?
+
+&gt;&gt; Absolutely, so here at ITProTV, as you know, as our lead engineer, we use a lot of Haskell. And luckily hand-in-hand with that goes Elm, since it&apos;s written in Haskell. So we use Elm for our front-end, as I&apos;m sure you&apos;re aware. And we had quite an interesting time upgrading from 0.18 to 0.19.
+
+There was a couple things that didn&apos;t go great. But overall we&apos;ve really enjoyed the upgrade and using the upgrade.
+&gt;&gt; And using Elm altogether.
+&gt;&gt; Absolutely.
+&gt;&gt; It&apos;s been great.
+&gt;&gt; Yes.
+&gt;&gt; Yeah, this upgrade didn&apos;t really make us want to ditch Elm entirely. We&apos;re still very much into Elm.
+
+But what are some of the things that didn&apos;t go well with the upgrade?
+&gt;&gt; So what we noticed were there was a couple breaking changes, for example, the change from the core date into time POSIX. It didn&apos;t really have the same functionality and it&apos;s not in core anymore, which is kind of a lot.
+
+&gt;&gt; That&apos;s weird.
+&gt;&gt; Yeah.
+&gt;&gt; If it&apos;s not in core, where did it go?
+&gt;&gt; It went to a library called time from Elm, so it&apos;s not in the Elm core part, but it&apos;s in a time of it&apos;s own.
+&gt;&gt; Ha ha.
+&gt;&gt; A land before time, maybe.
+
+They&apos;ve moved it off into their own official Elm-
+&gt;&gt; Time library.
+&gt;&gt; Yeah, okay, so it&apos;s still official, it&apos;s just not included by default.
+&gt;&gt; Right.
+&gt;&gt; Got you. And they changed a bunch of stuff when they moved, it right?
+&gt;&gt; Mm-hm.
+&gt;&gt; So it&apos;s a little annoying they did both of those things at the same time.
+
+&gt;&gt; Yeah, the functionality is just totally different and switching from date to POSIX is not very seamless. It&apos;s a little bit testy.
+&gt;&gt; Testy, that&apos;s a good word. We wrote a lot of tests around this, didn&apos;t we?
+&gt;&gt; Yes, we did.
+&gt;&gt; Okay.
+&gt;&gt; Actually, the only tests in our database are about time, so.
+
+&gt;&gt; Yeah. You gotta be sure that you get time right, I mean.
+&gt;&gt; Mm-hm. It&apos;s pretty important.
+&gt;&gt; Yeah.
+&gt;&gt; This weird construct that we&apos;ve created. It&apos;s pretty important to get it right.
+&gt;&gt; Very true, so fortunately we were able to get time right and move on. But there were still some other things that didn&apos;t go well.
+
+What were they?
+&gt;&gt; Well with the rest of our breaking changes, we had some issues with the navigation since now you have to have this key concept in.
+&gt;&gt; And what&apos;s that key concept?
+&gt;&gt; So you pass a key in your navigation through, so instead of using, I think it&apos;s browser.
+
+&gt;&gt; Yeah, I think that&apos;s what it was before.
+&gt;&gt; Yeah, I think was browser before. So instead of using that, you have to pass this key along. Which is kind of helpful, actually, once you get down to it. But making that change was a little bit more difficult because it&apos;s a different concept than using browser was.
+
+&gt;&gt; Right, so instead of saying, go to this particular URL or this particular route, you have to pass along a key that says. I don&apos;t know, what does it say?
+&gt;&gt; Like this is your route, I guess?
+&gt;&gt; Okay.
+&gt;&gt; But it makes more sense in my mind to pass it around for the URL changes and how to link it back and forth.
+
+But making that change was still a little bit difficult.
+&gt;&gt; Got you.
+&gt;&gt; So-
+&gt;&gt; So you like where we ended up but the path was maybe not so nice.
+&gt;&gt; Yeah, exactly. We had some changes with the HTTP library as well, which again were great changes. But the package felt like it had more breaking changes than any other package for us, which was obviously not great.
+
+No one likes a breaking change.
+&gt;&gt; Yeah and we do a lot of HTTP calls. So maybe it&apos;s not so surprising, but it&apos;s still annoying.
+&gt;&gt; Mm-hm, exactly. And then, just some function signature changes that didn&apos;t quite make sense and maybe could have come along with an explanation that would have made them make more sense to us.
+
+&gt;&gt; Yeah.
+&gt;&gt; So.
+&gt;&gt; Yeah, it&apos;s kind of frustrating. I don&apos;t remember the scope of these changes, but it&apos;s on the order of, the arguments change positions or something like that.
+&gt;&gt; Yeah.
+&gt;&gt; Well sure, I could see how it might be better but is it really worth it?
+
+&gt;&gt; Yeah, it would have been better if that had come with an explanation as to why it was changed and what was the purpose. Versus just making the change and not really saying anything about it.
+&gt;&gt; Yeah, well, I don&apos;t want to keep harping on these breaking changes.
+
+I know other stuff was involved in the upgrade. So what else went wrong?
+&gt;&gt; So with all the breaking changes came a broken compiler. Which obviously, being familiar with using Haskell and its great compiler, and Elm and its even better compiler. Cuz it&apos;s so friendly and nice.
+&gt;&gt; And great with the errors.
+
+Not having a compiler made it very difficult to figure out what exactly was going wrong and how to fix it.
+&gt;&gt; Yeah, and when you say broken compiler, you don&apos;t mean that the Elm compiler itself was broken. You mean that it didn&apos;t work with our project for a little while?
+
+&gt;&gt; Right, when you&apos;re upgrading, you have to upgrade the compiler simultaneously, which makes it a lot more difficult. Because if the compiler doesn&apos;t work with what you&apos;re using, I don&apos;t know how to phrase this.
+&gt;&gt; Yeah so, as part of the upgrade, they changed some syntax.
+&gt;&gt; Yeah.
+
+&gt;&gt; And we couldn&apos;t write something that worked both with the old compiler and the new compiler.
+&gt;&gt; Yep, yep.
+&gt;&gt; So,
+&gt;&gt; Those are the words I was looking for.
+&gt;&gt; When we upgraded, Elm 19 just said, nope, I can&apos;t deal with this file. And that&apos;s a lot less useful than it saying, the problem is right here, like it normally does with the errors.
+
+It points it straight to it and it even says, hey, maybe this is the solution you&apos;re looking for.
+&gt;&gt; So politely, is this what you meant?
+&gt;&gt; Yeah, it&apos;s a very nice compiler.
+&gt;&gt; Yes, Elm, thank you.
+&gt;&gt; Why can&apos;t it just make the changes for us?
+&gt;&gt; I know, that&apos;d be too easy.
+
+&gt;&gt; That maybe will be in Elm 20, who knows?
+&gt;&gt; Evan are you listening?
+&gt;&gt; Elm 20.
+&gt;&gt; So some of these problems sound like they would have been solved or at least made a little better with better documentation or explanation around the changes. But I know we had problems with the documentation itself.
+
+Can you talk a little about that?
+&gt;&gt; Yeah, so that&apos;s another big issue is that once Elm 19 came out, that 18 documentation just went away.
+&gt;&gt; That&apos;s not great. Luckily, we were able to find it, but it took a lot of Internet digging, which good thing we&apos;re engineers familiar with the Internet.
+
+&gt;&gt; That&apos;s 90% of our job.
+&gt;&gt; Yeah, we were able to find it eventually. It currently lives on this GitHub page which, hopefully it&apos;ll stay there so that there&apos;s some sort of record of it. But it would be really nice if on the Elm website where the packages actually is, it let you go back and forth between the packages.
+
+So you could see,
+&gt;&gt; The old one.
+&gt;&gt; This is what was in 18, this is what&apos;s in 19, this is what&apos;s in whatever the next one is.
+&gt;&gt; Yeah, the one that&apos;s coming up to be prepared for the change.
+&gt;&gt; Yeah, absolutely.
+&gt;&gt; And you mentioned that this old documentation was hosted on some GitHub page.
+
+It&apos;s not an official thing?
+&gt;&gt; Is it an official thing?
+&gt;&gt; I don&apos;t know.
+&gt;&gt; I don&apos;t think so.
+&gt;&gt; I don&apos;t remember where it lives.
+&gt;&gt; I just remember one of the other engineers was like, this is where it is. And I was like, well great, I&apos;m glad it&apos;s somewhere.
+
+&gt;&gt; Gotta bookmark that, because I&apos;ll be coming back to it a lot.
+&gt;&gt; Yep.
+&gt;&gt; Yeah, it would be nice if it was an official thing because then you could count on it sticking around. But if it&apos;s just something that some enthusiast put together, maybe he&apos;ll get tired of it and it&apos;ll go away.
+
+&gt;&gt; Exactly.
+&gt;&gt; Fortunately, we&apos;re done with the upgrade now. But I&apos;m sure people still haven&apos;t upgraded and it would be nice for them to use that same resource.
+&gt;&gt; Yeah, we were pretty late to the game cuz I think it came out last August.
+&gt;&gt; Yeah.
+&gt;&gt; And we didn&apos;t do ours until what, February?
+
+&gt;&gt; Yeah, we waited quite a while.
+&gt;&gt; Yeah.
+&gt;&gt; And one of the reasons we waited was so that the packages in the ecosystem would have an opportunity to upgrade. But I remember being kinda surprised because some of them weren&apos;t upgraded, right? Didn&apos;t we run into that?
+&gt;&gt; I think so, yeah.
+
+Yeah, cuz some of the community packages were just no longer supported.
+&gt;&gt; Yeah, they&apos;re like, sorry, they don&apos;t support dates anymore, good luck.
+&gt;&gt; Okay, which is absurd cuz we specifically chose those packages for like, Elm Community supports this. They&apos;re totally gonna keep this in the next one.
+
+&gt;&gt; And then it was just like,
+&gt;&gt; Psych.
+&gt;&gt; Where&apos;d it go?
+&gt;&gt; Yeah.
+&gt;&gt; So.
+&gt;&gt; It feels kinda like we got bait and switched.
+&gt;&gt; Little bit.
+&gt;&gt; They&apos;re like use the community packages cuz they&apos;re not entirely official, but more official than depending on some random GitHub user/their Elm package.
+
+&gt;&gt; And then they just became nonexistent.
+&gt;&gt; Yeah, they just went away entirely.
+&gt;&gt; For the GitHub users whose packages we do use, we use one for Elm Bootstrap and for Elm Dropdown. We had to fork those ourselves, just to update them to 19 to work for us.
+
+&gt;&gt; Yeah, and were we able to contribute those changes back to them or are we still relying on our own forks?
+&gt;&gt; Just relying on our own forks. But they work and that&apos;s great and obviously that&apos;s something that happens. If it&apos;s not a community-supported package, you have to kind of be aware that you may have to fork it and update it on your own.
+
+So it&apos;s not a big deal, but it was still just a small annoyance.
+&gt;&gt; Yeah, yeah and especially annoying because in Elm 19, you can&apos;t depend directly on a fork, right?
+&gt;&gt; Right.
+&gt;&gt; You have to publish it to the Elm package thing, so.
+&gt;&gt; Yeah.
+&gt;&gt; We have these weird packages that are exactly the same as an existing one.
+
+They just support a little different version of the Elm compiler.
+&gt;&gt; If you need the Elm 19 packages for Elm Bootstrap or Elm Dropdown, EdutainmentLIVE/ Elm Bootsrap, or Elm Dropdown.
+&gt;&gt; Shameless plug for our packages.
+&gt;&gt; There we go.
+&gt;&gt; Hit us up on our Patreon page if you want this.
+
+&gt;&gt; This is sponsored by stamps.com.
+&gt;&gt; So, we had some small annoyances, obviously, and we definitely have some suggestions that we&apos;ve talked about. Maybe splitting up the update to update the compiler first, or let it be backwards compatible a little bit. Maybe have a bridge in between, like a 18.5, to kind of bridge the gap.
+
+&gt;&gt; Yeah, so that we can do this upgrade kind of in pieces.
+&gt;&gt; Steps.
+&gt;&gt; Rather than upgrading all the packages and the compiler and everything all at once.
+&gt;&gt; Yeah, cuz it was a humongous change to our code base to upgrade an entire project, so.
+&gt;&gt; Yeah, and as you mentioned, it was really annoying to have it broken in the middle.
+
+&gt;&gt; Absolutely.
+&gt;&gt; Where you&apos;re like, well, we had it working on 18, and it was broken for a week. And then it&apos;s working on 19, hopefully.
+&gt;&gt; Yeah, maybe. We&apos;ll find out.
+&gt;&gt; Just kidding, it&apos;s totally working. But yeah, obviously those would be really great changes to make for the next upgrade.
+
+And maybe making that documentation super easy to find for everyone to just have record, and have that available.
+&gt;&gt; Mm-hm.
+&gt;&gt; Thoughts, keep your documentation available.
+&gt;&gt; Please.
+&gt;&gt; Really important.
+&gt;&gt; We actually do use it.
+&gt;&gt; We need it.
+&gt;&gt; Yeah, it&apos;s especially frustrating because Elm has such good documentation.
+
+&gt;&gt; Absolutely.
+&gt;&gt; And then they just blow it all away when they release a new version.
+&gt;&gt; Exactly, which is crazy. We want to keep it around, please.
+&gt;&gt; Your users want it.
+&gt;&gt; Yes, we your users.
+&gt;&gt; We, your users, want your documentation.
+&gt;&gt; So I don&apos;t want this to be completely a gripe session about the Elm upgrade.
+
+I think that a lot of it went really well. And even though we have ideas about things that we would change in the future. Let&apos;s talk a little about the things that went well and the stuff we like about Elm 19.
+&gt;&gt; Absolutely, because we really do love Elm 19 now that it&apos;s all upgraded and it&apos;s usable.
+
+And we&apos;ve doing a lot of stories in our Elm repository, and it&apos;s been going very well. There&apos;s a lot more Elm-supported packages, so Elm community became just Elm. And they have a lot more packages that they support, like browser, JSON, SVG, time and URL, which is great. So hopefully those actually translate into the next upgrade as well.
+
+&gt;&gt; Yeah, and what makes it so nice to have those in the Elm namespace?
+&gt;&gt; Just having those be supported by the language itself just makes it, I lost my words.
+&gt;&gt; More reliable.
+&gt;&gt; Yeah.
+&gt;&gt; Reliable, yeah.
+&gt;&gt; Yeah, and as we noted, we depended on that Elm Community package and it went away.
+
+And it seems like maybe they weren&apos;t willing to commit to pull it into like their core namespace. But now that these ones are in the core namespace, we can be pretty sure that they&apos;re not gonna go away. Knock on wood, because this is a gamble we made with Elm Community.
+
+&gt;&gt; Not gonna actually knock on wood.
+&gt;&gt; But yeah, other than that, they removed the polymorphic toString function and replaced it by something like Int.toString, I believe. Which is a lot safer, and as we love type safety, this is a great change.
+&gt;&gt; Yeah.
+&gt;&gt; Absolutely loving it.
+
+&gt;&gt; So instead of having a function that takes literally anything and converts it to a string. You have to be very specific and say, no I wanna convert this integer to a string.
+&gt;&gt; This is not JavaScript.
+&gt;&gt; So we are very specific about what we want to become strings.
+
+&gt;&gt; Thankfully, it is not JavaScript.
+&gt;&gt; Bless.
+&gt;&gt; The documentation is actually even better in 19, which is great. Their documentation just keeps improving, just like the language, which is fantastic.
+&gt;&gt; Yeah, and it&apos;s really nice to see Elm have this focus on documentation. Where it seems like for them the package isn&apos;t complete until it&apos;s documented and documented well.
+
+Versus looking at some Haskell packages, sometimes you land on their documentation and it&apos;s literally just the type signatures. And you think, well great, this doesn&apos;t help at all.
+&gt;&gt; What do I do with this? Yeah.
+&gt;&gt; Yeah.
+&gt;&gt; Yeah, and then the HTTP package, as we mentioned before, has changed and it is much better.
+
+So they have functions like riskyRequest and riskyTask.
+&gt;&gt; RiskyTask. So you know that you&apos;re using risky security policies. I have pronunciation.
+&gt;&gt; And the function signatures for posting get got even better, so.
+&gt;&gt; When you&apos;re reading the code that makes an HTTP call, it&apos;s clear when something uses riskyRequest or riskyTask that you need to be extra careful and look at this and understand what it&apos;s doing.
+
+Versus before, it would just say request and you&apos;d really have to dig in to the details to figure out if it&apos;s doing something weird
+&gt;&gt; Yeah, absolutely.
+&gt;&gt; Or risky, you might say.
+&gt;&gt; Such risk.
+&gt;&gt; Now we&apos;re not the only ones that have gone through this upgrade process.
+
+We were really excited to see on the Elm subreddit yesterday that another company posted their experience report and mirrored a lot of the same comments that we had. So we&apos;re not alone in this process. And I&apos;m hopeful that Evan and the rest of the Elm community will look at these posts and think about how the upgrade process can be better in the future.
+
+&gt;&gt; Yeah, absolutely. I think it&apos;s great that we&apos;re not alone in this and that other people are experiencing the same sort of issues. And other people are as invested as we are in Elm that they wanna help make it better as well. And so they&apos;re making these kinds of postings and kind of trying to help contribute to this community.
+
+&gt;&gt; Absolutely. Sara, any final thoughts?
+&gt;&gt; As much as a headache as we&apos;ve made this sound, it really wasn&apos;t too terrible. And we&apos;ve learned so much along the way, and we&apos;re really loving Elm 19. And I highly recommend to anybody who&apos;s interested in it to definitely get in there and try it.
+
+It&apos;s a really great language and it&apos;s very well documented, and it&apos;s definitely worth your time.
+&gt;&gt; Sara, you gave us some really good information today. Thanks for being on the show with me.
+&gt;&gt; Thank you for having me.
+&gt;&gt; And thank you for listening to the Haskell weekly podcast.
+
+This has been episode two. If you liked our show, find out more at our website haskellweekly.news. Thanks again for listening, I&apos;ve been your host, Taylor Fausek, and we&apos;ll see you next week.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

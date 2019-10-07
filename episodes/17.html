@@ -1,0 +1,113 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 17</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Haskell Phrasebook' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/17.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-08-06-episode-17.mp3' /><meta property='og:description' content='Sara Lichtenstein and Andres Schmois discuss quickly learning Haskell by studying annotated examples.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#17: Haskell Phrasebook</h2><h3 class='text-muted'>2019-08-06</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-08-06-episode-17.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Sara Lichtenstein and Andres Schmois discuss quickly learning Haskell by studying annotated examples.</p><ul><li><a href='https://typeclasses.com/news/2019-07-phrasebook' style='word-break: break-all;'>https://typeclasses.com/news/2019-07-phrasebook</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hello and welcome to the Haskell Weekly podcast. As you might have guessed this show is about Haskell, which is a purely functional programming language. I&apos;m your host, Sarah Lichtenstein. I&apos;m an engineer here at ITProTV. With me Today is Andres Smoss, one of the engineers. Thanks for joining me today, Andres.
+
+&gt;&gt; Thank you for having me, Sarah. I&apos;m excited to be here. I think today we&apos;re gonna be talking about the Haskell phrasebook, which is one of the Haskell Weekly topics. And since I&apos;m just starting out here, I thought it would be a pretty good experience to talk about.
+
+Next to you, I&apos;m the next newest so, we have the two most junior Haskell learners here.
+&gt;&gt; Yep. I&apos;m actually very excited to continue my learning experience as well as, maybe even potentially get to a point where I can start teaching things about Haskell, since it&apos;s very interesting topic for me.
+
+&gt;&gt; Absolutely, and I&apos;m really excited to hear more in depth about your learning experience. So why don&apos;t you tell me a little bit about what you did to first learn the language?
+&gt;&gt; The first thing that I started doing was reading a book that probably everyone has heard of which is, Learn You.
+
+Learn You a Haskell for Great Good. It&apos;s something that kind of put me a little bit uneasy about the whole learning experience with Haskell. Because while it&apos;s a great learning resource and it&apos;s freely available online, and all the great things that come with all that. There is one downside to it, and it was a little daunting at first, and that&apos;s the same thing with every language out there.
+
+But one thing that first came to mind was, there&apos;s a lot of syntax here that I am gonna have to learn which is gonna be extremely difficult.
+&gt;&gt; Yeah, absolutely. I think I had that same experience when I first came into shadow before I started working here. When they had Haskell up on the screens, and it was just so unlike anything I&apos;d seen before, so it can be really scary at first.
+
+&gt;&gt; Yeah, definitely. One thing that was brought up to us this week was in the, Haskell Weekly was the Haskell phrasebook. And it caught my attention because it&apos;s similar resource to Learn You a Haskell for Great Good. But it&apos;s a lot more quick and succinct, and I do say similar in that they&apos;re both beginner pieces.
+
+Not that they match one-to-one in what they actually teach.
+&gt;&gt; Right, absolutely. Is there any takeaways from the phrasebook that you particularly like or that you didn&apos;t like?
+&gt;&gt; One thing I really, really loved about reading through that was how quick and simple each example was. And it starts you off slow with the hello world, just like every other resource out there.
+
+Yeah, and, now I very much liked that it was quick, succinct. And from the last three months that I&apos;ve been doing this Haskell learning experience, most of the topics that were touched upon their, I have been needing to use.
+&gt;&gt; Absolutely. I really like that they introduced ghcid almost immediately.
+
+Because I don&apos;t think we started using that until a little bit after Taylor got here, and it&apos;s such a useful tool. I mean, we use it everyday.
+&gt;&gt; Yeah, definitely.
+&gt;&gt; So in talking about the phrasebook, we can&apos;t help but highlight a couple really important sections. So one of the ones that I wanted to talk about was continual checking because they use ghcid almost immediately.
+
+It&apos;s the second section in the phrasebook, and it&apos;s such a useful tool. And I don&apos;t think we started using it until Taylor, our lead engineer got hired here. And it&apos;s great to see it represented so early because we use this everyday.
+&gt;&gt; Yeah, definitely, ghcid was kind of weird to me at first when I when I got started because we already had a compilation tool that was already doing everything for us.
+
+And then, my coworkers started saying, hey, we also use ghcid if you want a much faster experience with the compilation and all these things. And I was surprised at first that the compilation side and the ghcid side was so decoupled from each other. It was really nice to see all of these errors instantly happen not having to wait for the compiler to pick up the changes and be a little slow about it.
+
+So I very much like that ghcid was instantly brought up.
+&gt;&gt; Yeah, the instant feedback loop that it provides is so invaluable. It&apos;s amazing.
+&gt;&gt; Definitely.
+&gt;&gt; Are there any sections that you particularly thought were interesting or would be useful to somebody trying to switch to Haskell from let&apos;s say, an imperative language?
+
+&gt;&gt; The one thing that came to mind when I first read through this phrasebook was the fact that at the end of it, they brought up mutable variables and threading.
+&gt;&gt; Mm-hm.
+&gt;&gt; That&apos;s not something that you see as often in beginner guide books and under like, the Learn You a Haskell for Great Good, did not touch up on mutable variables, did not do threading.
+
+Maybe mentioned it, I can&apos;t really remember off the top of my head, but definitely wasn&apos;t anything that stuck out with me.
+&gt;&gt; Yeah, those are definitely more complex subject. So for it to be in a beginner&apos;s book is really interesting.
+&gt;&gt; Yeah, and I think this is more a beginner Haskell that rather than a beginner programming phrasebook.
+
+Now, it could be seen either way regardless because you can just pick this up and start coding in Haskell and be perfectly fine. But one thing that I have from my background of coming from an imperative language. My background comes from Java, Android, on the front end, and then I&apos;d done some pretty extensive node frameworking, and all of that in the back end.
+
+So, I come mostly from imperative and I&apos;ve been doing it for quite a while now. So, seeing all this here is a good thing to see because if I would have started off with this I would have been like, okay. Well, I&apos;m thinking in imperative and I&apos;m gonna switch over to Haskell, but I&apos;m gonna leave the functional things a little bit behind until I start getting used to the syntax and all of the other weird things that come with it.
+
+&gt;&gt; Right, I definitely can understand that. What was the hardest part for you from switching from an imperative language to something so functional like Haskell?
+&gt;&gt; The hardest part was the syntax weirdly enough. I took a very long time to realize some of the different things that Haskell does to the syntax like not needing to say which monitor your in explicitly.
+
+So you could just use it as if it was already there. A lot of the the small syntax things really took me out of my comfort zone. And so, once I got through that, learning all of the different things Haskell does in functional and all that. It wasn&apos;t as difficult, especially because JavaScript and all of those languages could technically be used in a functional manner.
+
+They&apos;re usually not because they have a bunch of state saving and all that that you can do. But I very much enjoyed, once I got through the syntax, I enjoyed being able to just apply all the knowledge I had into this great functional language that doesn&apos;t usually allow state saving.
+
+&gt;&gt; Absolutely, that definitely makes sense. Are there any other parts of the phrasebook that you&apos;d like to highlight or talk about here?
+&gt;&gt; Well, you mentioned saying, coming from imperative language, what other things stood up to me. The if, then and for loops, from an imperative language, they&apos;re used pretty extensively, I assume you agree as well.
+
+&gt;&gt; Yes, for the experience I had in imperative languages. We definitely did a lot of those loops.
+&gt;&gt; Yeah, and one thing that I&apos;ve learned over the past three months working on a Haskell server-side coding is that if statements and for loops have been used very sparingly. I think for loops, I have not seen one yet, which is a crazy thing to think about.
+
+And if statements, we use very rarely because most of our coding is parsing different types, and making sure everything is typed safe, and our responses. And if statements don&apos;t really come into any of that. So it&apos;s interesting to see that once coming back after three months and reading through this phrasebook that if statements are a thing in the programming world.
+
+I mean, obviously. But it is nice to be able to come from an imperative language and have the same syntax that we&apos;re used to. But then once you start actually working purely in a Haskell manner, you stop using the things that you&apos;re used to from imperative languages.
+&gt;&gt; Yeah, definitely.
+
+Hilariously enough up until I read this phrasebook, I didn&apos;t even know that Haskell had for loops.
+&gt;&gt; Yeah. That&apos;s actually a pretty good point. I mean, you&apos;ve been doing this for a year and a half. How was your first three months of your learning experience?
+&gt;&gt; My beginning learning experience, I like to call my brain melt.
+
+Because everyday I would come to work and I would pair with the other engineers. And I would feel like my brain was melting out of my ears because it was just so much new information, and it was just so vastly different from anything else that I&apos;ve ever learned.
+
+But as affectionately as I called it the brain melt, I like to say that it also reformed into a bigger better brain. So, it was definitely a challenge for me.
+&gt;&gt; I agree completely there. I&apos;m going through that brain melt now, and going through the first few weeks was difficult to say the least.
+
+It wasn&apos;t more that I couldn&apos;t understand what was happening. It was more that trying to get your thoughts into a functional manner became a lot more difficult when at the same time I had to learn the syntax for Haskell. So, I could totally see that brain melt being a thing for Haskell learning because you&apos;re learning so many things at once.
+
+Not unlike learning programming for the first time. So maybe.
+&gt;&gt; Absolutely.
+&gt;&gt; Yeah, maybe it was like that when I first started. I did start at a slightly young age, so I had a lot more time available in my hand. So, it could be that a slower pace into Haskell is much less demanding.
+
+But you and me, we both sort of jumped in there, and had to learn it as quick as possible. And I think it&apos;s a pretty cool skill to have, to be able to just jump in and brain melt for a week or two, and just keep on learning.
+
+So, yeah, hopefully one day, in that year-and-a-half, I&apos;ll look back and think the same thing that you&apos;re saying.
+&gt;&gt; Absolutely, what really I think kind of helps me solidify my knowledge is being able to like work with our coworkers and some of our new newer coworkers. Like I distinctly remember pairing with you on one of your first day as an, explaining some concept.
+
+I&apos;ve been like, wow, I know stuff now. So I&apos;m sure you&apos;re gonna have a similar experience with our new intern, which will be fun for you.
+&gt;&gt; Yeah, definitely. I&apos;ve already started seeing that happen, and it&apos;s a good feeling to be able to explain something after you very recently just learned it, so.
+
+&gt;&gt; Absolutely.
+&gt;&gt; Totally agree there.
+&gt;&gt; Okay. Well, is there anything else, maybe about the phrasebook or about learning Haskell, any tips or tricks?
+&gt;&gt; Well, one thing that I thought of when I first started learning Haskell was, Learn You a Haskell for Great Good is a great resource.
+
+&gt;&gt; Right.
+&gt;&gt; And when I first started reading it, it was a daunting thing. It was too much at once, and I think it kind of gave me a false sense of, this is gonna be extremely difficult and possibly not possible. So while it&apos;s a great resource, I think it shouldn&apos;t be the first thing you read.
+
+I think the first thing you read could be this phrasebook. It&apos;s kind of hard to say at the moment, but just thinking back after these three months. I think that phrasebook is a lot more easier thing to start with than Learn You a Haskell for Great Good. Now, that&apos;s not to say that Learn You a Haskell for Great Good is not something you shouldn&apos;t read.
+
+I think it&apos;s a great read and I think it will solidify a lot of the things that you&apos;ve been slowly learning while doing test programs and things like that. So I enjoyed reading both and I will probably read them again after a month or so after getting a little more stable with my Haskell writing and reading, and certain things like that.
+
+&gt;&gt; Absolutely. I definitely think that this phrasebook would be a good first introduction before the Learn You a Haskell book. Just because it&apos;s so succinct and so clear, and it does make a lot of good bridges from imperative to functional.
+&gt;&gt; I agree.
+&gt;&gt; Thanks for being on the show with me today, Andres.
+
+&gt;&gt; Thank you for having me. I enjoyed talking about my first experiences about Haskell.
+&gt;&gt; Absolutely, me too. And thank you for listening to the Haskell Weekly podcast. If you like what you heard, find out more at our website, haskellweekly.news. Also, please rate and view us on iTunes.
+
+It helps a lot. Haskell Weekly is brought to you by ITProTV, the tech skills development platform for IT professionals.
+&gt;&gt; And also, our employer.
+&gt;&gt; Yes, that too. Send anyone who needs their IT news to www.itprotv for all of their learning needs. Thanks again for listening. We&apos;ll see you next week.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

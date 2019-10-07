@@ -1,0 +1,193 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 11</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Profiling Performance' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/11.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-27-episode-11.mp3' /><meta property='og:description' content='Sara Lichtenstein and Taylor Fausak talk about improving the performance of Haskell programs by profiling them.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#11: Profiling Performance</h2><h3 class='text-muted'>2019-05-27</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-05-27-episode-11.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Sara Lichtenstein and Taylor Fausak talk about improving the performance of Haskell programs by profiling them.</p><ul><li><a href='https://blog.jez.io/profiling-in-haskell/' style='word-break: break-all;'>https://blog.jez.io/profiling-in-haskell/</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hello and welcome to the Haskell weekly podcast. This is a podcast about Haskell a purely functional programming language. I&apos;m your host Taylor Fausak, I&apos;m the lead engineer here at ITProTV. And with me today is Sara Lichtenstein, one of the engineers on my team. Thanks for joining me, Sara.
+
+&gt;&gt; Thanks for having me, Taylor.
+&gt;&gt; It&apos;s good to have you here and today we&apos;re gonna be talking about profiling in Haskell. And in particular, this article by Jake Zimmerman, where he talks about speeding up one of his programs by ten times. So pretty pretty significant improvement.
+&gt;&gt; Yeah definitely, I think anything ten times improvement is pretty great.
+
+&gt;&gt; Yeah, its hard to argue with that, can&apos;t beat ten times better. So Jake explains the problem he was trying to solve in this article and we will kinda recap for our listeners here. He was at a carnival and playing this carnival game where he had a six by six grid of shapes or symbols and you turned over some pieces and tried to see if you got a bingo like if you lined up a whole column or a row or a diagonal or something like that.
+
+And he was interested in finding out if or rather what their probability was of winning this carnivore of a game. So how good should he feel when he wins? Is it like you win 50% of the time or 1% of the time? And he figured that he could write some type of combinatorics solution to get the exact answer like you&apos;re gonna win exactly 123 out of 767 times.
+
+But he thought it would be more fun to write one that just generated these boards and shuffled all the pieces together and then solve at one or not.
+&gt;&gt; If a task takes more than five minutes, why not program it?
+&gt;&gt; Exactly, yeah. Why sit there all day making bingo boards if you could write a Haskell program to do that for you.
+
+So he wrote this program and it seemed to work. He didn&apos;t really talk too much about if he got the implementation right or not. So we&apos;re assuming he got the implementation right, but his first time around was way too slow for him. And his threshold for too slow is apparently very different than mine because his first attempt took the order of like one second.
+
+And this I think was to generate and solve like 100,000 boards. So for me that seems fast enough for this problem, but I definitely understand wanting to really dig in to something and find out how fast can it be and he definitely went on that red hole. So he talks about some of the changes he made to his attempts and the first one was to use like a single large integer as the whole game board.
+
+Because with, I think yeah with 36 slots on the board, you could represent that in one large integer rather than having some data structure with a bunch of different fields in it.
+&gt;&gt; Right.
+&gt;&gt; And his assumption was that if you can use one integer then it will probably be faster cuz you&apos;re not gonna have as many things floating around in memory.
+
+But it&apos;s also I think, somewhat of a strange choice. So Sara for the pro or for the programs that we right here at work, we don&apos;t do a lot of this really cramming, getting the most performance possible out of stuff. So I was wondering, did this look weird to you or you&apos;re like okay, yeah, I kind of get what&apos;s going on here.
+
+&gt;&gt; The idea in general just using one inter just seems very odd
+&gt;&gt; Yeah
+&gt;&gt; To represent this whole thing. But he did make a point about how simple this was to implement for him.So I guess you know if it&apos;s easy to implement and it works why not.
+
+&gt;&gt; That&apos;s a great point. Yeah, why make things more complicated just in looking for Purity or something like that.
+&gt;&gt; Exactly.
+&gt;&gt; But yeah, he said he was able to pretty quickly knock out this Fisher Yates Shuffle to generate the random boards and. This used a random number generator, the one kind of from the standard library in Haskell for doing this stuff which is of course just called random.
+
+And so he kind of-
+&gt;&gt; What else was he called?
+&gt;&gt; Why I come up with a more imaginative name, random works fine. But as we&apos;ll discover, there&apos;s kind of a problem with that. And what he did was he passed in this random number generator and did one step of the shuffle and gave back the slightly shuffled board and they are like next random number generators.
+
+So just keeps getting passed along to successive calls. Which is of interesting the way they do things and makes sense for Haskell because it&apos;s pure. So you have to have something that&apos;s sort of implements that randomness, but it&apos;s still kind of strange even to me after programming it for a while to see that explicitly passed in as an argument.
+
+So then he gets into kind of the performance characteristics, and this is where he talks about how slow it is. And again, it&apos;s crazy to me that&apos;s under a second, and he&apos;s like it&apos;s just too slow.
+&gt;&gt; Yeah, I found that very hilarious, because I started reading it and he was like, yeah 738 milliseconds and Im like, what in the world?
+
+How is that slow?
+&gt;&gt; Yeah, I would think, okay we&apos;re done here you know?
+&gt;&gt; Yeah, absolutely.
+&gt;&gt; Fast enough, but I am guessing based on later in this article he talks about porting some C code over to Haskell, maybe he is a C programmer or RASP programmer or something like where he has kind of different definition of what it means to be performant and fast enough.
+
+&gt;&gt; That would make sense.
+&gt;&gt; Yeah, I&apos;m just guessing, I don&apos;t know. Hopefully Jake can can tell us or we could probably read and find out who knows.
+&gt;&gt; So then it gets into really the meat of what we&apos;re doing here. And I guess Sara, do you wanna kinda explain the process that he goes through to profile this code and figure out what&apos;s going on with it.
+
+&gt;&gt; So profiling and Haskell is actually extremely simple because you can literally just run stack build dash dash profile to build it with that and then add a dash p to exec And that&apos;s it, it prints you you out this like really nice profile, tells you everything you need to know.
+
+It&apos;s got all your time allocations, all that good stuff. So it&apos;s super useful. It doesn&apos;t really take any overhead to implement or anything like that. So, definitely great tool.
+&gt;&gt; Yeah, it is surprisingly easy to use, I don&apos;t know what to think there if it&apos;s stack, doing a bunch of lifting for you.
+
+Or somewhere deeper in the stack like COBOL or GHC or something else. But yeah, you just throw this dash dash profile option onto your build and then pass another option to the program when you run it. And boom, you get this output that tells you yeah, your program spent, in this guy&apos;s case 70, no more than that 85% of your time, coming up with random integer values, which is crazy,
+
+&gt;&gt; Right.
+&gt;&gt; And it&apos;s it&apos;s also really useful to look at this in terms of percentage time because already I&apos;ve lost track of the fact that we&apos;re only taking a second. I see 85% and that&apos;s way too high, we gotta make that number lower.
+&gt;&gt; So yeah, I mentioned earlier that the de facto standard random number library in Haskel being called random is a bit of a problem because it has, it&apos;s really slow.
+
+Which is what this guy figures out in his relatively small program where he&apos;s generating all these boards and checking to see if they&apos;re valid. None of that business logic is the slow part, it&apos;s the random number generation.
+&gt;&gt; Right, which seems crazy.
+&gt;&gt; Yeah.
+&gt;&gt; You always think that the logic would take more time.
+
+&gt;&gt; Right.
+&gt;&gt; Which is kind of what he explains is that his like assumption is, it&apos;s got to be the logic. And then once he starts using profiling, he&apos;s like, it&apos;s not the logic at all.
+&gt;&gt; Yeah which is one of the huge upsides of profiling is you write your program and don&apos;t care about what part is fast.
+
+And then if it&apos;s too slow, which isn&apos;t even a given, sometimes you can write just atrociously, it&apos;s really slow looking code, but then it runs fast enough to because your inputs not big enough or whatever. And as soon as you run into a performance problem throw the profiler out and you might be surprised at what you find.
+
+&gt;&gt; Exactly.
+&gt;&gt; Cuz I wouldn&apos;t have guessed at the beginning of this article that the random number generation would be the slow part. I can flip coins pretty fast, I can roll dice pretty fast, that&apos;s not gonna be the slow part.
+&gt;&gt; Yeah, exactly and I think as programmers we might be a little predisposed to think, my logic must be wrong, rather than the library being the slow thing.
+
+&gt;&gt; Right, because so often, especially in the type of code that we do, the library is almost never at fault. And the language-
+&gt;&gt; Exactly.
+&gt;&gt; Is never at fault. It&apos;s always us, but that&apos;s more so for bugs than performance. And we rarely have reason to look at performance.
+
+Generally, things are fast enough for us with Haskell. But when you do, it can be surprising to find, because I know as a library author and this probably applies to many library authors, I don&apos;t run benchmarks against my library code. I just kind of assume that it&apos;s fast enough and if I&apos;m using it for a particular problem, I&apos;ll definitely make sure it&apos;s fast enough for that.
+
+But I may not have envisioned usage like this if I wrote this library in the first place.
+&gt;&gt; Right.
+&gt;&gt; So the fact that it can be used in all these different contexts and that authors aren&apos;t typically focused on that means that yeah library code can be the slow part and profiling is the thing to tell you that as fast as possible.
+
+So then he gets into talking about how he after he identified this random number generation as the slow part of his program, how he fixed it. And we don&apos;t wanna get too far off into the weeds of that, but it&apos;s impressive, to me at least, that he imported this C program into Haskell.
+
+It&apos;s been a long time since I&apos;ve had reason to look at C code and I think that&apos;s true for you too right Sara?
+&gt;&gt; Yes, absolutely. Not since I think maybe junior year of college.
+&gt;&gt; Yeah, so it&apos;s been a while. I don&apos;t think I&apos;d do as well as him, but it looks like it paid off.
+
+I mean, he speed his program up by like six times by ditching the standard library and using his own.
+&gt;&gt; Right, which is already a very impressive speed up.
+&gt;&gt; And then he goes on to ask, I think a very important question when you&apos;re looking at performance improvements.
+
+Because well, what he asks is what did we have to give up in order to get this performance improvement? And I feel like that&apos;s an important question because sometimes when you&apos;re focusing on sort of a sub problem, in this case performance, you can lose sight of the bigger picture.
+
+And so you can make something that&apos;s really, really fast, but then it&apos;s a huge pain in the butt to use.
+&gt;&gt; Right and that would kinda just defeat the purpose of having it at all. If it&apos;s not simple to use then why use it?
+&gt;&gt; Right, yeah, ideally, we could keep the same interface and swap out the internals and make it faster.
+
+That&apos;s the best case scenario. So I don&apos;t think he quite achieved that here. But it is surprising how little he had to change. If you look at the, obviously our listeners can&apos;t actually look at the code, but the original code that he wrote with the slow one and the new code that he wrote with the fast one.
+
+And they&apos;re almost the same, like if you squint they look the same.
+&gt;&gt; Definitely.
+&gt;&gt; Which I think is a great metric to have in mind when you&apos;re profiling code in Haskell or really in any language is keep the call site looking almost the same and try to update the internals without break in the API.
+
+&gt;&gt; Right, if one of our listeners wanted to look at this code, is this article found in Haskell Weekly?
+&gt;&gt; It is, as per usual. It will also be in the show notes for this episode, we&apos;ll have a link to it.
+&gt;&gt; Perfect.
+&gt;&gt; And so moving on, this guy, Jake, he again runs into this problem that I would not run into of saying that 126 milliseconds, the new run time is just too slow.
+
+He can&apos;t abide by that,
+&gt;&gt; 126 how slow?
+&gt;&gt; I mean, if it was 126 seconds, maybe I&apos;d agree but milliseconds,
+&gt;&gt; Yeah.
+&gt;&gt; I&apos;m gonna hit the return key and it&apos;ll be done almost instantaneously. But yeah, he talks about how he went on to improve it and again, the actual mechanics of what he did to speed it up aren&apos;t super interesting.
+
+It&apos;s that he continued to use profiling to identify the hot spots in his program. So instead of saying, well, I&apos;ve swapped out the random number generator so I can stop worrying about that part and move on to something else that I think is the problem. He ran the profiler again and discovered, no, the random number generation is still the slow part.
+
+Even though it&apos;s been sped up so much, it still takes a big chunk of the time. Which again, is really surprising, you mentioned before about how libraries aren&apos;t often the problem with bugs, but can be with performance. And with bugs, when you fix them, they&apos;re gone.
+&gt;&gt; Right.
+
+&gt;&gt; But with performance, it can&apos;t really be fixed. It can just get faster, or I guess it could get slower if you did something bad.
+&gt;&gt; But, isn&apos;t it interesting that you can spend a bunch of effort, he wrote a whole new random number generator and-
+&gt;&gt; And it&apos;s still slow.
+
+&gt;&gt; And it&apos;s still the slow part,
+&gt;&gt; Right.
+&gt;&gt; So yeah, that to me is just the huge positive benefit that profiling has versus kind of staring at code and hoping you can identify which part will probably be slow. As it will tell you, no, even though you&apos;ve already put a ton of work into that it&apos;s still the slow part.
+
+&gt;&gt; Yeah, absolutely, I mean, I definitely think it&apos;s helpful to have that kind of information. Especially if you don&apos;t have to do a ton of set-up or anything. It&apos;s such a useful tool. There&apos;s no reason really not to use it, but I think it&apos;s also good to keep in mind like we had brought up the kinda of exchange that goes on with making something more performing versus what you&apos;re using for the program.
+
+&gt;&gt; Right, you don&apos;t wanna loose track of that bigger picture.
+&gt;&gt; Exactly.
+&gt;&gt; Yeah, and you mentioned that it&apos;s really easy to do this which it is, and it&apos;s still interesting though cuz even here at work, I don&apos;t think we&apos;ve ever profiled our code base. Actually you said we did that once actually when I wasn&apos;t here, right?
+
+&gt;&gt; Right, when the boss is away the mice will play but-
+&gt;&gt; Boss isn&apos;t here quick profile of the code.
+&gt;&gt; Cody and I were working on a problem and the code base is just like a bug that we had found. And he suggested using profiling and I&apos;d never used that before, I was like what kind of profile are you trying to make here.
+
+What does that even mean. And so he kind of explained it to me and we tried to use it and while we didn&apos;t use it for very long, it was still a very interesting experience to have something tell us what was going on.
+&gt;&gt; Yeah, and I think you mentioned that you didn&apos;t end up using this profiling report to actually solve the problem.
+
+So something else popped up, but the profiling at the very least told you that there wasn&apos;t one thing that&apos;s taking in this case like 85% of the time.
+&gt;&gt; Right
+&gt;&gt; It was a bunch of little things. Which can be a lot less satisfying. If you run the profiler and it says, well, you spent at most 5% of your time in any given part of your program.
+
+You might have to do some harder thinking to figure out how to speed that up.
+&gt;&gt; Right, we were hoping for more of a straightforward answer, but I guess it&apos;s also good to know that nothing we&apos;re using is overtly wrong.
+&gt;&gt; Yeah, that&apos;s very encouraging. That&apos;s a good way to look at it.
+
+&gt;&gt; Yeah.
+&gt;&gt; So yeah, that kinda covers this blog post talking about profiling Haskell programs to speed them up in maybe the best case by ten times but in the, typical case, probably quite a bit. Is there anything else you wanted to mention about profiling in Haskell?
+&gt;&gt; I think we pretty much covered it honestly.
+
+&gt;&gt; Yeah, I think the only thing I had to add was that I profiled some programs. In my high school career, none of them have been as great a success story as this. So it&apos;s not like, throw profiling at your problem and it&apos;ll magically get ten times faster.
+
+But right as we discussed, it can still be validating to see that there isn&apos;t one huge hot spot where it&apos;s slowing everything else down and you weren&apos;t even thinking about it.
+&gt;&gt; Right?
+&gt;&gt; And I just feel the need to reiterate again, this is such a good way to think about performance problems and to me that means don&apos;t think about them at all until it becomes a problem.
+
+And then when they do, throw it to at it that tells you exactly where the problem is rather than trying to guess.
+&gt;&gt; I think that&apos;s the best way to honestly look at performance problems because you should mostly optimize just making the code as the best as it can be, and then after that if it becomes an issue-
+
+&gt;&gt; Yeah.
+&gt;&gt; To try and solve it.
+&gt;&gt; Yeah, and we touched on this already, but if you&apos;re writing the code without an itoid performance, and you were focusing on making a nice expressive API or something that&apos;s easy to use. Then when you have the need to make it more performant, and you maintain that API, you&apos;re meeting both goals.
+
+Versus if you right out of the gate start jumping through some hoops just to right code that you think will be faster, you might end up with a much worse API for almost no benefit.
+&gt;&gt; Right?
+&gt;&gt; So I agree. Write the nice API and then if you needed to be faster, just go ahead and make it faster.
+
+&gt;&gt; Then maybe not like less than a second is too short.
+&gt;&gt; Yeah, that&apos;s still where we disagree. Maybe if this guys was at Google Scale or writing some web service that needed to turn these requests around real fast, people really wanted to solve this carnival game, I could see it.
+
+But it&apos;s definitely a good practice and that&apos;s something I&apos;ve noticed in my personal programming with Haskell is that, you get the ability to sort of look into things that may not be worth your while to do at your day job, but are still fun and interesting. And then put another tool in your toolbox, that you can use later on.
+
+&gt;&gt; Yeah, definitely.
+&gt;&gt; So I bet, you mentioned Cody doing or using profiling for a problem here at work. And I bet that&apos;s not the first time he used it. So he was hacking away at something at home, and found that profiling was a neat tool, and figured out how to use it and then boom, applied it at worked.
+
+&gt;&gt; Cowboy Cody, I would guess that wasn&apos;t the first time you used it,
+&gt;&gt; Good old Cowboy Cody. Yeah, and I guess the final thing I wanted to mention here about profiling in Haskell performance is that it&apos;s very possible to write Haskell that is really, really fast. This guy ended up with a program that simulated 100,000 board states and checked them to see if they were winners or losers, and did it in 70 milliseconds?
+
+&gt;&gt; Right.
+&gt;&gt; And when you look at the performance of other languages that are as expressive as Haskell, it&apos;s hard to find one that can get to be that quick. So the fact that Haskell gives us the best of both worlds when we need it is awesome, I love that about it.
+
+&gt;&gt; Is there anything you don&apos;t love about Haskell though?
+&gt;&gt; Good question, no, Haskell is the perfect language. All right, well, thanks for joining me today Sara to talk about profiling and Haskell. It&apos;s nice to have you on the show again.
+&gt;&gt; Absolutely, it was nice to be here.
+
+&gt;&gt; And thank you for listening to the Haskell Weekly podcast. If you liked what you heard here today please go find out more at haskellweekly.news. This has been episode 11, and please be sure to join in next week, see you.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

@@ -1,0 +1,264 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 13</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Why Haskell?' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/13.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-10-episode-13.mp3' /><meta property='og:description' content='Cameron Gera and Taylor Fausak talk about why the Semantic team at GitHub decided to use Haskell.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#13: Why Haskell?</h2><h3 class='text-muted'>2019-06-10</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-06-10-episode-13.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Cameron Gera and Taylor Fausak talk about why the Semantic team at GitHub decided to use Haskell.</p><ul><li><a href='https://github.com/github/semantic/blob/eaf13783838861fe5eb6cd46d59354774a8eb88d/docs/why-haskell.md' style='word-break: break-all;'>https://github.com/github/semantic/blob/eaf13783838861fe5eb6cd46d59354774a8eb88d/docs/why-haskell.md</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hello, and welcome to the Haskell weekly podcast. I&apos;m your host, Taylor Fausak. I&apos;m the lead engineer at ITProTV. With me today is Cameron Gera, one of the engineers on my team. Thanks for joining me today, Cam.
+&gt;&gt; Thanks for having me, Taylor.
+&gt;&gt; It&apos;s good to have you on the show.
+
+And on this show, we talk about Haskell, no surprise there. It&apos;s a purely functional programming language. But what specifically are we going to be talking about today, Cam?
+&gt;&gt; We&apos;re gonna be talking about why Haskell?
+&gt;&gt; Why Haskell? What do you mean by that?
+&gt;&gt; Well, there&apos;s a blog post by the semantic team at GitHub, called Haskell.
+
+And why they chose Haskell for that project, kind of led by Timothy Clem, so.
+&gt;&gt; Okay, so GitHub is using Haskell in production, that&apos;s awesome.
+&gt;&gt; Yeah, it&apos;s a big secret.
+&gt;&gt; We&apos;re not the only company out there with Haskell code.
+&gt;&gt; No, there&apos;s some big time. But before we kinda get into their article, why don&apos;t we kinda start with what is Semantic?
+
+And why maybe this Haskell good for them?
+&gt;&gt; Yeah, so Semantic is I guess a package or program by the GitHub team, and it&apos;s what they use to analyze and compare source code on their servers. So when you submit a portal request to GitHub, you may notice that in addition to being able to break it down by file.
+
+Jump to this file in the diff, you can also jump to specific functions and say, show me the changes on this function alone, and Semantic is a tool on their backend that allows that to happen. So they can parse the source code of JavaScript, or Python, or whatever, and figure out, this is a function, and something within that function changed.
+
+&gt;&gt; That&apos;s awesome. Why is this announcement big news?
+&gt;&gt; This is a big deal because GitHub, obviously, is a giant force in the development community. A lot of people use GitHub to manage their source code, and they&apos;re just a huge company, so they&apos;ve got lots of people working for them.
+
+And this is a big deal because Haskell is a pretty small community, especially in relation to all of GitHub, there aren&apos;t too many companies out there using Haskell. A couple of the big ones that I can think of off the top of my head are Facebook and Nike, and us of course.
+
+But ITProTV is not as big as them yet.
+&gt;&gt; We&apos;re coming for you, Facebook.
+&gt;&gt; ITProTV, the next Facebook in IT world?
+&gt;&gt; But yeah, this is just a big deal, cause GitHub is a big company, and Haskell is a small language, and it is really interesting to a lot of people.
+
+&gt;&gt; Yeah, it&apos;s good to see the community growing, and-
+&gt;&gt; Yeah.
+&gt;&gt; The neighboring organizations picking up this language allows for the community to obviously grow. I mean, there&apos;s so many employees at GitHub, and obviously just the Semantic team right now is using Haskell. But I&apos;m sure it&apos;s spreading through their organization.
+
+And it&apos;s gonna allow our community to continue to grow, and have more experts in the field.
+&gt;&gt; Absolutely.
+&gt;&gt; It&apos;s really cool.
+&gt;&gt; And even if you&apos;re at a smaller company, and you&apos;re interested in using Haskell, this can be really useful, because you can point to get up and say look, they&apos;re using it, and it&apos;s working for them.
+
+It can work for us too, right?
+&gt;&gt; And a lot of the articles out there about why people choose Haskell are pretty normal. They&apos;re pretty standard like this this and this, but why do you think you know GitHub kinda chose this different path?
+&gt;&gt; This different path to using Haskell?
+
+&gt;&gt; Right.
+&gt;&gt; Yeah.
+&gt;&gt; So for a lot of the blog posts that I&apos;ve read in the past about why companies chose Haskell, you sort of see the same reasons trotted out. Haskell is a pure language, so you don&apos;t have to worry about side effects in weird parts of your code.
+
+Or it has lazy evaluation, so you don&apos;t have to worry about things being evaluated, even if you don&apos;t end up using them. Or it let&apos;s you express complicated ideas in a small amount of code. And the first time you see that set of arguments, it might be compelling.
+
+But the 5th, or 10th, or 100th time you see them, you&apos;re like, okay, I get it. I know Haskell has those things, what else can I do?
+&gt;&gt; No, that&apos;s awesome, yeah. And I think it&apos;s really cool that they kinda broke it down. They had some different reasons for choosing Haskell.
+
+So do you kind of want to kick off, what reasons and why they chose Haskell?
+&gt;&gt; Sure, as I mentioned, there&apos;s kind of the bog standard reasons for why people typically choose Haskell. But one thing that I like about this article is they didn&apos;t dwell on that too much.
+
+They said yeah, these are all characteristics of Haskell. These are reasons why you might wanna choose it. But they ended up focusing more on what things that are only possible, because of those kind of fundamental characteristics, but more compelling reasons for their particular business case. And I think the one that they start with is control flow, right?
+
+&gt;&gt; Correct, yep.
+&gt;&gt; And so by control flow, what they mean is that in a typical programming language, something like Java or C#, or go the control flow is built into the language itself. So if a statement is above another one, you know that it&apos;s going to get executed first.
+
+So from top to bottom left to right, basically. And in Haskell, that&apos;s not necessarily the case. You can write code that looks the same, but one version of it might be synchronous, and another version of it might be asynchronous. So this comes up in JavaScript all the time where the synchronous function is really easy to write, but you block the main thread for a long time.
+
+If you&apos;re doing something with a web UI, then your UI stalls while that synchronous thing is happening. So you wanna write stuff in this a sync fashion. But then you have to do like nested call backs. So you do that a sync await, or something like that, right?
+
+So the syntax, you have to change the way that you write your code, in order to change how the control flow works. But with Haskell, the code that you write looks the same, but you can change how it is executed.
+&gt;&gt; Right, right, right. So pretty much higher up in the program is where is kind of the deciding factor of, does this sync, is this asynchronous or synchronous?
+
+&gt;&gt; Exactly.
+&gt;&gt; And the further you get in to the code, it just looks the same. You don&apos;t have to be worried of, am I writing this the right way?
+&gt;&gt; Mm-hm.
+&gt;&gt; Because in the end, I want this result. The code you write can be executed however you want it to be executed.
+
+You just tell that once you start to write the executable, and make that code come true.
+&gt;&gt; Yeah, and that&apos;s especially useful for the Semantic team, because what they&apos;re doing is parsing and analyzing source code. So they wanna be able to parse, let&apos;s say, a Python file and analyze it as if it was executing, but not actually execute it.
+
+And so that becomes really powerful to have all these tools that Haskell provides to be able to manage the control flow in the same way that you manage regular data in other languages.
+&gt;&gt; Right, right, no, I think that&apos;s awesome. So the other thing they kinda talk about and the reason they chose it was runtime correctness.
+
+And they gave a lot of really great things we&apos;ve kinda experienced, but what were some of the things you took away from that aspect to the article?
+&gt;&gt; I really liked that aspect to the article, and I&apos;m glad that they brought it up. Because when you read about, let&apos;s say Elm, another language that&apos;s in the same vein.
+
+They bring that front and center all the time, it&apos;s on their home page. They say you can write programs with confidence, and not have to worry about runtime errors. And I wish Haskell marketed more in that direction, because it is really powerful to not have to worry about those runtime errors.
+
+And trust that, when you write the program and it compiles, it will generally do what you want, or what you intended for it to do.
+&gt;&gt; Right.
+&gt;&gt; And you don&apos;t have to worry, crap, well, I forgot that this value could be null. So then you get a null pointer exception in production, or you forgot I changed the name of that method last week, and I forgot to update it here at this call site.
+
+So now I&apos;m getting a method not found error, right? It saves you from those really tedious kind of rote problems. And so that you can focus on developing new features, and shipping those out to your users, rather than fixing some Bug that popped up in your issue tracker for the hundredth time.
+
+&gt;&gt; Yeah, one thing I wish Haskell was magical. And it can be we just aren&apos;t necessarily using it right now. I like to put TV is that kind of a way to get away from accidentally like misaligning like a value from, JSON or something like that. Because we&apos;ve kind of, some of our parsing, for our JSON parsing we use the applicative stuff and that kind of ensures that like, hey, this could end up being different because you misalign the keys or whatever.
+
+So I think as a group of developers I would like for us to kind of lead lean more into, okay, let&apos;s not use a plug it in just so we can make sure we keep our sanity. Because I mean, a few months ago, I was just banging my head against the wall trying to figure out like, wait a second, what&apos;s happening here and sure enough, it was just a miss of flip-flopped key.
+
+It was like
+&gt;&gt; That brings up a good point that just because Haskell gets rid of a large portion of runtime errors, it doesn&apos;t mean that it gets rid of all of them. And in fact, it&apos;s not even desirable to get rid of all of them because you&apos;d have to pay so much upfront in order to do that.
+
+But there are somethings like you mentioned with the applicative syntax where they allow you to sort of accidentally introduce problems that are very hard to detect and there are easy ways around that. In our case writing those pressures in a more monastic style makes it clearer which things are going where.
+
+So you can look at a line and say no, we&apos;re pulling this field it&apos;s named price but we&apos;re pulling it from object where the key we&apos;re looking for his name, and that obviously doesn&apos;t line up.
+&gt;&gt; Right, right, right, yeah, so I mean I do think a lot of the things that Haskell provides for runtime correctness is are great.
+
+So I&apos;m really glad that they kind of echoed that because like you said, Elm, that&apos;s something they boast all about.
+&gt;&gt; Yeah.
+&gt;&gt; But housing you don&apos;t really hear about that until you&apos;re in it. And you&apos;re like, this isn&apos;t gonna let me change a function name over here without updating all the colors, that&apos;s not possible.
+
+&gt;&gt; Yep.
+&gt;&gt; Because that compiler will not be happy with you.
+&gt;&gt; That&apos;s awesome. The other thing they kinda touched on was kinda the research. So academia is kinda leaning more towards Haskell as a language that, these new research methods are kinda written in these algorithms and all this various stuff.
+
+What is that useful for GitHub?
+&gt;&gt; You touched on it a little already in that a lot of computer science papers are written using Haskell or a language that&apos;s very close to Haskell. But that kind of typical computer science paper that you read with the font that everybody knows and the to column layout and all that stuff.
+
+The code that you look at in those papers is usually Haskell. And if you can take that code from an established research paper and more or less copy paste it into your library, and start using it right away. That&apos;s a huge win versus, if you were using basically any other language you would have to think.
+
+Okay, how can I put this behavior that I want that they&apos;re talking about in this paper into the language that I have? And you have to change the semantics, you have to change the actual shape of the code itself, you have to make sure everything works the way you expected.
+
+So it&apos;s just more difficult to do that. Now, that&apos;s not a common problem for work-all-day programmers like us, we&apos;re writing web apps.
+&gt;&gt; Right.
+&gt;&gt; We&apos;re not looking into research papers to figure out, well, how do we parse JSON? It&apos;s kind of a solved problem at this point.
+
+&gt;&gt; Correct, you&apos;re right, which is nice, but it is also helpful if you&apos;re trying to be on the cutting edge of technology and the growth of technology. Research papers have Haskell, that&apos;s where the code is.
+&gt;&gt; Yeah.
+&gt;&gt; That&apos;s what it is. Those papers are still coming out, programming language theory is not a solved field.
+
+And the Semantic team at GitHub Is on the cutting edge of this, they are analyzing source code for millions of software projects across many different programming languages. And they wanna do it quickly, effectively, safely and the research is kinda showing them how to do that and they&apos;re able to crib from it effectively.
+
+&gt;&gt; And I think that&apos;s really awesome. So I definitely applaud them for-
+&gt;&gt; Yeah, me too.
+&gt;&gt; This article. They also kinda talked about the things I didn&apos;t like, which is a helpful thing when you&apos;re analyzing, okay, do I jump in and go with Haskell? Or do I lean towards the Java or C#, or something a little more mainstream?
+
+&gt;&gt; Yeah, I always like it when I see an article like this. And they include the stuff they didn&apos;t like. Otherwise, it&apos;s really easy to look at it and discount it offhand, and think well, they just really like this and it&apos;s their pet language, and they want it to succeed.
+
+So they&apos;re not gonna say anything bad about it.
+&gt;&gt; Is it their cat language?
+&gt;&gt; Or their dog language?
+&gt;&gt; A cat or dog, right? Are they cat or dog people, do you think?
+&gt;&gt; Maybe fish, they could be fish people.
+&gt;&gt; Fish people. Lizard people.
+&gt;&gt; The Aquaman.
+
+&gt;&gt; All right, I think it does add credibility to this document or blog post.
+&gt;&gt; Yeah, this article.
+&gt;&gt; Very unofficial article.
+&gt;&gt; Yeah.
+&gt;&gt; Articles are a very good term, I should use that more often. But they talk about kind of the weak tooling aspect. This is something we&apos;ve come to deal with.
+
+&gt;&gt; Yeah, it&apos;s a problem we&apos;ve definitely run into.
+&gt;&gt; Right, and so do you wanna kinda explain what we do to kinda counteract this and-
+&gt;&gt; Sure.
+&gt;&gt; Acknowledge it?
+&gt;&gt; First, just kinda for a statement of terms. I think that when they talk about tooling, they&apos;re talking about like an ID integration, something like IntelliJ or Visual Studio.
+
+Where when you&apos;re working on code, you can mouse over a certain part and it&apos;ll show you perhaps the documentation for that thing or what parameters it expects or where in your code base it&apos;s used, stuff that isn&apos;t earth shattering on it&apos;s own. But a bunch of small niceties that add up to a really positive experience.
+
+And they&apos;re right to say that Haskell is kinda weak in this regards, there are certainly tools that help. The one that we use most often is GHCID.
+&gt;&gt; Another one I was just thinking about offhand, so I didn&apos;t catch you off on this but Intero.
+&gt;&gt; Yeah.
+&gt;&gt; Intero offers, the awesome IDE experience.
+
+But it takes over people&apos;s machines and like, crashes them.
+&gt;&gt; Yeah and we&apos;ve run into problems with Haskell IDE engine where the promise of it is excellent but when you run it for more than a couple hours it starts heating up all the RAM it can find. So-
+
+&gt;&gt; It&apos;s hungry.
+&gt;&gt; I think that Haskell is moving in the right direction and they seem to have landed on the same solutions as us. Which is you have your editor up maybe the left hand side of your screen and your compiler output up on the right hand and you kind of stitch things together yourself.
+
+&gt;&gt; Obviously, not ideal but definitely workable. And just to kinda color that a bit, from my point of view, I think this comes down mostly to lack of resources because developing all of that tooling just takes a lot of work. And for these other languages like Java or JavaScript, you have millions of people working in these languages, and that&apos;s not true for Haskell.
+
+So I&apos;m excited to see GitHub talk about this because if they get people interested and excited about Haskell and working in it, then the tooling is naturally gonna improve as more people get in with the community.
+&gt;&gt; No, I think that&apos;s a very good point. So way to go, GitHub.
+
+&gt;&gt; Awesome, well, they also kind of talk about I think that&apos;s a very good point. So way to go, github.
+&gt;&gt; No dependent types. Why do you think this is an issue for them?
+&gt;&gt; So we already talked a little how they kinda borrowed from current programming language research and apply it, to their problem domain.
+
+So they&apos;re already in a kind of unusual situation as far as that goes. And I think that&apos;s why they feel this pain from the lack of dependent typing, because they&apos;re pushing, Haskell&apos;s type system to its limits and Haskell, while it&apos;s well-revered for having a strong useful type system, it does not have dependent types.
+
+And there&apos;s lot of things you can do to try to pretend like you have them or give you some of the same benefits of dependent types, but at the end of the day, it doesn&apos;t happen. And I can&apos;t speak personally to this cause I haven&apos;t run into this particular limitation in the type of development that we do.
+
+And I think that most developers would not run into this problem, they wouldn&apos;t think, well, I wish I had dependent types here, it doesn&apos;t come up that often. But for them it does, I don&apos;t wanna discount their experience here, obviously they wish they had this and they don&apos;t.
+
+So the you know the only languages that do have this they&apos;re they&apos;re few and far between stuff like Agda and Idris. They have this but they&apos;re they&apos;re a little less production ready than Haskell is they&apos;re not used quite as widely.
+&gt;&gt; Right, that&apos;s interesting, yeah, I don&apos;t think we&apos;ve really thought of dependent types has never really been a thing.
+
+&gt;&gt; I think that it&apos;s a great idea and I&apos;m really interested in it but day to day there&apos;s not too much where I&apos;m like, this would be so much easier if I had dependent types, drats.
+&gt;&gt; Awesome, well, they also kind of talk about kind of the lack of infra glue.
+
+&gt;&gt; Yeah, I like that terminology they used, infra glue, it sounds like something you buy from a TV channel or something.
+&gt;&gt; Right, here is your infra glu, glue, wow, I can&apos;t even talk.
+&gt;&gt; But yeah, so they mentioned that for the actual meat and potatoes of their program, Haskell does a great job.
+
+But for the stuff where they have to worry about deploying or making containers or stuff like that, It&apos;s a little more difficult. And that&apos;s mostly because it&apos;s similar to the tooling problem where just not as many people have been using it. So there&apos;s not a canned solution but I go I want to deploy this to AWS or I want to make a container out of this.
+
+You can definitely do those things but you&apos;re probably going to have to do them yourself rather than just picking something off the shelf that says, okay, yeah, I&apos;ll play this Python program to look at whatever.
+&gt;&gt; It&apos;s a little more boilerplate.
+&gt;&gt; Yeah, and again not a show stopper and not terribly difficult to get around, but just annoying that it&apos;s not there.
+
+&gt;&gt; Yeah, that&apos;s fair, but one of the more interesting ones that I feel like we&apos;ve encountered a lot is, the issues with lazy evaluation. I think for us we&apos;ve had various scripts and you know things as you know our code is trying to figure out what it&apos;s gonna do.
+
+Until it actually needs to execute something it just builds up this giant thunk that hangs out all over the place. And you&apos;re like, everything slows down and you&apos;re like what&apos;s going on?
+&gt;&gt; And then you put one exclamation point in one place and everything works again, ta-da!
+&gt;&gt; Yeah and they kinda talked about their language extension, strict data?
+
+&gt;&gt; Strict data, I was like, yeah.
+&gt;&gt; Static data, no?
+&gt;&gt; Strict data, yeah, and so that&apos;s kind of how they interacted it, but why do you think for them that&apos;s kind of a big issue?
+&gt;&gt; I think that lazy evaluation is a double edged sword in Haskell for sure.
+
+And the main reason for that is that Haskell is pretty much the only programming language that I can think of off down my head that is lazy by default. Every other programming language is strict by default. So as programmers, we&apos;re not used to identifying and solving, problems that stem from laziness, because we rarely encounter them.
+
+In other languages, you have to explicitly opt in. So like in Python, you can make a generator, or in JavaScript you do all the acing stuff to pretend like you have laziness, whereas in Haskell, it&apos;s everywhere. So people just aren&apos;t used to looking for those types of problems and so they&apos;re bound to crop up every now and then.
+
+That being said, they&apos;re usually not terribly hard to diagnose and fix once you have a couple tricks in your bag. But the first time that you run into them, they can be completely mystifying because you can look at code and it looks totally reasonable. But for whatever reason, the way that you wrote it either generates too many thunks, like you mentioned, and you don&apos;t evaluate them at the right time.
+
+Or just something like that, I mean, can be really difficult to figure out what&apos;s going on. And again, this comes back to the lack of tooling, if there was better tooling to analyze the laziness of your program this could be an easier problem to solve.
+&gt;&gt; So maybe with time, maybe with time, maybe with time.
+
+The last one, this one hits home for us is they kinda of said, it&apos;s gotta a notorious interpretation of being too hard to learn. As bunch of junior developers who just minus you and Cody, learning Haskell in the last few years it had it&apos;s a little bit of growing pains in the beginning.
+
+But once you understand the concept and the paradigm of functional programming, it becomes a lot more attainable to really conquer the language and have a good understanding of it. Without you we&apos;re not the deepest understanding but you can have a general idea what&apos;s going on, so what did they have to say about that.
+
+&gt;&gt; I think they say something very similar to what we think and hope I&apos;ve said but if we haven&apos;t yet we&apos;ll say now that Haskell does have this reputation of being difficult to learn. But it&apos;s not that difficult and it&apos;s especially not that difficult to get to a working knowledge, where maybe you don&apos;t have a super duper understanding of everything that&apos;s going on.
+
+But you can get worked on and you can feel effective and be effective, you don&apos;t have to learn category theory, or really understand what is a monad in order to program in Haskell day to day. And they say, especially with some type of, mentor or tutor on the team, you can get people up to speed really quickly.
+
+And we&apos;ve seen that we hired somebody a month ago and they got up to speed basically within the first week. Now, granted they obviously don&apos;t understand all of Haskell, everything, I mean, it&apos;s a huge language, there&apos;s a lot to know.
+&gt;&gt; Right.
+&gt;&gt; But they know enough to be effective, and write code that works, and submit it for PR and get it into production within a week or two of being hired.
+
+&gt;&gt; Right.
+&gt;&gt; It&apos;s not insurmountable.
+&gt;&gt; Yeah.
+&gt;&gt; And I think another attribute for us, attribute to our ability to learn Haskell, has been the idea of promiscuous pairing, which for those listeners, you guys check it out, there&apos;s a cool paper on it. So we&apos;ve been doing it for a little while now and we find it very effective, t allows it knowledge transfer really well.
+
+So I did a shameless plug for Jason, he&apos;s all he&apos;s all about it.
+&gt;&gt; Yeah, he&apos;s all about it and it really ties into what this semantic team at GitHub said, of having a tutor or somebody who knows the loops to show the new person promiscuous pairing, just forces that every time around.
+
+&gt;&gt; Everyone must be a learner.
+&gt;&gt; A teacher, I&apos;m whispering into a microphone.
+&gt;&gt; That&apos;s kind of weird, all right, and obviously, this program is pretty large semantic. Like as far as the depth of what it can do, but it&apos;s only 20,000 lines of code. Yeah and that&apos;s amazing because as they point out several times in their article if they had written this in, let&apos;s say Java.
+
+They may have written 20,000 lines of just boilerplate, whereas the entire Haskell program would fit into that same space. So yeah, it&apos;s phenomenal that they can get so much done with so little code.
+&gt;&gt; Yeah, I think it&apos;s just incredible, so I do think this is a really great article and I would definitely encourage all of our listeners to check it out.
+
+&gt;&gt; For sure.
+&gt;&gt; But do you have anything else you&apos;d like to add on it?
+&gt;&gt; I don&apos;t think so, I just wanna reiterate that it&apos;s great to see another big company like GitHub using Haskell in production, and generally coming away with a positive experience. Obviously, they had some things that they didn&apos;t like too much, but overall, they were really positive about it.
+
+And it seems like if they had to choose it again, they would.
+&gt;&gt; Yeah, we&apos;ll see the octocat soon with some sweet Haskell tattoos.
+&gt;&gt; Yeah, the purely functional octocat.
+&gt;&gt; Yeah.
+&gt;&gt; Well, awesome, well Taylor it&apos;s been really fun talking.
+&gt;&gt; It&apos;s been great talking with you Cameron, thanks for being on the show with me.
+
+&gt;&gt; Of course, always, any time.
+&gt;&gt; And thank you for listening to the Haskell weekly podcast, this has been episode number 13.
+&gt;&gt; If you liked what you heard find out more at our website haskellweekly.news. Also please take a minute to read and review us on iTunes it helps us out a lot.
+
+I think right now Kelvin and I are the only people that have reviewed us.
+&gt;&gt; Out there reviewed.
+&gt;&gt; This episode like all the other ones we&apos;ve done so far was actually recorded in our own office, the ITProTV studios. So I just wanna give a shout out to ITPro for recording this whole thing, whoo-hoo.
+
+&gt;&gt; And at ITPro what we do is provide IT training that&apos;s both effective and entertaining. So if that sound interesting to you please go find out more at ITPro.TV. Thanks again for listening and we&apos;ll see you next week, bye.
+&gt;&gt; Adios.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>

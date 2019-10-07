@@ -1,0 +1,106 @@
+<!doctype html><html><head><meta charset='utf-8' /><meta content='initial-scale = 1, width = device-width' name='viewport' /><title>Haskell Weekly podcast episode 1</title><link href='https://haskellweekly.news/podcast/feed.rss' rel='alternate' title='Haskell Weekly podcast' type='application/rss+xml' /><link href='https://haskellweekly.news/podcast/bootstrap-3.4.1.css' rel='stylesheet' /><meta property='og:title' content='Handling Exceptions' /><meta property='og:image' content='https://haskellweekly.news/podcast/logo.png' /><meta property='og:url' content='https://haskellweekly.news/podcast/episodes/1.html' /><meta property='og:audio' content='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-11-episode-1.mp3' /><meta property='og:description' content='Cody Goodman and Taylor Fausak talk about handling errors in Haskell by using exceptions.' /><meta property='og:site_name' content='Haskell Weekly podcast' /><meta name='twitter:card' content='summary' /><meta name='twitter:site' content='@haskellweekly' /></head><body><div class='container'><nav class='mb-3 mt-3 navbar navbar-dark rounded text-light' style='background-color: #5e5086;'><a class='navbar-brand' href='https://haskellweekly.news/podcast/index.html'>Haskell Weekly podcast</a><span class='d-inline-block' style='width: 2em; height: 2em;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='#fff' opacity='0.8' d='M 80.8 49.9 l -19 28.4 H 76 l 19 -28.4 z m -61.6 0 l 19 28.4 H 24 L 5 49.9 z' /><path fill='#fff' d='M 24 78.3 l 19 -28.4 -19 -28.4 h 14.2 l 38 56.8 H 61.8 L 50 60.5 l -11.8 18 H 24 z m 0 0' /></svg></span></nav><div><h2>#1: Handling Exceptions</h2><h3 class='text-muted'>2019-03-11</h3><div class='row'><div class='col-md-4 mb-3 mt-3'><audio class='d-block w-100' controls='controls' preload='metadata' src='https://haskell-weekly-podcast.nyc3.cdn.digitaloceanspaces.com/2019-03-11-episode-1.mp3'></audio></div><div class='col'><div class='card'><div class='card-body'><p>Cody Goodman and Taylor Fausak talk about handling errors in Haskell by using exceptions.</p><ul><li><a href='https://markkarpov.com/tutorial/exceptions.html' style='word-break: break-all;'>https://markkarpov.com/tutorial/exceptions.html</a></li></ul></div></div></div></div><div class='row'><div class='col'><div class='card mt-3'><div class='card-header'>Transcript</div><div class='card-body' style='white-space: pre-line;'>&gt;&gt; Hello, and welcome to the Haskell weekly podcast. I&apos;m your host Taylor Fausak. I&apos;m the lead developer at ITProTV. And with me in the studio today is Cody Goodman. Thanks for being with us, Cody.
+&gt;&gt; Thanks, Taylor, I hear we&apos;re gonna talk about some exceptions.
+&gt;&gt; We are, before we get to that, just a quick overview.
+
+Haskell is a safe, purely functional programming language with a fast concurrent runtime. And as Cody mentioned, we&apos;re gonna be talking about exceptions in Haskell today. In particular, we&apos;re looking at this article posted by Mark Karpov called exceptions tutorial. It&apos;s from the yet to be published intermediate Haskell book.
+
+Really we&apos;re just going to jump right in. So Cody, why do we even bother with exceptions? Why not have pure computations everywhere?
+&gt;&gt; Well, we&apos;re trying to model the real world. The real world isn&apos;t perfect, so we have to have some way of capturing that. Exceptions are an imperfect but time-tested, proven way of doing that.
+
+We know them from other languages that we&apos;ve worked with, other imperative languages. But we get to Haskell, we start learning it. We see these different paradigms, these different ways of modeling the world around us. Why can&apos;t we just stuff exceptions into that model, and get all the benefits as well?
+
+And it turns out, after you try that, you&apos;ll see that coming up with the exception hierarchies, making models that make sense is really difficult. Whenever you want to add another exception, for instance, you have to type that out, account for it somewhere else. It becomes quite becomes quite laborious.
+
+&gt;&gt; Yeah, and let&apos;s back up a minute and make this concrete. You mentioned that the real world, unfortunately, has imperfections, unlike our pure, crystalline world of Haskell. What are some of those things that we could talk about, just to have a concrete example to play with?
+&gt;&gt; If you just take integer division, for instance, something that could go wrong is a user passing a zero and a divide by zero happening.
+
+&gt;&gt; Yeah and then the whole app blows up, which may be what we want, maybe not. Let&apos;s say that somebody divides by zero, one way that we could model that is with an exception. I think a lot of languages, like Python, do that. Haskell may even do that.
+
+But what are some other options we have for how to model that other than an exception.
+&gt;&gt; One other option, if you&apos;ve been learning Haskell or using it much, is the maybe or either monad. Now in this case, the either monad wouldn&apos;t make a lot of sense. Because there&apos;s really only that one case that could go wrong with integer division.
+
+Maybe I&apos;ll listen to this later and see I was wrong here. But-
+&gt;&gt; Yeah, there might be lots of ways that an integer division could go wrong.
+&gt;&gt; I&apos;m not a mathematician, I couldn&apos;t tell you.
+&gt;&gt; Indeed. So using a maybe, we could model that division by zero as a nothing.
+
+Or if we got the result and it wasn&apos;t a zero, just that value.
+&gt;&gt; And since we only have one kind of exception case to deal with here, it&apos;s pretty easy to decide. Yeah, we should probably use maybe instead of either. But if we had a lot of cases, wouldn&apos;t we wanna use either rather than maybe?
+
+&gt;&gt; Yeah, typically you&apos;d wanna use either. When you when you first learn about that, say from real world Haskell or some more updated materials, you&apos;ll use either string some value. And you will use that to essentially plan out what that string value is. But that&apos;s remarkably similar to just using exceptions.
+
+&gt;&gt; Yeah, the only difference really is that we&apos;ve captured it in the type and we can work with it as a value. Either string something isn&apos;t super useful cuz the only thing you can do with that string is maybe print it out. Or maybe poke out it if you&apos;re really wanna try to determine, does it have zero in there somewhere?
+
+&gt;&gt; Right.
+&gt;&gt; Which isn&apos;t very satisfying. But let&apos;s say, we had integer division by zero, which returns a maybe. We have some more complicated thing that returns a neither. Isn&apos;t it kinda difficult to smoosh those values together and work with both of them in one context?
+&gt;&gt; How do you mean exactly?
+
+&gt;&gt; So if we have integer division that returns a maybe integer. And so, we have to deal with just some value or nothing. And then we have some other computation, I can&apos;t think of one off the top my head. But it returns in either, let&apos;s say, string integer.
+
+And we wanna, if the maybe is a just integer, and the either is a right integer, add those things together. Don&apos;t we have to do a lot of pattern matching or something?
+&gt;&gt; Yeah, we have to do pattern matching. There&apos;s no good way to use any F mapping or short-circuiting between maybes and eithers, cuz they have a different number of parameters.
+
+&gt;&gt; Yeah, and they&apos;re just different types. Whereas, if everything was a maybe or everything was an either, even with the same error type, then we could work with those values really easily.
+&gt;&gt; Right.
+&gt;&gt; And right, I guess a problem there would be that that error type, if we were using either, would start to get really big, right?
+
+&gt;&gt; Yeah, so let&apos;s say you replace that string with your own my custom error type. You make it a sum type. You enumerate out all the things that could go wrong. Sure, with simple problems that would not be too bad, and it may even be the preferred option in simple cases.
+
+But if you have something relatively complex or something that gets very complex on you, even though you thought it would be simple. It becomes really laborious and the value proposition isn&apos;t so much in favor of those huge hierarchies.
+&gt;&gt; Yeah, and you look at the exception hierarchy even for a language like Haskell, but first stuff like Rubi or Python, there&apos;s a lot of different types of errors in there.
+
+And stuffing all those into one error type, I don&apos;t wanna deal with all those exception cases all the time, cuz most of the time they&apos;re not gonna happen.
+&gt;&gt; Right, if 90% of your case matches that you&apos;re doing control flow off of do the exact same thing, and they print out the error.
+
+What value are you getting specifically from not using exceptions and instead using either in a custom error hierarchy?
+&gt;&gt; Yeah, and furthermore, if I had a, let&apos;s say I had this integer division function. And it returned either some big error type integer. If I wanted to handle the result of that, really, I know, based on, let&apos;s say the documentation or just my gut, that the only exception it&apos;s actually going to return is the division by zero one.
+
+But I also have to handle file does exist error and control c and all this other stuff, even though I know in my heart of hearts that it&apos;s never gonna happen.
+&gt;&gt; Right and that&apos;s something that just doesn&apos;t make sense. And it&apos;s something that your definitely not gonna have time for.
+
+I think that might be a reason that, for instance, programmers who don&apos;t know as much about Haskell or the benefits if it, will see it as not a real-world language. They don&apos;t wanna be caught up in all of those concerns. But the good news is, they don&apos;t have to be.
+
+&gt;&gt; Yeah exactly, it is a real-word language. And it can be used the same way as every other language, because you can just throw an exception. And in a way, during an exception is a lot like you&apos;re in this either some giant error case. Except that you don&apos;t have to explicitly handle all these cases that you know aren&apos;t gonna happen.
+
+You can only catch or deal with the exceptions that your documentation says that thing is gonna throw.
+&gt;&gt; Right, and that&apos;s okay. I think we should encourage that. Because it&apos;s also an effective way of learning Haskell is only handling the cases that you think you&apos;re gonna have to care about.
+
+And then update and encode incrementally as you go along. There&apos;s, at first, a feeling of, I have to learn everything up front.
+&gt;&gt; Yeah, you don&apos;t need to learn everything all at once. You can learn stuff as you go. We&apos;ve been talking about integer division. Obviously, that&apos;s a pure operation.
+
+It doesn&apos;t need to read from a file or talk to the network or anything like that. But we&apos;re also talking about throwing exceptions. Isn&apos;t it weird that exceptions can be thrown from pure code?
+&gt;&gt; It does seem weird, why does this happen? Why can&apos;t we just depend on those pure operations?
+
+And the reasoning for that is because the complications of the real world again. Maybe our computer runs out of memory, for instance, while we&apos;re trying two add numbers.
+&gt;&gt; Yeah, and what do we do there?
+&gt;&gt; Exactly.
+&gt;&gt; So exceptions have to be able to be thrown from pure code.
+
+Because the real world is gonna butt in and say, well, I know that&apos;s a pure mathematical function you&apos;re dealing with, but sorry, I ran out of power.
+&gt;&gt; Yeah, maybe we got too close to the Sun.
+&gt;&gt; There was a flare or something.
+&gt;&gt; Yeah, something big got flipped on our hard drive.
+
+What are we gonna do? But if we can throw exceptions from pure code, wouldn&apos;t it make sense that we could catch them from pure code, too?
+&gt;&gt; While it would, and that&apos;s where you get into sort of one of the gotchas in Haskell, at least at first, only IO is in order.
+
+Pure code doesn&apos;t necessarily have a guarantee of the order, for instance, addition.
+&gt;&gt; Yeah so, what do you mean by addition? If I&apos;m adding two and three, it seems pretty clear what&apos;s gonna happen.
+&gt;&gt; Right, but if we have two errors that are being added together. We have error string of line and error string of two.
+
+We don&apos;t necessarily know which one of those will be evaluated first.
+&gt;&gt; Right, so it could be we&apos;d run that and we&apos;d get one printed out to our console as the error. Or we&apos;d get two, and there&apos;s just no way to know ahead of time which one it&apos;s gonna be.
+
+&gt;&gt; Exactly.
+&gt;&gt; So since that&apos;s the case, we can only catch errors in IO, is that right?
+&gt;&gt; Correct.
+&gt;&gt; That means that we can throw errors anywhere we want, and then at the top level of our program, which has to be IO, right?
+&gt;&gt; Mm-hm.
+&gt;&gt; That&apos;s where we handle everything and do the typical IO stuff of just log it out and crash the program.
+
+&gt;&gt; Correct, correct.
+&gt;&gt; Thanks for being on the show, Cody.
+&gt;&gt; It&apos;s been great to be here. I look forward to talking to you soon.
+&gt;&gt; To learn more information about Haskell, go to our website, haskellweekly.news. From all of us here at Haskell Weekly and ITProTV, I&apos;m your host Taylor Fausak.
+
+We&apos;ll see you next week.</div></div></div></div></div><div class='bg-light card mb-3 mt-3'><div class='card-body'>Content on this site is licensed under a <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International</a> license. The source code for this site is available <a href='https://github.com/haskellweekly/podcast'>on GitHub</a>.</div></div></div></body></html>
