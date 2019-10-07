@@ -21,7 +21,7 @@ episode21 =
           ["https://www.well-typed.com/blog/2019/09/eventful-ghc/"]
     <*> Date.fromGregorian 2019 10 7
     <*> Description.fromString
-          "Cody Goodman and Taylor Fausak explore the event log that GHC can produce when compiling or running.."
+          "Cody Goodman and Taylor Fausak explore the event log that GHC can produce when compiling or running."
     <*> Seconds.fromTimestamp 14 46
     <*> Guid.fromString "dc731681-016f-4380-8acc-18877ba41abe"
     <*> Media.fromString
